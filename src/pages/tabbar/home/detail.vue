@@ -41,7 +41,10 @@
       >
         {{ detail.name }}
       </div>
-      <div class="flex items-center">
+      <div
+        class="flex items-center"
+        @click="switchLive"
+      >
         <Icon
           :type="
             detail.isLike ? 'icon-dianzan' : 'icon-dianzan2'
@@ -58,7 +61,9 @@
     >
       <div class="flex items-center justify-between">
         <span>艺术家</span>
-        <span class="flex items-center">
+        <span
+          class="flex items-center"
+        >
           <van-image
             :width="parseInt($pxToPxRatio(18), 10)"
             :height="parseInt($pxToPxRatio(18), 10)"
@@ -340,14 +345,11 @@
           </div>
           <Space height="91" />
           <div class="flex justify-center">
-            <span
-              class="inline-flex justify-center bg-white p-2"
-            >
-              <Qrcode
-                :value="detail.certifyUrl"
-                size="100"
-              />
-            </span>
+            <Qrcode
+              :value="detail.certifyUrl"
+              :size="$pxToPxRatio(100)"
+              :margin="$pxToPxRatio(2)"
+            />
           </div>
           <Space height="8" />
           <div class="text-center">
@@ -423,14 +425,11 @@
               </div>
             </div>
             <div class="flex justify-center">
-              <span
-                class="inline-flex justify-center bg-white p-2"
-              >
-                <Qrcode
-                  value="123"
-                  size="85"
-                />
-              </span>
+              <Qrcode
+                :value="detail.certifyUrl"
+                :size="$pxToPxRatio(85)"
+                :margin="$pxToPxRatio(1)"
+              />
             </div>
           </div>
           <Space height="67" />
@@ -1007,6 +1006,25 @@ function getDetailProgress() {
   }
 }
 getDetailProgress();
+
+let switchLive = proxy.$debounce(() => {
+  let switchType = detail.value.isLike ? 2 : 1;
+  proxy.$http('post', '/v1/friend/userLike', {
+    'dcId': route.query.id,
+    'likeType': 0,
+    'type': switchType,
+  })
+    .then(res => {
+      detail.value.isLike = !detail.value.isLike;
+      if (switchType === 1) {
+        detail.value.likeNum++;
+      } else {
+        detail.value.likeNum--;
+      }
+    }).thenError(err => {
+      Toast(err.msg);
+    });
+});
 </script>
 <style lang="less" scoped>
 .showCard {

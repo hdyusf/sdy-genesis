@@ -1,7 +1,8 @@
 <template>
   <QrcodeVue
-    :value="value"
-    :size="size"
+    :value="props.value"
+    :size="props.size"
+    :margin="props.margin"
     level="H"
   />
 </template>
@@ -17,11 +18,11 @@ const props = defineProps({
   size: {
     type: Number,
     default: 100
-  }
-});
-const state = ref({
-  value: props.value,
-  size: props.size
+  },
+  margin: {
+    type: Number,
+    default: 0
+  },
 });
 </script>
 <style lang="less" scoped>

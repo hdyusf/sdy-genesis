@@ -470,14 +470,11 @@
           </div>
           <Space height="91" />
           <div class="flex justify-center">
-            <span
-              class="inline-flex justify-center bg-white p-2"
-            >
-              <Qrcode
-                :value="detail.certifyUrl"
-                size="100"
-              />
-            </span>
+            <Qrcode
+              :value="detail.certifyUrl"
+              :size="$pxToPxRatio(100)"
+              :margin="$pxToPxRatio(2)"
+            />
           </div>
           <Space height="8" />
           <div class="text-center">
@@ -635,7 +632,7 @@ function getCollectionDetail() {
             case 0:
               return '余额';
             case 1:
-              return '支付';
+              return '支付宝';
             case 2:
               return '微信';
             case 3:
@@ -698,7 +695,7 @@ function getOrderDetail() {
             case 0:
               return '余额';
             case 1:
-              return '支付';
+              return '支付宝';
             case 2:
               return '微信';
             case 3:

@@ -8,7 +8,7 @@ import { Toast } from 'vant';
  * @param {Object} payType  支付类型
  * @param {Object} payStatement  调起支付宝或微信的statment支付订单信息
  */
-export const originPay = (payType, payStatement) => {
+export const originPay = async (payType, payStatement, callback) => {
   /***判断支付通道****/
   //最终的支付通道
   let channel;
@@ -17,121 +17,28 @@ export const originPay = (payType, payStatement) => {
    * "alipay" - 表示支付宝；
    * "wxpay" - 表示微信支付；
    */
-  let payId; //支付标识
-  if (payType == 'ALIPAY_ANDROID') {
-    payId = 'alipay';
-  } else {
-    payId = 'wxpay';
-  }
-
+  // alipay
+  // wxpay
   // 取出支付宝和微信的支付通道
   plus.payment.getChannels(
     (channels) => {
-      mui.each(channels, (index, element) => {
-        if (element.id == payId) {
-          channel = element;
+      channels.map(item => {
+        if (item.id === payType) {
+          channel = item;
         }
       });
       if (!channel) {
-        mui.toast('获取支付通道失败，请重试！');
+        Toast('获取支付通道失败，请重试！');
       }
-      setTimeout(() => {
-        mui.confirm(
-          '支付已完成',
-          '提示',
-          ['支付遇到问题', '支付完成'],
-          (e) => {
-            if (e.index == 1) {
-              app.tokenAjax_Get({
-                url:
-                  API_URL_GET_ORDER_STATUS +
-                  dataSource.orderId,
-                success: function (result) {
-                  if (result.status == 1) {
-                    let status = result.data;
-                    if (status == 'JUST_CREATED') {
-                      mui.toast('订单未支付');
-                    } else if (status == 'CANCEL') {
-                      mui.toast('订单已被取消');
-                      //清除定时器
-                      clearInterval(timer);
-                      //打开
-                      plus.webview.currentWebview().close();
-                      plus.webview
-                        .getWebviewById('pay')
-                        .close();
-                      plus.webview
-                        .getWebviewById('order')
-                        .close();
-                    } else {
-                      //清除定时器
-                      clearInterval(timer);
-                      //打开
-                      app.openRefreshOrderListPage();
-                    }
-                  }
-                },
-                error: function (xhr) {
-                  app.httpError(xhr.status);
-                },
-              });
-            }
-          },
-          'div',
-        );
-      }, 3000);
-      //发起支付
       plus.payment.request(
         channel,
         payStatement,
         (result) => {
-          mui.toast('支付完成');
-          /**
-           *查询订单状态是否已支付
-           * 轮询查询订单状态
-           *
-           */
-          let timer1 = setInterval(() => {
-            app.tokenAjax_Get({
-              url:
-                API_URL_GET_ORDER_STATUS +
-                dataSource.orderId,
-              success: function (result) {
-                if (result.status == 1) {
-                  let status = result.data;
-                  if (status == 'JUST_CREATED') {
-                    mui.toast('订单未支付');
-                  } else if (status == 'CANCEL') {
-                    mui.toast('订单已被取消');
-                    //清除定时器
-                    clearInterval(timer);
-                    clearInterval(timer1);
-                    //打开
-                    plus.webview.currentWebview().close();
-                    plus.webview
-                      .getWebviewById('pay')
-                      .close();
-                    plus.webview
-                      .getWebviewById('order')
-                      .close();
-                  } else {
-                    //清除定时器
-                    clearInterval(timer);
-                    clearInterval(timer1);
-                    //打开
-                    app.openRefreshOrderListPage();
-                  }
-                }
-              },
-              error: function (xhr) {
-                app.httpError(xhr.status);
-              },
-            });
-          }, 1000);
+          Toast('支付完成');
+          callback();
         },
         (error) => {
-          console.log(JSON.stringify(error));
-          mui.toast('支付失败');
+          // Toast('支付失败');
         },
       );
     },

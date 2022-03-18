@@ -188,8 +188,14 @@ function paySubmit() {
         props.payCallback();
       }
       if (payType.value === 1) {
+        let callback = () => {
+          Toast.success('购买成功');
+          payNext.value = false;
+          pay.value = false;
+          props.payCallback();
+        };
         // alipay
-        originPay('alipay');
+        originPay('alipay', res.data, callback);
       }
     })
     .thenError((res) => Toast(res.msg));

@@ -27,6 +27,7 @@ axios.interceptors.response.use(
       if (res.data.code === 401) {
         Toast('登录状态已失效, 请重新登录');
         logout();
+        return Promise.reject();
       }
       if (res.data.code === 402) {
         Dialog.alert({
@@ -34,6 +35,7 @@ axios.interceptors.response.use(
         }).then(() => {
           logout();
         });
+        return Promise.reject();
       }
     }
     return res.data;

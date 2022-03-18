@@ -16,6 +16,7 @@
         @click="switchTabbar(index)"
       >
         <van-image
+          :show-loading="false"
           :src="tabbarActive === index ? item.activeIcon : item.icon"
           :width="$pxToVw(25)"
           :height="$pxToVw(25)"
