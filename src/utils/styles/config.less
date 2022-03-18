@@ -1,0 +1,100 @@
+.pageFull {
+  @apply flex flex-col relative flex-auto;
+}
+.pageCard {
+  .pageFull;
+  .px30;
+  position: relative;
+  z-index: 1;
+}
+.pageCard-sm {
+  .pageFull;
+  .px15;
+  position: relative;
+  z-index: 1;
+}
+
+.px15 {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.px30 {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 1);
+  .cardShadow;
+  border-radius: 10px;
+}
+.cardShadow {
+  box-shadow: 0px 5px 10px 0px rgba(239, 239, 239, 0.5);
+}
+
+.fixedBottomButton {
+  @apply fixed bottom-5 left-0 w-full px-7 z-2;
+}
+
+.inputCard {
+  @apply ring-1 ring-gray-200 rounded-md;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.listSelectType {
+  @apply flex items-center justify-between text-center text-xs2;
+  .box {
+    min-width: 70px;
+    &.text-redTitle {
+      position: relative;
+      &:after {
+        content: '';
+        display: block;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: #e0260e;
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+  &.more {
+    > div {
+      @apply flex items-center justify-between text-center text-xs2;
+      overflow-x: auto;
+      overflow-y: visible;
+      > div {
+        .box;
+      }
+    }
+    position: relative;
+    &:before {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 3px;
+      z-index: 1;
+      width: 32px;
+      height: 32px;
+      background: white;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      right: 32px;
+      top: 3px;
+      z-index: 1;
+      width: 10px;
+      height: 32px;
+      background: linear-gradient(to left, white, rgba(255, 255, 255, 0));
+    }
+  }
+  > div {
+    .box;
+  }
+}

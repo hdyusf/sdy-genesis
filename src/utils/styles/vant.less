@@ -1,0 +1,217 @@
+.van-nav-bar__placeholder {
+  &.transparent {
+    .van-nav-bar {
+      background: transparent;
+    }
+  }
+}
+
+.van-pull-refresh {
+  .van-list__finished-text {
+    font-size: 12px;
+    color: var(--van-gray-4);
+  }
+}
+
+.van-radio {
+  .van-radio__icon {
+    display: flex;
+    align-items: center;
+  }
+}
+.van-cell.van-field {
+  font-size: 14px;
+  background: none;
+  padding-left: 0;
+  padding-right: 0;
+  &.van-cell--normal {
+    padding: 8px 0;
+  }
+  &.van-cell--small {
+    padding: 5px 0;
+  }
+  &:after {
+    left: 0;
+    right: 0;
+    display: none;
+  }
+  .van-field__word-limit {
+    color: #a49c9c;
+    font-size: 14px;
+  }
+  &.fixedLimit {
+    .van-field__word-limit {
+      position: absolute;
+      right: 0;
+      top: 0;
+      color: #a49c9c;
+      font-size: 14px;
+    }
+  }
+}
+
+.van-image {
+  vertical-align: top;
+  .van-image__loading {
+    overflow: hidden;
+    background-color: var(--van-gray-4);
+  }
+  .van-image__error {
+    // background-color: var(--van-gray-4);
+  }
+}
+
+.van-popover {
+  &.van-popover--dark {
+    .van-popover__arrow {
+      color: rgba(0, 0, 0, 0.7);
+    }
+    .van-popover__content {
+      max-width: 210px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 7px;
+      font-size: 12px;
+      color: #ffffff;
+      line-height: 17px;
+      padding: 10px 8px;
+    }
+  }
+}
+
+.van-popup {
+  &.transparent {
+    background: transparent !important;
+    color: white;
+  }
+}
+
+.van-checkbox__icon {
+  display: flex;
+  align-items: center;
+}
+.van-button {
+  &.van-button--plain {
+    background: transparent;
+    &.van-button--defalut {
+      border: 1px solid rgba(72, 64, 64, 0.08);
+    }
+  }
+  &.van-button--normal {
+  }
+  &.van-button--round {
+  }
+  &.van-button--danger {
+    box-shadow: 0px 5px 10px 0px rgba(255, 155, 155, 0.5);
+    letter-spacing: 1px;
+  }
+}
+
+.van-nav-bar__title {
+}
+
+.van-search {
+  padding: 0;
+  background: transparent;
+  .van-search__content {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right: 10px;
+    background: #f0f0f0;
+    input {
+      letter-spacing: 1px;
+    }
+  }
+  .van-field__left-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+:root {
+  --van-black: #000;
+  --van-white: #fff;
+  --van-gray-1: #f7f8fa;
+  --van-gray-2: #f2f3f5;
+  --van-gray-3: #ebedf0;
+  --van-gray-4: #dcdee0;
+  --van-gray-5: #c8c9cc;
+  --van-gray-6: #969799;
+  --van-gray-7: #646566;
+  --van-gray-8: #323233;
+  // --van-red: #ee0a24;
+  --van-red: #cc0909 !important;
+  --van-blue: #1989fa;
+  --van-orange: #ff976a;
+  --van-orange-dark: #ed6a0c;
+  --van-orange-light: #fffbe8;
+  --van-green: #07c160;
+
+  --van-gradient-red: linear-gradient(
+    to right,
+    #ff6034,
+    #ee0a24
+  );
+  --van-gradient-orange: linear-gradient(
+    to right,
+    #ffd01e,
+    #ff8917
+  );
+
+  --van-primary-color: var(--van-blue);
+  --van-success-color: var(--van-green);
+  --van-danger-color: var(--van-red);
+  --van-warning-color: var(--van-orange);
+  --van-text-color: var(--van-gray-8);
+  --van-text-color-2: var(--van-gray-6);
+  --van-text-color-3: var(--van-gray-5);
+  --van-text-link-color: #576b95;
+  --van-active-color: var(--van-gray-2);
+  --van-active-opacity: 0.6;
+  --van-disabled-opacity: 0.5;
+  --van-background-color: var(--van-gray-1);
+  --van-background-color-light: var(--van-white);
+
+  --van-padding-base: 4px;
+  --van-padding-xs: 8px;
+  --van-padding-sm: 12px;
+  --van-padding-md: 16px;
+  --van-padding-lg: 24px;
+  --van-padding-xl: 32px;
+
+  --van-font-size-xs: 10px;
+  --van-font-size-sm: 12px;
+  --van-font-size-md: 14px;
+  --van-font-size-mdx: 15px;
+  --van-font-size-lg: 16px;
+  --van-font-size-xl: 18px;
+  // --van-font-weight-bold: 500;
+  --van-font-weight-bold: 400;
+  --van-line-height-xs: 14px;
+  --van-line-height-sm: 18px;
+  --van-line-height-md: 20px;
+  --van-line-height-lg: 22px;
+  --van-base-font-family: -apple-system, BlinkMacSystemFont,
+    'Helvetica Neue', Helvetica, Segoe UI, Arial, Roboto,
+    'PingFang SC', 'miui', 'Hiragino Sans GB',
+    'Microsoft Yahei', sans-serif;
+  --van-price-integer-font-family: Avenir-Heavy, PingFang SC,
+    Helvetica Neue, Arial, sans-serif;
+
+  --van-animation-duration-base: 0.3s;
+  --van-animation-duration-fast: 0.2s;
+  --van-animation-timing-function-enter: ease-out;
+  --van-animation-timing-function-leave: ease-in;
+
+  --van-border-color: var(--van-gray-3);
+  --van-border-width-base: 1px;
+  --van-border-radius-sm: 2px;
+  --van-border-radius-md: 4px;
+  --van-border-radius-lg: 8px;
+  --van-border-radius-max: 999px;
+
+  --van-cell-font-size: var(--van-font-size-mdx);
+  --van-nav-bar-title-font-size: var(--van-font-size-xl);
+  --van-image-loading-icon-color: transparent;
+  --van-image-placeholder-background-color: transparent;
+}
