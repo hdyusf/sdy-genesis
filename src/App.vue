@@ -12,7 +12,6 @@ watchEffect(() => {
   localStorage.setItem('vuex', JSON.stringify(store.state));
 });
 store.replaceState(JSON.parse(localStorage.vuex));
-store.dispatch('getUserinfo');
 </script>
 
 <style lang="less">

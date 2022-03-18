@@ -27,6 +27,7 @@
     <Space height="15" />
     <van-swipe
       class="rounded-xl overflow-hidden bg-grayDefault"
+      :style="{ height: $pxToPxRatio(141) + 'px' }"
       :autoplay="5000"
       indicator-color="white"
     >
