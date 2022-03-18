@@ -54,7 +54,7 @@ export const noOpen = () => {
 
 export const logout = () => {
   localStorage.clear();
-  router.push('/login');
+  router.replace('/login');
 };
 
 /**

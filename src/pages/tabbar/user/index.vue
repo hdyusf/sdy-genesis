@@ -1,5 +1,5 @@
 <template>
-  <div class=" relative z-1">
+  <div class=" relative z-1 bg-grayBg">
     <van-image
       class="w-full"
       :height="parseInt($pxToPxRatio(235), 10)"
@@ -192,7 +192,6 @@ let list = ref([
 let creator = computed(() => {
   return userinfo.value.level;
 });
-
 </script>
 <style lang="less" scoped>
 </style>

@@ -63,14 +63,14 @@
       />
       <div
         class="flex-auto"
-        @click="() => $router.push('/tabbar/market')"
+        @click="() => $router.push('/tabbar/market?type=0')"
       >
         版权市场
       </div>
       <Space width="21" />
       <div
         class="flex-auto"
-        @click="$noOpen"
+        @click="() => $router.push('/tabbar/market?type=1')"
       >
         衍生品市场
       </div>

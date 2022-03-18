@@ -231,12 +231,14 @@ import { ref, watch, getCurrentInstance } from 'vue';
 import a2 from '@/assets/images/a2.png';
 import a3 from '@/assets/images/a3.png';
 import a4 from '@/assets/images/a4.png';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 let { proxy } = getCurrentInstance();
 
 let router = useRouter();
+let route = useRoute();
 
+let searchKeysList = ref([]);
 let search = ref('');
 watch(
   () => search.value,
@@ -307,6 +309,16 @@ let attrList = ref([
   },
 ]);
 let attrListActive = ref(null);
+if (route.query.type !== undefined) {
+  attrListActive.value = +route.query.type;
+  updateSearchKeyTitle(
+    'attr',
+    attrList.value.find(
+      (item) => item.status === attrListActive.value,
+    )?.title,
+  );
+}
+
 
 let typeList = ref([
   {
@@ -368,7 +380,6 @@ function submitFilter() {
   );
 }
 
-let searchKeysList = ref([]);
 function removeSearchKey(reverseIndex) {
   let index = (searchKeysList.value.length - 1) - reverseIndex;
   let type = searchKeysList.value[index].type;

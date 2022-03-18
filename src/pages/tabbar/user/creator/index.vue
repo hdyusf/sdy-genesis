@@ -1,11 +1,11 @@
 <template>
-  <div class="relative z-1 pageCard-sm">
+  <div class="relative z-1 pageCard-sm bg-grayBg w-full h-full">
     <van-image
       class="w-full absolute top-0 left-0 -z-2"
       :height="parseInt($pxToPxRatio(208), 10)"
       fit="cover"
-      :src="creatorInfo?.backImg || '123'"
-      :icon-size="parseInt($pxToPxRatio(208), 10)"
+      :src="creatorInfo?.backImg"
+      :icon-size="parseInt($pxToPxRatio(375), 10)"
       :error-icon="a1"
     />
     <div
@@ -185,6 +185,9 @@ proxy
   .then((res) => {
     creatorInfo.value = res.data;
   })
-  .thenError((res) => Toast(res.msg));
+  .thenError((res) => Toast(res.msg))
+  .catch((err) => {
+    creatorInfo.value.backImg = a1;
+  });
 </script>
 <style lang="less" scoped></style>
