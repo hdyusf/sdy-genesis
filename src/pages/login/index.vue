@@ -150,8 +150,8 @@ let store = useStore();
 
 store.commit('reset');
 
-const phone = ref('18530807944');
-const code = ref('123456');
+const phone = ref('');
+const code = ref('');
 const imageCode = ref('');
 const password = ref('');
 const checked = ref(true);

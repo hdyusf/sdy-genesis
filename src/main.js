@@ -57,40 +57,4 @@ document.addEventListener('plusready', () => {
   window.ipfshyys = {
     saveToAlbum: AppSaveImage,
   };
-  plus.runtime.getProperty(plus.runtime.appid, inf => {
-    let appVersion = inf.version;
-    axios({
-      method: 'get',
-      url: '/update.txt',
-      baseURL: '/update',
-      params: {},
-    }).then(res => {
-      if (res !== appVersion) {
-        plus.nativeUI.showWaiting('下载更新文件...');
-        plus.downloader
-          .createDownload('http://filapp.hndbys.cn/update.apk', { filename: '_doc/update/' }, (d, status) => {
-            if (status === 200) {
-              plus.runtime.install(
-                d.filename,
-                {},
-                () => {
-                  plus.nativeUI.closeWaiting();
-                  plus.nativeUI.alert('版本更新成功', () => {
-                    plus.runtime.restart();
-                  });
-                },
-                e => {
-                  plus.nativeUI.closeWaiting();
-                  plus.nativeUI.alert('安装更新文件失败');
-                },
-              );
-            } else {
-              plus.nativeUI.alert('下载更新文件失败！');
-              plus.nativeUI.closeWaiting();
-            }
-          })
-          .start();
-      }
-    });
-  });
 });

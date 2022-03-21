@@ -243,11 +243,11 @@
   <van-popup
     v-model:show="numberSid"
     :close-on-click-overlay="false"
-    class="w-full transparent"
+    class="w-full transparent py-10"
   >
-    <!-- <div class="flex flex-col items-center px15">
-      <Space height="104" />
-      <div
+    <div class="flex flex-col items-center px15">
+      <!-- <Space height="104" /> -->
+      <!-- <div
         class="logo relative z-1 overflow-hidden rounded-xl"
       >
         <van-image
@@ -351,7 +351,14 @@
           :height="$pxToVw(178)"
           fit="contain"
         />
-      </div>
+      </div> -->
+      <Space height="50" />
+      <van-image
+        class="rounded-2xl overflow-hidden"
+        :width="parseInt($pxToPxRatio(345), 10)"
+        fit="contain"
+        :src="detail.certifyUrl"
+      />
       <Space height="20" />
       <Icon
         type="icon-close_circle"
@@ -359,12 +366,7 @@
         @click="() => (numberSid = false)"
       />
       <Space height="47" />
-    </div> -->
-    <van-image
-      :width="parseInt($pxToPxRatio(345), 10)"
-      fit="contain"
-      :src="detail.certifyUrl"
-    />
+    </div>
   </van-popup>
   <van-popup
     v-model:show="sharePopup"
