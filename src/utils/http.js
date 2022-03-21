@@ -25,8 +25,17 @@ axios.interceptors.response.use(
   res => {
     if (res.data.code !== 0) {
       if (res.data.code === 401) {
-        Toast('登录状态已失效, 请重新登录');
-        logout();
+        if (localStorage.getItem('token')) {
+          Toast('登录状态已失效, 请重新登录');
+        } else {
+          Dialog.confirm({
+            closeOnClickOverlay: true,
+            message: '请先登录',
+            theme: 'round-button',
+          }).then(() => {
+            logout();
+          }).catch(() => {});
+        }
         return Promise.reject();
       }
       if (res.data.code === 402) {

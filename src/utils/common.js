@@ -54,7 +54,7 @@ export const noOpen = () => {
 
 export const logout = () => {
   localStorage.clear();
-  router.replace('/login');
+  router.push('/login');
 };
 
 /**
@@ -437,7 +437,6 @@ export const http = (type, url, params, configs = {}) => {
       allCallback(res);
     })
     .catch((res) => {
-      console.error(`[ catch ](${url})`, res);
       catchCallback(res);
       allCallback();
     });

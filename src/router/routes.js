@@ -69,31 +69,40 @@ export default [
       },
       {
         path: 'user',
-        meta: {
-          loginAfter: true,
-        },
         component: () =>
           import('@/pages/tabbar/user/layout.vue'),
         children: [
           {
             path: 'index',
             alias: '',
+            meta: {
+              loginAfter: true,
+            },
             meta: { transition: 'skewDown' },
             component: () =>
               import('@/pages/tabbar/user/index.vue'),
           },
           {
             path: 'myKeep',
+            meta: {
+              loginAfter: true,
+            },
             component: () =>
               import('@/pages/tabbar/user/myKeep.vue'),
           },
           {
             path: 'myLove',
+            meta: {
+              loginAfter: true,
+            },
             component: () =>
               import('@/pages/tabbar/user/myLove.vue'),
           },
           {
             path: 'set',
+            meta: {
+              loginAfter: true,
+            },
             component: () =>
               import('@/pages/tabbar/user/set/layout.vue'),
             children: [
@@ -187,6 +196,9 @@ export default [
               {
                 path: 'index',
                 alias: '',
+                meta: {
+                  loginAfter: true,
+                },
                 component: () =>
                   import(
                     '@/pages/tabbar/user/creator/index.vue'
@@ -194,6 +206,9 @@ export default [
               },
               {
                 path: 'avatar',
+                meta: {
+                  loginAfter: true,
+                },
                 component: () =>
                   import(
                     '@/pages/tabbar/user/creator/avatar.vue'
@@ -201,6 +216,9 @@ export default [
               },
               {
                 path: 'intro',
+                meta: {
+                  loginAfter: true,
+                },
                 component: () =>
                   import(
                     '@/pages/tabbar/user/creator/intro.vue'
@@ -208,6 +226,9 @@ export default [
               },
               {
                 path: 'privacy',
+                meta: {
+                  loginAfter: true,
+                },
                 component: () =>
                   import(
                     '@/pages/tabbar/user/creator/privacy.vue'
@@ -215,6 +236,9 @@ export default [
               },
               {
                 path: 'myFans',
+                meta: {
+                  loginAfter: true,
+                },
                 component: () =>
                   import(
                     '@/pages/tabbar/user/creator/myFans.vue'
@@ -222,6 +246,9 @@ export default [
               },
               {
                 path: 'recommend',
+                meta: {
+                  loginAfter: true,
+                },
                 component: () =>
                   import(
                     '@/pages/tabbar/user/creator/recommend.vue'
@@ -238,6 +265,9 @@ export default [
           },
           {
             path: 'wallet',
+            meta: {
+              loginAfter: true,
+            },
             component: () =>
               import(
                 '@/pages/tabbar/user/wallet/layout.vue'
@@ -255,6 +285,9 @@ export default [
           },
           {
             path: 'collect',
+            meta: {
+              loginAfter: true,
+            },
             component: () =>
               import(
                 '@/pages/tabbar/user/collect/layout.vue'
@@ -272,6 +305,9 @@ export default [
           },
           {
             path: 'contract',
+            meta: {
+              loginAfter: true,
+            },
             component: () =>
               import(
                 '@/pages/tabbar/user/contract/layout.vue'
@@ -289,6 +325,9 @@ export default [
           },
           {
             path: 'createNFT',
+            meta: {
+              loginAfter: true,
+            },
             component: () =>
               import(
                 '@/pages/tabbar/user/createNFT/layout.vue'
@@ -306,6 +345,9 @@ export default [
           },
           {
             path: 'sell',
+            meta: {
+              loginAfter: true,
+            },
             component: () =>
               import(
                 '@/pages/tabbar/user/sell/layout.vue'
@@ -323,6 +365,9 @@ export default [
           },
           {
             path: 'buy',
+            meta: {
+              loginAfter: true,
+            },
             component: () =>
               import(
                 '@/pages/tabbar/user/buy/layout.vue'
@@ -340,6 +385,9 @@ export default [
           },
           {
             path: 'publish',
+            meta: {
+              loginAfter: true,
+            },
             component: () =>
               import(
                 '@/pages/tabbar/user/publish/layout.vue'
@@ -357,6 +405,9 @@ export default [
           },
           {
             path: 'order',
+            meta: {
+              loginAfter: true,
+            },
             component: () =>
               import(
                 '@/pages/tabbar/user/order/layout.vue'

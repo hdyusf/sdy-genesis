@@ -9,9 +9,9 @@
     <div class="absolute left-0 top-0 z-1 w-full">
       <van-image
         v-if="creator"
-        class="creatorProve absolute right-1 top-7"
-        :width="parseInt($pxToPxRatio(77), 10)"
-        :height="parseInt($pxToPxRatio(77), 10)"
+        class="creatorProve absolute right-3 top-7"
+        :width="parseInt($pxToPxRatio(33), 10)"
+        :height="parseInt($pxToPxRatio(33), 10)"
         fit="cover"
         :src="b1"
         @click="() => router.push('/tabbar/user/creator')"

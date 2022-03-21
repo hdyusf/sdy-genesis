@@ -4,6 +4,7 @@ import {
   createWebHashHistory,
 } from 'vue-router';
 import axios from 'axios';
+import { Dialog } from 'vant';
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -53,11 +54,20 @@ router.beforeEach((to, from, next) => {
         )
       ) {
         // 防止死循环
-        next(false);
+        next('/');
         return;
       } else {
-        next({
-          path: '/login',
+        Dialog.confirm({
+          closeOnClickOverlay: true,
+          message: '请先登录',
+          theme: 'round-button',
+        }).then(() => {
+          // logout();
+          next({
+            path: '/login',
+          });
+        }).catch(() => {
+          next(false);
         });
         return;
       }
