@@ -83,6 +83,7 @@ let router = useRouter();
 
 const props = defineProps({
   item: Object,
+  liveCallback: Function,
 });
 
 let switchLive = proxy.$debounce(() => {
@@ -99,6 +100,7 @@ let switchLive = proxy.$debounce(() => {
       } else {
         props.item.live--;
       }
+      props.liveCallback && props.liveCallback();
     }).thenError(err => {
       Toast(err.msg);
     });

@@ -110,7 +110,10 @@
       <div
         class="text-xs2 text-grayDefault"
       >
-        我已阅读并同意<span class="text-blueDefault">《用户协议》</span>和<span class="text-blueDefault">《隐私协议》</span>
+        我已阅读并同意<span
+          class="text-blueDefault"
+          @click="() => $router.push('/content/userAgreement')"
+        >《用户协议》</span>和<span class="text-blueDefault">《隐私协议》</span>
       </div>
     </div>
     <Space height="59" />

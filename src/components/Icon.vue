@@ -1,7 +1,7 @@
 <template>
   <svg
     class="icon"
-    :style="{ fontSize: $pxToVw(size) }"
+    :style="{ fontSize: $pxToVw(size), color: color }"
     aria-hidden="true"
   >
     <use :xlink:href="'#' + type" />
@@ -19,6 +19,10 @@ export default {
     size: {
       type: String,
       default: '40',
+    },
+    color: {
+      type: String,
+      default: '',
     },
   },
   data() {

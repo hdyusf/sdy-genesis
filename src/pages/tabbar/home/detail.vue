@@ -245,7 +245,7 @@
     :close-on-click-overlay="false"
     class="w-full transparent"
   >
-    <div class="flex flex-col items-center px15">
+    <!-- <div class="flex flex-col items-center px15">
       <Space height="104" />
       <div
         class="logo relative z-1 overflow-hidden rounded-xl"
@@ -294,12 +294,6 @@
                 class="flex items-center text-orangeTitle"
               >
                 {{ formatSite(detail.uuid) }}
-                <!-- <Icon
-                  class="ml-1"
-                  type="icon-fuzhi"
-                  size="12"
-                  @click="() => copy()"
-                /> -->
               </span>
             </div>
             <div class="flex item-center justify-between">
@@ -308,12 +302,6 @@
                 class="flex items-center text-orangeTitle"
               >
                 {{ formatSite(detail.hash) }}
-                <!-- <Icon
-                  class="ml-1"
-                  type="icon-fuzhi"
-                  size="12"
-                  @click="() => copy()"
-                /> -->
               </span>
             </div>
             <div class="flex item-center justify-between">
@@ -371,7 +359,12 @@
         @click="() => (numberSid = false)"
       />
       <Space height="47" />
-    </div>
+    </div> -->
+    <van-image
+      :width="parseInt($pxToPxRatio(345), 10)"
+      fit="contain"
+      :src="detail.certifyUrl"
+    />
   </van-popup>
   <van-popup
     v-model:show="sharePopup"
@@ -716,8 +709,9 @@
   >
     <van-datetime-picker
       v-model="currentDate"
-      type="date"
-      title="选择年月日"
+      type="datetime"
+      title="选择下架时间"
+      :min-date="minDate"
       @confirm="onConfirmSelectTime"
       @cancel="() => (selectTime = false)"
     />
@@ -747,6 +741,7 @@ let store = useStore();
 let route = useRoute();
 let { proxy } = getCurrentInstance();
 
+let minDate = ref(new Date(dayjs().add(13, 'hour')));
 let sitePopover = ref(false);
 let idPopover = ref(false);
 let hashPopover = ref(false);
@@ -874,9 +869,7 @@ const currentDate = ref(new Date());
 let showTime = ref('');
 function onConfirmSelectTime() {
   selectTime.value = false;
-  showTime.value = `${currentDate.value.getFullYear()}-${
-    currentDate.value.getMonth() + 1
-  }-${currentDate.value.getDate()}`;
+  showTime.value = dayjs(currentDate.value).format('YYYY-MM-DD HH:mm:ss');
 }
 
 function formatSite(site) {

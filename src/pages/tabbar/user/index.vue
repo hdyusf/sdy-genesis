@@ -95,7 +95,7 @@
         <div
           v-if="creator ? item.creator : item.default"
           class="flex flex-col items-center justify-center bg-white rounded-lg2 py-5"
-          @click="() => $router.push(item.href)"
+          @click="() => clickCard(item)"
         >
           <van-image
             :width="parseInt($pxToPxRatio(56), 10)"
@@ -127,6 +127,7 @@ import b3 from './images/b3.png';
 import { computed, ref, watch, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { Toast } from 'vant';
 let store = useStore();
 let userinfo = ref(store.state.userinfo || {});
 store.dispatch('getUserinfo');
@@ -144,6 +145,7 @@ let list = ref([
     href: '/tabbar/user/collect',
     default: true,
     creator: true,
+    auth: false,
   },
   {
     icon: a5,
@@ -151,6 +153,7 @@ let list = ref([
     href: '/tabbar/user/wallet',
     default: true,
     creator: true,
+    auth: false,
   },
   {
     icon: a6,
@@ -158,6 +161,7 @@ let list = ref([
     href: '/tabbar/user/buy',
     default: true,
     creator: true,
+    auth: false,
   },
   {
     icon: a8,
@@ -165,6 +169,7 @@ let list = ref([
     href: '/tabbar/user/sell',
     default: true,
     creator: true,
+    auth: false,
   },
   {
     icon: a7,
@@ -172,6 +177,7 @@ let list = ref([
     href: '/tabbar/user/publish',
     default: true,
     creator: true,
+    auth: false,
   },
   {
     icon: a3,
@@ -179,6 +185,7 @@ let list = ref([
     href: '/tabbar/user/contract',
     default: true,
     creator: false,
+    auth: true,
   },
   {
     icon: b3,
@@ -186,12 +193,24 @@ let list = ref([
     href: '/tabbar/user/createNFT',
     default: false,
     creator: true,
+    auth: true,
   },
 ]);
 
 let creator = computed(() => {
   return userinfo.value.level;
 });
+
+async function clickCard(item) {
+  if (item.auth) {
+    let userinfo = await store.dispatch('getUserinfo');
+    if (!userinfo.isAuth) {
+      Toast('请先实名认证');
+      return;
+    }
+  }
+  router.push(item.href);
+}
 </script>
 <style lang="less" scoped>
 </style>

@@ -27,7 +27,7 @@
       </div>
       <Space height="7" />
       <div class="text-xs text-grayDefault text-center">
-        支付倒计时：{{ payTime }}:00
+        支付倒计时：{{ showCountDown }}
       </div>
       <template v-if="!payNext">
         <Space height="15" />
@@ -113,6 +113,7 @@ import {
   watch,
 } from 'vue';
 import { Toast } from 'vant';
+import { useCountDown } from '@vant/use';
 import { useRouter, useRoute } from 'vue-router';
 import d1 from '@/assets/images/d1.png';
 import d2 from '@/assets/images/d2.png';
@@ -160,10 +161,18 @@ let payType = ref(0);
 let payPassword = ref('');
 let payPasswordShow = ref(false);
 let payTime = ref(30);
+const countDown = useCountDown({
+  time: payTime.value * 60 * 1000,
+});
+let showCountDown = computed(() => {
+  return `${countDown.current.value.minutes}:${countDown.current.value.seconds}`;
+});
+
 proxy
   .$http('post', '/v1/order/orderOverMinute', {})
   .then((res) => {
     payTime.value = res.data;
+    countDown.start();
   })
   .thenError((res) => Toast(res.msg));
 function paySubmit() {

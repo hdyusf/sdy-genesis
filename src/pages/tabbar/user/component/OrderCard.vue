@@ -73,6 +73,12 @@
       <Space height="15" />
       <div class="flex justify-end props.items-center gap-4">
         <div
+          class=" flex justify-center props.items-center ring-1 ring-gray-200 py-1.5 px-7 rounded-full text-xs2"
+          @click="clickCancelPay"
+        >
+          取消
+        </div>
+        <div
           class=" flex justify-center props.items-center ring-1 ring-redTitle py-1.5 px-7 rounded-full text-xs2 text-redTitle"
           @click="clickDetail"
         >
@@ -161,6 +167,18 @@ function goCreatorDetail() {
 
 let cancel = proxy.$debounce(() => {
   proxy.$http('post', `/v1/dc/abrogate?dcId=${props.item.id}`, {})
+    .then(res => {
+      Toast('取消成功');
+      props.item.status = '已取消';
+    }).thenError(res => {
+      Toast(res.msg);
+    });
+});
+
+let clickCancelPay = proxy.$debounce(() => {
+  proxy.$http('post', '/v1/order/createl', {
+    orderId: props.item.id
+  })
     .then(res => {
       Toast('取消成功');
       props.item.status = '已取消';

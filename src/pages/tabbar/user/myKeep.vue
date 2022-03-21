@@ -26,9 +26,13 @@
               :src="item.icon || '123'"
               :icon-size="parseInt($pxToPxRatio(80), 10)"
               :error-icon="a5"
+              @click="() => goCreatorDetail(item.id)"
             />
             <Space height="12" />
-            <div class=" text-base">
+            <div
+              class=" text-base"
+              @click="() => goCreatorDetail(item.id)"
+            >
               {{ item.name }}
             </div>
             <Space height="4" />
@@ -53,8 +57,10 @@ import { useStore } from 'vuex';
 import { ref, getCurrentInstance } from 'vue';
 import a5 from '@/assets/images/a5.png';
 import { Toast } from 'vant';
+import { useRouter } from 'vue-router';
 let {proxy} = getCurrentInstance();
 let store = useStore();
+let router = useRouter();
 
 async function getList(page) {
   let res = await proxy.$http('post', '/v1/friend/list', {
@@ -87,6 +93,10 @@ let unfollow = proxy.$debounce((id) => {
       Toast(err.msg);
     });
 }, 300);
+
+function goCreatorDetail(id) {
+  router.push(`/tabbar/user/creator/show?id=${id}`);
+}
 
 </script>
 <style lang="less" scoped>

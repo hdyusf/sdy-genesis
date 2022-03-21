@@ -175,7 +175,7 @@
       </div>
       <Space height="20" />
       <div class=" text-sm text-grayTip text-center">
-        原因：{{ failReason.value }}
+        原因：{{ failReason }}
       </div>
       <Space height="30" />
       <Icon
@@ -259,6 +259,7 @@ let failReason = ref('');
 function getDetail() {
   proxy.$http('post', '/v1/artist/details', {})
     .then(res => {
+      if (!res.data) return;
       phone.value = res.data.phone;
       cause.value = res.data.reason;
       intro.value = res.data.descr;

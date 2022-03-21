@@ -376,4 +376,15 @@ export default [
       },
     ],
   },
+  {
+    path: '/content',
+    component: () => import('@/pages/content/layout.vue'),
+    children: [
+      {
+        path: 'userAgreement',
+        alias: '',
+        component: () => import('@/pages/content/userAgreement.vue'),
+      },
+    ],
+  },
 ];

@@ -132,6 +132,7 @@ async function getList(page) {
   let res = await proxy.$http('post', '/v1/home/list', {
     page: page,
     size: 5,
+    'search': searchInput.value,
     type: listSelect.value,
   });
   if (listSelect.value === 1) {
@@ -173,7 +174,11 @@ watchEffect(() => {
     listSelect.value === 1 ? 'CardStar' : 'CardCreator';
 });
 
-let hotList = ref(['Adobe系列', '创小猿', '风起洛阳']);
+let hotList = ref([]);
+proxy.$http('post', '/v1/dc/hotWord', {})
+  .then(res => {
+    hotList.value = res.data.map(item => item.hot);
+  }).thenError(res => Toast(res.msg));
 function clickHot(item) {
   searchInput.value = item;
   searchBlur();

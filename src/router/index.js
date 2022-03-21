@@ -41,6 +41,7 @@ router.beforeEach((to, from, next) => {
       to.matched.some((record) => record.meta.loginBefore)
     ) {
       next('/');
+      return;
     }
   } else {
     if (
@@ -53,10 +54,12 @@ router.beforeEach((to, from, next) => {
       ) {
         // 防止死循环
         next(false);
+        return;
       } else {
         next({
           path: '/login',
         });
+        return;
       }
     }
   }

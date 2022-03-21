@@ -33,20 +33,36 @@
         @click="switchTime"
       >
         时间
-        <Icon
-          type="icon-paixu"
-          size="11"
-        />
+        <div class=" text-grayDefault">
+          <Icon
+            type="icon-a-bianzubeifen13"
+            :color="time === 1 ? '#333' : ''"
+            size="6"
+          />
+          <Icon
+            type="icon-a-bianzubeifen3"
+            :color="time === 2 ? '#333' : ''"
+            size="6"
+          />
+        </div>
       </div>
       <div
         class="flex items-center gap-1 ml-8"
         @click="switchPrice"
       >
         价格
-        <Icon
-          type="icon-paixu"
-          size="11"
-        />
+        <div class=" text-grayDefault">
+          <Icon
+            type="icon-a-bianzubeifen13"
+            :color="price === 1 ? '#333' : ''"
+            size="6"
+          />
+          <Icon
+            type="icon-a-bianzubeifen3"
+            :color="price === 2 ? '#333' : ''"
+            size="6"
+          />
+        </div>
       </div>
       <div
         class="flex items-center flex-auto justify-end"
@@ -291,7 +307,11 @@ watch(
     listView.value?.reset();
   },
 );
-let hotList = ref(['Adobe系列', '创小猿', '风起洛阳']);
+let hotList = ref([]);
+proxy.$http('post', '/v1/dc/hotWord', {})
+  .then(res => {
+    hotList.value = res.data.map(item => item.hot);
+  }).thenError(res => Toast(res.msg));
 
 let filter = ref(false);
 let attrList = ref([

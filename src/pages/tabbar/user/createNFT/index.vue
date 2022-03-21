@@ -13,7 +13,7 @@
       fit="cover-bottom"
       :src="bg1"
     />
-    <div class=" pageCard-sm">
+    <div class="pageCard-sm">
       <Space height="176" />
       <div class="card px-5 text-sm">
         <Space height="20" />
@@ -21,14 +21,14 @@
           <div class="w-1/4">
             系列
           </div>
-          <div class=" px-3 flex-auto flex">
+          <div class="px-3 flex-auto flex">
             <van-radio-group
               v-model="series"
               class="flex items-center"
             >
               <van-radio
                 :name="1"
-                class=" w-24"
+                class="w-24"
               >
                 单品
                 <template #icon="props">
@@ -40,7 +40,7 @@
               </van-radio>
               <van-radio
                 :name="2"
-                class=" w-24"
+                class="w-24"
               >
                 系列
                 <template #icon="props">
@@ -59,7 +59,9 @@
             <div class="w-1/4">
               系列名称
             </div>
-            <div class="border rounded-md px-3 flex-auto flex items-center">
+            <div
+              class="border rounded-md px-3 flex-auto flex items-center"
+            >
               <van-field
                 v-model="seriesName"
                 readonly
@@ -67,11 +69,11 @@
                 type="text"
                 placeholder="请选择系列名称"
                 class="text-sm"
-                @click="() => selectSeries = true"
+                @click="() => (selectSeries = true)"
               />
               <div
                 class="flex-shrink-0 text-blueDefault text-xs"
-                @click="() => addSeriesShow = true"
+                @click="() => (addSeriesShow = true)"
               >
                 新增系列
               </div>
@@ -98,25 +100,23 @@
           <div class="w-1/4">
             源文件
           </div>
-          <van-uploader
-            :after-read="uploadAfter"
-          >
-            <div class="border rounded-md w-28 px-3 py-2 text-sm text-grayTip text-center">
+          <van-uploader :after-read="uploadAfter">
+            <div
+              class="border rounded-md w-28 px-3 py-2 text-sm text-grayTip text-center"
+            >
               上传
             </div>
           </van-uploader>
         </div>
         <div
           v-if="upload"
-          class=" pl-16"
+          class="pl-16"
         >
-          <div
-            class=" pl-3"
-          >
+          <div class="pl-3">
             <div
               class="flex items-center justify-between rounded-md bg-[#F9F9F9] pl-5 pr-2 py-2 mt-2.5"
             >
-              <div class=" w-48 truncate">
+              <div class="w-48 truncate">
                 {{ upload }}
               </div>
             </div>
@@ -127,14 +127,14 @@
           <div class="w-1/4">
             出售方式
           </div>
-          <div class=" px-3 flex-auto flex">
+          <div class="px-3 flex-auto flex">
             <van-radio-group
               v-model="sellType"
               class="flex items-center"
             >
               <van-radio
                 :name="1"
-                class=" w-24"
+                class="w-24"
               >
                 定价
                 <template #icon="props">
@@ -175,24 +175,28 @@
           </div>
         </div>
         <Space height="12" />
-        <div class=" text-xs text-grayDefault text-right">
-          预计实际可得：￥ {{ $toFixed(price / 100 * (100 - rate), 2, true) }}   平台分佣：{{ rate }}%
+        <div class="text-xs text-grayDefault text-right">
+          预计实际可得：￥
+          {{
+            $toFixed((price / 100) * (100 - rate), 2, true)
+          }}
+          平台分佣：{{ rate }}%
         </div>
         <Space height="20" />
         <div class="flex items-center">
           <div class="w-1/4">
             权益属性
           </div>
-          <div class=" px-3 flex-auto flex">
+          <div class="px-3 flex-auto flex">
             <van-radio-group
               v-model="property"
               class="flex items-center"
             >
               <van-radio
-                v-for="(item) in attrConfigList"
+                v-for="item in attrConfigList"
                 :key="item"
                 :name="item.id"
-                class=" w-24"
+                class="w-24"
               >
                 {{ item.name }}
                 <template #icon="props">
@@ -210,17 +214,17 @@
           <div class="w-1/4">
             公链类型
           </div>
-          <div class=" px-3 flex-auto flex">
+          <div class="px-3 flex-auto flex">
             <van-radio-group
               v-model="chainType"
               class="flex items-center"
               disabled
             >
               <van-radio
-                v-for="(item) in attrConfigList"
+                v-for="item in attrConfigList"
                 :key="item"
                 :name="item.standard"
-                class=" w-24"
+                class="w-24"
               >
                 {{ item.standard }}
                 <template #icon="props">
@@ -255,14 +259,12 @@
           <div class="w-1/4">
             存储类型
           </div>
-          <div class=" px-3 flex-auto flex">
+          <div class="px-3 flex-auto flex">
             <van-radio-group
               v-model="storeType"
               class="flex items-center"
             >
-              <van-radio
-                :name="1"
-              >
+              <van-radio :name="1">
                 商鼎云分布式存储
                 <template #icon="props">
                   <img
@@ -279,7 +281,9 @@
           <div class="w-1/4">
             下架时间
           </div>
-          <div class="border rounded-md flex-auto px-3 flex items-center">
+          <div
+            class="border rounded-md flex-auto px-3 flex items-center"
+          >
             <van-field
               v-model="showTime"
               readonly
@@ -287,7 +291,7 @@
               type="text"
               placeholder="藏品下架时间不少于12个小时"
               class="text-sm"
-              @click="() => selectTime = true"
+              @click="() => (selectTime = true)"
             />
             <Icon
               type="icon-rili"
@@ -336,7 +340,7 @@
         <div class="flex items-center justify-center">
           <van-checkbox
             v-model="checked"
-            class=" h-min"
+            class="h-min"
           >
             <template #icon="props">
               <img
@@ -371,7 +375,9 @@
     :close-on-click-overlay="false"
     class="transparent overflow-visible"
   >
-    <div class="px-8 bg-white rounded-lg2 w-80 text-blackDefault flex flex-col items-center">
+    <div
+      class="px-8 bg-white rounded-lg2 w-80 text-blackDefault flex flex-col items-center"
+    >
       <Space height="23" />
       <van-image
         :width="parseInt($pxToPxRatio(184), 10)"
@@ -380,11 +386,11 @@
         :src="b1"
       />
       <Space height="40" />
-      <div class=" text-base font-semibold text-center">
+      <div class="text-base font-semibold text-center">
         提交成功
       </div>
       <Space height="20" />
-      <div class=" text-sm text-grayTip text-center">
+      <div class="text-sm text-grayTip text-center">
         藏品上链需支付一定手续费暂由平台支付
       </div>
       <Space height="30" />
@@ -403,10 +409,12 @@
   >
     <van-datetime-picker
       v-model="currentDate"
-      type="date"
-      title="选择年月日"
+      type="datetime"
+      title="选择下架时间"
+      :min-date="minDate"
+      :formatter="formatter"
       @confirm="onConfirmSelectTime"
-      @cancel="() => selectTime = false"
+      @cancel="() => (selectTime = false)"
     />
   </van-popup>
   <van-popup
@@ -416,15 +424,15 @@
   >
     <div class="px-9 card w-80 text-blackDefault">
       <Space height="37" />
-      <div class=" text-base font-semibold text-center">
+      <div class="text-base font-semibold text-center">
         新增系列名称
       </div>
       <Space height="37" />
-      <div class=" text-sm">
+      <div class="text-sm">
         系列名称
       </div>
       <Space height="10" />
-      <div class=" inputCard">
+      <div class="inputCard">
         <van-field
           v-model="addSeriesName"
           type="text"
@@ -440,10 +448,12 @@
           fit="fill"
           :src="a2"
         />
-        <div class="flex items-center justify-between absolute left-0 top-0 z-1 w-full h-full text-xs2">
+        <div
+          class="flex items-center justify-between absolute left-0 top-0 z-1 w-full h-full text-xs2"
+        >
           <div
             class="flex-auto flex justify-center text-redLine"
-            @click="() => addSeriesShow = false"
+            @click="() => (addSeriesShow = false)"
           >
             取消
           </div>
@@ -465,10 +475,14 @@
   >
     <van-picker
       title="标题"
-      :columns="seriesList.map(item => item.name)"
-      :default-index="seriesList.findIndex(item => item.name === seriesName)"
+      :columns="seriesList.map((item) => item.name)"
+      :default-index="
+        seriesList.findIndex(
+          (item) => item.name === seriesName,
+        )
+      "
       @confirm="selectSeriesConfirm"
-      @cancel="() => selectSeries = false"
+      @cancel="() => (selectSeries = false)"
     />
   </van-popup>
 </template>
@@ -478,12 +492,18 @@ import bg1 from './images/bg1.png';
 import d1 from '@/assets/images/d1.png';
 import d2 from '@/assets/images/d2.png';
 import b1 from './images/b1.png';
-import { ref, watchEffect, getCurrentInstance, watch, computed } from 'vue';
+import {
+  ref,
+  watchEffect,
+  getCurrentInstance,
+  watch,
+  computed,
+} from 'vue';
 import { Toast } from 'vant';
 import { isTemplateNode } from '@vue/compiler-core';
 import dayjs from 'dayjs';
 
-let {proxy} = getCurrentInstance();
+let { proxy } = getCurrentInstance();
 
 const checked = ref(false);
 let addSeriesShow = ref(false);
@@ -494,25 +514,46 @@ let seriesName = ref('');
 let seriesList = ref([]);
 let seriesId = ref('');
 let selectSeries = ref(false);
+let minDate = ref(new Date(dayjs().add(13, 'hour')));
+const formatter = (type, val) => {
+  if (type === 'year') {
+    return `${val}年`;
+  }
+  if (type === 'month') {
+    return `${val}月`;
+  }
+  if (type === 'day') {
+    return `${val}日`;
+  }
+  if (type === 'hour') {
+    return `${val}时`;
+  }
+  if (type === 'minute') {
+    return `${val}分`;
+  }
+  return val;
+};
 
 let addSeriesSubmit = proxy.$debounce(() => {
-  proxy.$http('get', '/v1/dc/seriesAdd', {
-    name: addSeriesName.value
-  })
-    .then(res => {
+  proxy
+    .$http('get', '/v1/dc/seriesAdd', {
+      name: addSeriesName.value,
+    })
+    .then((res) => {
       Toast.success('添加成功');
       addSeriesShow.value = false;
       getSeriesList();
-    }).thenError(res => {
+    })
+    .thenError((res) => {
       Toast(res.msg);
     });
 });
 function getSeriesList() {
-  proxy.$http('post', '/v1/dc/seriesList', {})
-    .then(res => {
+  proxy
+    .$http('post', '/v1/dc/seriesList', {})
+    .then((res) => {
       seriesList.value = res.data;
-      if (!seriesName.value || !seriesId.value)
-      {
+      if (!seriesName.value || !seriesId.value) {
         seriesName.value = res.data[0].name;
         seriesId.value = res.data[0].id;
       }
@@ -536,17 +577,20 @@ let upload = ref();
 let number = ref();
 
 function uploadAfter(file) {
-  proxy.$http('file', '/v1/cdn/uploadImgIpfs', {
-    file: file.file
-  }).then((res) => {
-    upload.value = res.data;
-  });
+  proxy
+    .$http('file', '/v1/cdn/uploadImgIpfs', {
+      file: file.file,
+    })
+    .then((res) => {
+      upload.value = res.data;
+    });
 }
 
 let attrConfigList = ref([]);
 function getConfig() {
-  proxy.$http('post', '/v1/dc/cfgParamList', {})
-    .then(res => {
+  proxy
+    .$http('post', '/v1/dc/cfgParamList', {})
+    .then((res) => {
       attrConfigList.value = res.data;
       property.value = res.data[0].id;
       chainType.value = res.data[0].standard;
@@ -554,9 +598,12 @@ function getConfig() {
 }
 getConfig();
 watchEffect(() => {
-  let findIndex = attrConfigList.value.findIndex(item => item.id === property.value);
+  let findIndex = attrConfigList.value.findIndex(
+    (item) => item.id === property.value,
+  );
   if (findIndex !== -1) {
-    chainType.value = attrConfigList.value[findIndex].standard;
+    chainType.value =
+      attrConfigList.value[findIndex].standard;
   }
 });
 
@@ -566,11 +613,22 @@ let selectTime = ref(false);
 const currentDate = ref(new Date());
 function onConfirmSelectTime() {
   selectTime.value = false;
-  showTime.value = dayjs(currentDate.value).format('YYYY-MM-DD HH:mm:ss');
+  showTime.value = dayjs(currentDate.value).format(
+    'YYYY-MM-DD HH:mm:ss',
+  );
 }
 
 let submitDisbled = computed(() => {
-  if (!(name.value && upload.value && price.value && showTime.value && intro.value && checked.value)) {
+  if (
+    !(
+      name.value &&
+      upload.value &&
+      price.value &&
+      showTime.value &&
+      intro.value &&
+      checked.value
+    )
+  ) {
     return true;
   }
   if (property.value === 2) {
@@ -584,36 +642,39 @@ let submitDisbled = computed(() => {
 let loading = ref(false);
 let submit = proxy.$debounce(() => {
   loading.value = true;
-  proxy.$http('post', '/v1/dc/create', {
-    'descr': intro.value,
-    'fileUrl': upload.value,
-    'marketId': property.value,
-    'name': name.value,
-    'overTime': showTime.value,
-    'price': price.value,
-    'sellType': sellType.value - 1,
-    'seriesId': seriesId.value,
-    'seriesType': series.value - 1,
-    'stock': number.value,
-    'storageType': 0
-  })
-    .then(res => {
+  proxy
+    .$http('post', '/v1/dc/create', {
+      descr: intro.value,
+      fileUrl: upload.value,
+      marketId: property.value,
+      name: name.value,
+      overTime: showTime.value,
+      price: price.value,
+      sellType: sellType.value - 1,
+      seriesId: seriesId.value,
+      seriesType: series.value - 1,
+      stock: number.value,
+      storageType: 0,
+    })
+    .then((res) => {
       successPopup.value = true;
-    }).thenError(res => {
+    })
+    .thenError((res) => {
       Toast(res.msg);
-    }).all(res => {
+    })
+    .all((res) => {
       loading.value = false;
     });
 });
 
 let rate = ref(0);
 function getRate() {
-  proxy.$http('post', '/v1/dc/commission', {})
-    .then(res => {
+  proxy
+    .$http('post', '/v1/dc/commission', {})
+    .then((res) => {
       rate.value = res.data;
     });
 }
 getRate();
 </script>
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

@@ -34,6 +34,7 @@
           v-show="item?.isLive"
           :key="index"
           :item="item"
+          :live-callback="liveCallback"
         />
       </template>
     </ListView>
@@ -81,5 +82,8 @@ watch(
     listView.value?.reset();
   },
 );
+function liveCallback() {
+  listView.value?.reset();
+}
 </script>
 <style lang="less" scoped></style>

@@ -66,6 +66,7 @@
 import { defineProps, getCurrentInstance } from 'vue';
 import z2 from '@/assets/images/z2.png';
 import z4 from '@/assets/images/z4.png';
+import a5 from '@/assets/images/a5.png';
 import { Toast } from 'vant';
 import { useRouter } from 'vue-router';
 let {proxy} = getCurrentInstance();

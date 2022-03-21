@@ -1,6 +1,6 @@
 <template>
   <div
-    class="userLayout"
+    class="userLayout flex-auto"
     :class="box ? 'h-screen perspective' : ''"
   >
     <router-view
