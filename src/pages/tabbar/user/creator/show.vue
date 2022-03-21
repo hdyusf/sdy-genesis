@@ -5,7 +5,7 @@
       :height="parseInt($pxToPxRatio(208), 10)"
       fit="cover"
       :src="creatorInfo?.backImg || '123'"
-      :icon-size="parseInt($pxToPxRatio(208), 10)"
+      :icon-size="parseInt($pxToPxRatio(375), 10)"
       :error-icon="a1"
     />
     <div class="absolute top-28 left-0 w-full h-32 -z-1 px15">

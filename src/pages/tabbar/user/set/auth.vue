@@ -69,6 +69,7 @@
         block
         round
         :disabled="!name && !number && !frontUploadUrl && !backUploadUrl"
+        :loading="loading"
         @click="submit"
       >
         提交
@@ -119,6 +120,7 @@ const backUpload = (file) => {
   });
 };
 
+let loading = ref(false);
 let submit = proxy.$debounce(() => {
   if (!name.value) {
     Toast('请输入姓名');
@@ -140,6 +142,7 @@ let submit = proxy.$debounce(() => {
     Toast('请上传身份证反面照');
     return;
   }
+  loading.value = true;
   proxy.$http('post', '/v1/user/authentication', {
     'backUrl': backUploadUrl.value,
     'cardId': number.value,
@@ -155,6 +158,8 @@ let submit = proxy.$debounce(() => {
       proxy.$router.back();
     }).thenError(res => {
       Toast(res.msg);
+    }).all(res => {
+      loading.value = false;
     });
 });
 

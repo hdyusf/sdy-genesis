@@ -53,6 +53,7 @@
       type="danger"
       round
       :disabled="!phone || !code || !password || !verifyPassword"
+      :loading="loading"
       @click="submit"
     >
       完成
@@ -72,6 +73,7 @@ const passwordShow = ref(false);
 const verifyPassword = ref('');
 const verifyPasswordShow = ref(false);
 
+let loading = ref(false);
 let submit = proxy.$debounce(() => {
   if (!isMobilePhone(phone.value, ['zh-CN'])) {
     Toast('请输入正确的手机号');
@@ -81,6 +83,7 @@ let submit = proxy.$debounce(() => {
     Toast('两次密码不一致');
     return;
   }
+  loading.value = true;
   proxy.$http('post', '/v1/modifyUser/ModifyPassword', {
     'phone': phone.value,
     'code': code.value,
@@ -97,6 +100,8 @@ let submit = proxy.$debounce(() => {
       verifyPasswordShow.value = false;
     }).thenError(res => {
       Toast(res.msg);
+    }).all(res => {
+      loading.value = false;
     });
 });
 </script>

@@ -71,6 +71,7 @@
         block
         round
         :disabled="!bankSite || !bank || !phone"
+        :loading="loading"
         @click="submit"
       >
         完成
@@ -150,6 +151,7 @@ let bankSite = ref('');
 let bank = ref('');
 let phone = ref('');
 let selectBankPopup = ref(false);
+let loading = ref(false);
 
 const onConfirm = (value, index) => {
   name.value = value;
@@ -162,6 +164,7 @@ let submit = proxy.$debounce(() => {
     Toast('请输入正确的手机号');
     return;
   }
+  loading.value = true;
   proxy.$http('post', '/v1/assets/bindCarc', {
     'bankOpening': bankSite.value,
     'cardId': bankIndex.value + 1,
@@ -177,6 +180,8 @@ let submit = proxy.$debounce(() => {
       proxy.$router.back();
     }).thenError(err => {
       Toast(err.msg);
+    }).all(res => {
+      loading.value = false;
     });
 });
 </script>

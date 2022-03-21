@@ -108,7 +108,7 @@ let list2 = ref([
     href: '/tabbar/user/set/payPassword',
   },
   {
-    title: '登陆密码',
+    title: '登录密码',
     value: '',
     rightIcon: true,
     auth: false,

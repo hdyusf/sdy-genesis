@@ -87,6 +87,7 @@
             :height="parseInt($pxToPxRatio(25), 10)"
             fit="fill"
             :src="imageCodeUrl"
+            @click="getImageCode"
           />
         </template>
       </van-field>
@@ -117,9 +118,10 @@
       type="danger"
       round
       :disabled="submitDisabled"
+      :loading="loading"
       @click="submit"
     >
-      登陆
+      登录
     </van-button>
     <Space height="25" />
     <div
@@ -192,6 +194,7 @@ function getImageCode() {
     });
 }
 
+let loading = ref(false);
 let submit = proxy.$debounce(() => {
   if (!checked.value) {
     Toast('请勾选用户协议和隐私协议');
@@ -201,6 +204,7 @@ let submit = proxy.$debounce(() => {
     Toast('请输入正确的手机号');
     return;
   }
+  loading.value = true;
   proxy.$http('post', '/v1/auth/login', {
     'code': code.value,
     'imgCode': imageCode.value,
@@ -208,19 +212,20 @@ let submit = proxy.$debounce(() => {
     'phone': phone.value,
     'uuid': imageCodeOrigin.value
   })
-    .then(res => {
+    .then(async res => {
       let token = res.data.token;
       localStorage.token = token;
-      store.dispatch('getUserinfo').then(res => {
-        Toast.success('登陆成功');
-        if (res.isPassWord) {
-          router.push('/');
-        } else {
-          router.push('/tabbar/user/set/loginPassword?type=login');
-        }
-      });
+      let userinfo = await store.dispatch('getUserinfo');
+      Toast.success('登录成功');
+      if (userinfo.isPassWord) {
+        router.push('/');
+      } else {
+        router.push('/tabbar/user/set/loginPassword?type=login');
+      }
     }).thenError(res => {
       Toast(res.msg);
+    }).all(res => {
+      loading.value = false;
     });
 });
 </script>

@@ -14,6 +14,7 @@
     <template #right>
       <div
         class=" text-base text-redTitle"
+        :loading="loading"
         @click="submit"
       >
         保存
@@ -50,7 +51,9 @@ watchEffect(() => {
   input.value = store.state.userinfo.nickName;
 });
 
+let loading = ref(false);
 let submit = proxy.$debounce(() => {
+  loading.value = true;
   proxy.$http('post', '/v1/modifyUser/modifyUserInfo', {
     'descr': '',
     'nickName': input.value,
@@ -60,8 +63,11 @@ let submit = proxy.$debounce(() => {
     .then(res => {
       Toast.success('修改成功');
       store.dispatch('getUserinfo');
+      proxy.$router.back();
     }).thenError(res => {
       Toast(res.msg);
+    }).all(res => {
+      loading.value = false;
     });
 });
 </script>

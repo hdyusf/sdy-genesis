@@ -46,7 +46,7 @@
           <span class=" flex-shrink-0">订单号：</span>
           <span
             class=" w-32 truncate"
-            :class="{underline: !props.noDetail}"
+            :class="!props.noDetail ? 'border-b-1' : ''"
             @click="clickDetail"
           >{{ props.item.orderId }}</span>
           <Icon
@@ -164,7 +164,9 @@ let cancel = proxy.$debounce(() => {
     .then(res => {
       Toast('取消成功');
       props.item.status = '已取消';
-    }).thenError(res => Toast(res.msg));
+    }).thenError(res => {
+      Toast(res.msg);
+    });
 });
 </script>
 <style lang="less" scoped>

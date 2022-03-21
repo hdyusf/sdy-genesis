@@ -5,10 +5,10 @@
     :style="{ top: $pxToPxRatio(46) + 'px' }"
   >
     <div
-      class="listSelectType"
+      class="listSelectType bg-white"
       :class="{ more: listArr.length > 4 }"
     >
-      <div class="bg-white px-6 pt-2 pb-4">
+      <div class="moreXScroll">
         <div
           v-for="(item, index) in listArr"
           :key="index"

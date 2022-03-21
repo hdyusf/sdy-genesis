@@ -14,6 +14,7 @@
     <template #right>
       <div
         class=" text-base text-redTitle"
+        :loading="loading"
         @click="submit"
       >
         保存
@@ -51,7 +52,9 @@ function getInfo() {
 }
 getInfo();
 
+let loading = ref(false);
 let submit = proxy.$debounce(() => {
+  loading.value = true;
   proxy.$http('post', '/v1/artist/modify', {
     'backImg': '',
     'descr': input.value,
@@ -61,6 +64,8 @@ let submit = proxy.$debounce(() => {
       Toast.success('修改成功');
     }).thenError(res => {
       Toast.fail(res.message);
+    }).all(res => {
+      loading.value = false;
     });
 });
 </script>

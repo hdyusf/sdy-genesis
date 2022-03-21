@@ -526,6 +526,7 @@ import d1 from './images/d1.png';
 import d2 from './images/d2.png';
 import a2 from '@/assets/images/a2.png';
 import { useRouter, useRoute } from 'vue-router';
+let store = useStore();
 let route = useRoute();
 let { proxy } = getCurrentInstance();
 
@@ -729,7 +730,18 @@ function payCallback() {
   proxy.$router.replace(`/tabbar/user/order?type=已完成&id=${route.query.id}&origin=buy`);
   getDetail();
 }
-function clickPaySubmit() {
+async function clickPaySubmit() {
+  let userinfo = await store.dispatch('getUserinfo');
+  if (!userinfo.isAuth) {
+    Toast('请先实名认证');
+    proxy.$router.push('/tabbar/user/set/auth');
+    return;
+  }
+  if (!userinfo.isPayPassWord) {
+    Toast('请先设置交易密码');
+    proxy.$router.push('/tabbar/user/set/payPassword');
+    return;
+  }
   pay.value = true;
 }
 </script>

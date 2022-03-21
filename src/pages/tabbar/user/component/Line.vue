@@ -7,7 +7,7 @@
       {{ props.title }}
     </div>
     <div class="flex items-center justify-center text-grayDefault">
-      <div class=" text-sm text-grayDefault">
+      <div class=" text-sm text-grayDefault max-w-bai3 truncate">
         {{ props.value }}
       </div>
       <van-icon

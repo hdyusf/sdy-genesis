@@ -46,7 +46,6 @@
 .listSelectType {
   @apply flex items-center justify-between text-center text-xs2;
   .box {
-    min-width: 70px;
     &.text-redTitle {
       position: relative;
       &:after {
@@ -64,11 +63,13 @@
     }
   }
   &.more {
-    > div {
-      @apply flex items-center justify-between text-center text-xs2;
+    padding-right: 24px;
+    .moreXScroll {
+      @apply flex items-center justify-between text-center text-xs2 pl-6 pt-2 pb-4;
       overflow-x: auto;
       overflow-y: visible;
       > div {
+        min-width: 70px;
         .box;
       }
     }

@@ -397,9 +397,10 @@ function removeSearchKey(reverseIndex) {
   } else if (type === 'price') {
     price.value = 0;
   }
+  listView.value?.reset();
 }
 function updateSearchKeyTitle(type, title) {
-  if (title === '全部' || !title) return;
+  if (title === '全部') return;
   let findIndex = searchKeysList.value.findIndex(
     (item) => item.type === type,
   );

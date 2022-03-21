@@ -51,7 +51,7 @@
         <van-image
           class="w-4.5 h-4.5 ml-1"
           round
-          :src="props.item.userIcon"
+          :src="props.item.userIcon || '123'"
           :icon-size="parseInt($pxToPxRatio(18), 10)"
           :error-icon="a5"
           fit="cover"

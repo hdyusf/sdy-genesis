@@ -216,6 +216,7 @@
           </div>
           <div
             class="flex-auto flex justify-center text-white"
+            :loading="loading"
             @click="submit"
           >
             确定
@@ -386,6 +387,7 @@ proxy
   })
   .thenError((res) => Toast(res.msg));
 
+let loading = ref(false);
 let submit = proxy.$debounce(() => {
   if (!money.value) {
     Toast('请输入提现金额');
@@ -399,6 +401,7 @@ let submit = proxy.$debounce(() => {
     Toast('请输入支付密码');
     return;
   }
+  loading.value = true;
   proxy.$http('post', '/v1/assets/withdraw', {
     'amount': money.value,
     'cardId': bankList.value[bankIndex.value].id,
@@ -410,7 +413,11 @@ let submit = proxy.$debounce(() => {
       payPassword.value = '';
       withdraw.value = false;
       getWalletInfo();
-    }).thenError(res => Toast(res.msg));
+    }).thenError(res => {
+      Toast(res.msg);
+    }).all(res => {
+      loading.value = false;
+    });
 });
 
 let navBarTransparent = ref(true);

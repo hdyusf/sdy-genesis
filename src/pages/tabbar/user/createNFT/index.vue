@@ -356,6 +356,7 @@
           round
           block
           :disabled="submitDisbled"
+          :loading="loading"
           @click="submit"
         >
           提交审核
@@ -580,7 +581,9 @@ let submitDisbled = computed(() => {
   return false;
 });
 
+let loading = ref(false);
 let submit = proxy.$debounce(() => {
+  loading.value = true;
   proxy.$http('post', '/v1/dc/create', {
     'descr': intro.value,
     'fileUrl': upload.value,
@@ -598,6 +601,8 @@ let submit = proxy.$debounce(() => {
       successPopup.value = true;
     }).thenError(res => {
       Toast(res.msg);
+    }).all(res => {
+      loading.value = false;
     });
 });
 

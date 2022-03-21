@@ -1,6 +1,6 @@
 <template>
   <NavBar
-    :title="update ? '修改登陆密码' : '登陆密码'"
+    :title="update ? '修改登录密码' : '登录密码'"
     :go-back="!($route.query.type === 'login')"
   >
     <template #right>
@@ -20,7 +20,7 @@
         v-model="password"
         class="text-sm"
         type="password"
-        placeholder="请输入登陆密码"
+        placeholder="请输入登录密码"
       />
       <van-divider class="my-0" />
       <Space height="22" />
@@ -28,7 +28,7 @@
         v-model="verifyPassword"
         class="text-sm"
         type="password"
-        placeholder="请确认登陆密码"
+        placeholder="请确认登录密码"
       />
       <van-divider class="my-0" />
       <div
@@ -39,6 +39,7 @@
           block
           round
           :disabled="submitDisabled"
+          :loading="loading"
           @click="submit"
         >
           完成
@@ -51,7 +52,7 @@
         {{ store.state.userinfo?.phone }}
       </div>
       <div class=" text-xs2 text-grayDefault mt-1">
-        {{ update ? '修改' : '设置' }}登陆密码需先验证当前手机号
+        {{ update ? '修改' : '设置' }}登录密码需先验证当前手机号
       </div>
       <Space height="22" />
       <van-field
@@ -79,7 +80,7 @@
       <van-field
         v-model="password"
         class="text-sm"
-        placeholder="请输入新的登陆密码"
+        placeholder="请输入新的登录密码"
         :type="passwordShow ? 'text' : 'password'"
         :right-icon="passwordShow ? 'eye' : 'closed-eye'"
         @click-right-icon="() => passwordShow = !passwordShow"
@@ -89,7 +90,7 @@
       <van-field
         v-model="verifyPassword"
         class="text-sm"
-        placeholder="请确认登陆密码"
+        placeholder="请确认登录密码"
         :type="verifyPasswordShow ? 'text' : 'password'"
         :right-icon="verifyPasswordShow ? 'eye' : 'closed-eye'"
         @click-right-icon="() => verifyPasswordShow = !verifyPasswordShow"
@@ -104,6 +105,7 @@
           block
           round
           :disabled="submitDisabled"
+          :loading="updateLoading"
           @click="updateSubmit"
         >
           确定修改
@@ -140,19 +142,21 @@ let submitDisabled = computed(() => {
     return !(password.value && verifyPassword.value);
   }
 });
+let loading = ref(false);
 let submit = proxy.$debounce(() => {
   if (!password.value) {
-    Toast('请输入登陆密码');
+    Toast('请输入登录密码');
     return;
   }
   if (!verifyPassword.value) {
-    Toast('请确认登陆密码');
+    Toast('请确认登录密码');
     return;
   }
   if (password.value !== verifyPassword.value) {
     Toast('两次输入的密码不一致');
     return;
   }
+  loading.value = true;
   proxy.$http('post', '/v1/modifyUser/setPassword', {
     password: password.value,
     validatePassword: verifyPassword.value,
@@ -170,26 +174,30 @@ let submit = proxy.$debounce(() => {
       }
     }).thenError(res => {
       Toast(res.msg);
+    }).all(res => {
+      loading.value = false;
     });
 });
 
+let updateLoading = ref(false);
 let updateSubmit = proxy.$debounce(() => {
   if (!code.value) {
     Toast('请输入验证码');
     return;
   }
   if (!password.value) {
-    Toast('请输入登陆密码');
+    Toast('请输入登录密码');
     return;
   }
   if (!verifyPassword.value) {
-    Toast('请确认登陆密码');
+    Toast('请确认登录密码');
     return;
   }
   if (password.value !== verifyPassword.value) {
     Toast('两次输入的密码不一致');
     return;
   }
+  updateLoading.value = true;
   proxy.$http('post', '/v1/modifyUser/ModifyLoginPassword', {
     code: code.value,
     password: password.value,
@@ -205,6 +213,8 @@ let updateSubmit = proxy.$debounce(() => {
       store.dispatch('getUserinfo');
     }).thenError(res => {
       Toast(res.msg);
+    }).all(res => {
+      updateLoading.value = false;
     });
 });
 </script>

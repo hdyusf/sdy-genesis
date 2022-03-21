@@ -86,6 +86,11 @@ let switchFollow = proxy.$debounce(() => {
     'userId': props.item.userId,
   })
     .then(res => {
+      if (!props.item.follow) {
+        Toast('关注成功');
+      } else {
+        Toast('已取消关注');
+      }
       props.item.follow = !props.item.follow;
     }).thenError(err => {
       Toast(err.msg);

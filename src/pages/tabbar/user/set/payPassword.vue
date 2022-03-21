@@ -96,6 +96,7 @@
         block
         round
         :disabled="!code || !password || !verifyPassword"
+        :loading="loading"
         @click="submitUpdate"
       >
         确定修改
@@ -123,6 +124,7 @@ watchEffect(() => {
   update.value = store.state.userinfo.isPayPassWord;
 });
 
+let loading = ref(false);
 let submitUpdate = proxy.$debounce(() => {
   if (password.value.length !== 6 || !(/[A-Za-z0-9]{6}/.test(password.value))) {
     Toast('交易密码必须为6位字符或数字组成');
@@ -132,6 +134,7 @@ let submitUpdate = proxy.$debounce(() => {
     Toast('两次密码不一致');
     return;
   }
+  loading.value = true;
   proxy.$http('post', '/v1/modifyUser/ModifyPayPassword', {
     'code': code.value,
     'password': password.value,
@@ -147,6 +150,8 @@ let submitUpdate = proxy.$debounce(() => {
       store.dispatch('getUserinfo');
     }).thenError(res => {
       Toast(res.msg);
+    }).all(res => {
+      loading.value = false;
     });
 });
 </script>

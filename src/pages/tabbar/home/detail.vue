@@ -724,7 +724,6 @@
   </van-popup>
 </template>
 <script setup>
-import { useStore } from 'vuex';
 import a1 from '@/assets/images/a3.png';
 import a5 from '@/assets/images/a5.png';
 import {
@@ -742,8 +741,9 @@ import c1 from './images/c1.png';
 import c5 from './images/c5.png';
 import a2 from '@/assets/images/a2.png';
 import { useRouter, useRoute } from 'vue-router';
-import payPopup from '@/components/payPopup.vue';
 import dayjs from 'dayjs';
+import { useStore } from 'vuex';
+let store = useStore();
 let route = useRoute();
 let { proxy } = getCurrentInstance();
 
@@ -791,7 +791,18 @@ function sellDownPopupSubmit() {
       getDetailProgress();
     }).thenError(res => Toast(res.msg));
 }
-function clickSubmit() {
+async function clickSubmit() {
+  let userinfo = await store.dispatch('getUserinfo');
+  if (!userinfo.isAuth) {
+    Toast('请先实名认证');
+    proxy.$router.push('/tabbar/user/set/auth');
+    return;
+  }
+  if (!userinfo.isPayPassWord) {
+    Toast('请先设置交易密码');
+    proxy.$router.push('/tabbar/user/set/payPassword');
+    return;
+  }
   if (sell.value) {
     // 下架
     sellPopup.value = true;

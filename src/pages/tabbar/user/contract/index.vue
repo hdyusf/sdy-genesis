@@ -112,6 +112,7 @@
           round
           block
           :disabled="!checked || !uploadList.length || !phone || !cause || !intro"
+          :loading="loading"
           @click="submit"
         >
           申请
@@ -289,12 +290,14 @@ function removeUploadList(index) {
   uploadList.value.splice(index, 1);
 }
 
+let loading = ref(false);
 let submit = proxy.$debounce(() => {
   if (!isMobilePhone(phone.value, ['zh-CN'])) {
     Toast('请输入正确的手机号');
     return;
   }
 
+  loading.value = true;
   proxy.$http('post', '/v1/artist/applyFor', {
     'descr': intro.value,
     'phone': phone.value,
@@ -305,6 +308,8 @@ let submit = proxy.$debounce(() => {
       successPopup.value = true;
     }).thenError(res => {
       Toast(res.msg);
+    }).all(res => {
+      loading.value = false;
     });
 });
 </script>

@@ -94,8 +94,10 @@ let switchFollow = proxy.$debounce((item) => {
   })
     .then(res => {
       if (item.hu) {
+        Toast('已取消关注');
         item.fans-=1;
       } else {
+        Toast('关注成功');
         item.fans+=1;
       }
       item.hu = !item.hu;
