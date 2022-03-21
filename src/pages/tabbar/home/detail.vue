@@ -624,11 +624,14 @@
       <div
         class="text-xs text-grayDefault flex items-center pl-1"
       >
-        <div v-if="sellParams.orderMoney > 0">
+        <div>
           版权费：{{ sellParams.copyrightFee }}%
         </div>
-        <div v-else>
+        <div v-if="sellParams.isBuy">
           寄售手续费：{{ sellParams.serviceFee }}%
+        </div>
+        <div v-else>
+          平台分佣：{{ sellParams.commission }}%
         </div>
       </div>
       <Space height="20" />
@@ -824,10 +827,10 @@ let sellParams = ref({});
 let payPassword = ref('');
 let sellGetPriceProgress = computed(() => {
   let rate = 0;
-  if (sellParams.value.orderMoney > 0) {
-    rate = sellParams.value.serviceFee;
+  if (sellParams.value.isBuy) {
+    rate = sellParams.value.copyrightFee + sellParams.value.serviceFee;
   } else {
-    rate = sellParams.value.copyrightFee;
+    rate = sellParams.value.copyrightFee + sellParams.value.commission;
   }
   return sellPrice.value * (100 - rate) / 100;
 });
