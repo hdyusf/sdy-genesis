@@ -206,6 +206,7 @@ async function clickCard(item) {
     let userinfo = await store.dispatch('getUserinfo');
     if (!userinfo.isAuth) {
       Toast('请先实名认证');
+      proxy.$router.push('/tabbar/user/set/auth');
       return;
     }
   }

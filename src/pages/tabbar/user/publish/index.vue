@@ -108,6 +108,9 @@ async function getList(page) {
           if (item.status === 2) {
             return fi.status === 1;
           }
+          if (item.status === 5) {
+            return fi.status === 0;
+          }
           return fi.status === item.status;
         });
         return a.title;

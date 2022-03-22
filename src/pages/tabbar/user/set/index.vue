@@ -172,6 +172,7 @@ store.dispatch('getUserinfo').then((res) => {
 function clickList(item) {
   if (item.auth && store.state.userinfo.isAuthStatus !== 2) {
     Toast('请先实名认证');
+    proxy.$router.push('/tabbar/user/set/auth');
     return;
   }
   proxy.$router.push(item.href);
