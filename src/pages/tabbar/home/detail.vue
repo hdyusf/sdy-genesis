@@ -879,7 +879,11 @@ function onConfirmSelectTime() {
 
 function formatSite(site) {
   if (site) {
-    return `${site.slice(0, 6)}...${site.slice(-6)}`;
+    if (site.length > 12) {
+      return `${site.slice(0, 6)}...${site.slice(-6)}`;
+    } else {
+      return site;
+    }
   } else {
     return '无';
   }

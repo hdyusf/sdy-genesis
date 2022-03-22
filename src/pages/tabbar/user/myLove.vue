@@ -67,8 +67,9 @@ async function getList(page) {
       live: item.likeNum,
       title: item.name,
       type: item.marketType,
-      userIcon: item.artistHeadPic || a3,
+      userIcon: item.artistHeadPic,
       userName: item.artistNickName,
+      userId: item.artistUserId,
       price: item.price,
       isLive: item.isLike,
     };
