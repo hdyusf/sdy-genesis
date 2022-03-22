@@ -156,7 +156,7 @@
           </van-popover>
         </span>
         <span class="flex items-center text-orangeTitle">
-          {{ formatSite(detail.uuid) }}
+          {{ formatSite(detail.tokenId) }}
           <!-- <Icon
             class="ml-1"
             type="icon-fuzhi"
