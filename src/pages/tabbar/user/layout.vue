@@ -27,11 +27,6 @@ import { ref } from 'vue';
 let box = ref(false);
 
 onBeforeRouteUpdate((to, from) => {
-  console.log('[ to, from ]-30', to, from);
-  if (to.meta.transition) {
-    box.value = true;
-    return;
-  }
   if (to.meta.transition && from.meta.transition) {
     box.value = true;
   } else {

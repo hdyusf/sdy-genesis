@@ -127,7 +127,7 @@
             </template>
           </van-popover>
         </span>
-        <span class="flex items-center text-orangeTitle">
+        <span class="flex items-center">
           {{ formatSite(detail.contractAddress) }}
           <!-- <Icon
             class="ml-1"
@@ -155,7 +155,10 @@
             </template>
           </van-popover>
         </span>
-        <span class="flex items-center text-orangeTitle">
+        <span
+          class="flex items-center text-orangeTitle"
+          @click="clickTokenId"
+        >
           {{ formatSite(detail.tokenId) }}
           <!-- <Icon
             class="ml-1"
@@ -183,7 +186,7 @@
             </template>
           </van-popover>
         </span>
-        <span class="flex items-center text-orangeTitle">
+        <span class="flex items-center">
           {{ formatSite(detail.hash) }}
           <!-- <Icon
             class="ml-1"
@@ -736,6 +739,8 @@ import { copyText } from 'vue3-clipboard';
 import { useStore } from 'vuex';
 import logoBorder from './images/c3.png';
 import c5 from './images/c5.png';
+import envConfig from '@/utils/env';
+
 let store = useStore();
 let route = useRoute();
 let { proxy } = getCurrentInstance();
@@ -1060,6 +1065,10 @@ let switchLive = proxy.$debounce(() => {
       Toast(err.msg);
     });
 });
+
+function clickTokenId() {
+  location.href = `${envConfig.tokenIdUrl}/${detail.value.contractAddress}?a=${detail.value.tokenId}`;
+}
 </script>
 <style lang="less" scoped>
 .showCard {

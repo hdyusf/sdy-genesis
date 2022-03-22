@@ -71,7 +71,7 @@
       </div>
     </div>
     <Space height="30" />
-    <div class="card px-5 py-5 text-xs2 text-grayTip leading-5 h-60 overflow-y-auto">
+    <div class="card px-5 py-5 text-xs2 text-grayTip leading-5 overflow-y-auto">
       {{ creatorInfo.descr || '这个人很懒，什么都没有留下' }}
     </div>
     <div

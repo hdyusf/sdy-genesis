@@ -186,8 +186,6 @@ export default [
           },
           {
             path: 'creator',
-            // meta: { transition: 'skewDown' },
-            meta: { transition: 'skewUp' },
             component: () =>
               import(
                 '@/pages/tabbar/user/creator/layout.vue'
@@ -197,6 +195,7 @@ export default [
                 path: 'index',
                 alias: '',
                 meta: {
+                  transition: 'skewUp',
                   loginAfter: true,
                 },
                 component: () =>

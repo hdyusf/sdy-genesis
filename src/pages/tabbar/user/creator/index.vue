@@ -4,7 +4,7 @@
       class="w-full absolute top-0 left-0 -z-2"
       :height="parseInt($pxToPxRatio(208), 10)"
       fit="cover"
-      :src="creatorInfo?.backImg"
+      :src="creatorInfo?.backImg || '123'"
       :icon-size="parseInt($pxToPxRatio(375), 10)"
       :error-icon="a1"
     />
@@ -88,7 +88,7 @@
     </div>
     <Space height="30" />
     <div
-      class="card px-5 py-5 text-xs2 text-grayTip leading-5 h-60 overflow-y-auto"
+      class="card px-5 py-5 text-xs2 text-grayTip leading-5 overflow-y-auto"
     >
       {{
         creatorInfo.descr || '这个人很懒，什么都没有留下'
