@@ -18,11 +18,13 @@
       class=" sticky z-3 w-10"
       :style="{top: $pxToPxRatio(15) + 'px'}"
     >
-      <Icon
-        type="icon-fanhui"
-        size="23"
-        @click="() => $router.back()"
-      />
+      <div class="flex justify-center items-center rounded-t rounded-b bg-white/30 w-9 h-9">
+        <Icon
+          type="icon-fanhui"
+          size="23"
+          @click="() => $router.back()"
+        />
+      </div>
     </span>
     <Space height="5" />
     <div class="flex justify-center">

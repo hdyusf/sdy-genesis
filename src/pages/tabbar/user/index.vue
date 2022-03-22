@@ -113,7 +113,7 @@
   </div>
 </template>
 <script setup>
-import { Toast } from 'vant';
+import { Toast, Dialog } from 'vant';
 import { computed, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -205,8 +205,13 @@ async function clickCard(item) {
   if (item.auth) {
     let userinfo = await store.dispatch('getUserinfo');
     if (!userinfo.isAuth) {
-      Toast('请先实名认证');
-      proxy.$router.push('/tabbar/user/set/auth');
+      Dialog.confirm({
+        closeOnClickOverlay: true,
+        message: '请先实名认证',
+        theme: 'round-button',
+      }).then(() => {
+        proxy.$router.push('/tabbar/user/set/auth');
+      }).catch(() => {});
       return;
     }
   }

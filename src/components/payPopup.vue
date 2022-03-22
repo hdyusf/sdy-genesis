@@ -175,17 +175,41 @@ proxy
     countDown.start();
   })
   .thenError((res) => Toast(res.msg));
-function paySubmit() {
+async function paySubmit() {
   if (payType.value === 0) {
     if (!payNext.value) {
       payNext.value = true;
       return;
     }
   }
+  // 创建订单
+  if (
+    route.query.type === '待付款' &&
+    route.query.origin === 'buy'
+  ) {
+    payStart(route.query.id);
+  } else {
+    proxy
+      .$http('post', '/v1/order/create', {
+        dcId: route.query.id,
+        type: payType.value,
+        payPassWord: payPassword.value,
+      })
+      .then((res) => {
+        payStart(res.data);
+      })
+      .thenError((res) => {
+        Toast(res.msg);
+      })
+      .all((res) => {});
+  }
+
+}
+function payStart(orderId) {
   // pay submit
   proxy
     .$http('post', '/v1/order/buy', {
-      orderId: props.orderId,
+      orderId: orderId,
       payPassWord: payPassword.value,
       type: payType.value,
     })

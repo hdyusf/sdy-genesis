@@ -437,4 +437,8 @@ export default [
       },
     ],
   },
+  {
+    path: '/verifyAuth',
+    component: () => import('@/pages/verifyAuth.vue'),
+  },
 ];

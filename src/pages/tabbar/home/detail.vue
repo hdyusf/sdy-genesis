@@ -231,14 +231,31 @@
     <div
       v-else
       class="fixedButton"
-      @click="clickSubmit"
     >
       <span class="price">¥ {{ $formatPrice(detail.price, 2, true) }}</span>
-      <span v-if="sell">下架</span>
       <span
-        v-else
+        v-if="sell"
+        class=" flex-auto text-right pr-12 py-2"
+        @click="clickSubmit"
+      >下架</span>
+      <span
+        v-if="detail.status === 5"
+        class=" flex-auto text-right pr-12 py-2"
+      >已下架</span>
+      <span
+        v-if="detail.status === 6"
+        class=" flex-auto text-right pr-12 py-2"
+      >已锁定</span>
+      <span
+        v-if="!detail.deriveStock"
+        class=" flex-auto text-right pr-12 py-2"
         :class="{ 'text-grayDefault': !detail.deriveStock }"
-      >{{ !detail.deriveStock ? '售罄' : '购买' }}</span>
+      >已售罄</span>
+      <span
+        v-if="detail.status === 4 && detail.deriveStock"
+        class=" flex-auto text-right pr-12 py-2"
+        @click="clickSubmit"
+      >购买</span>
     </div>
   </div>
   <van-popup
@@ -477,7 +494,6 @@
   </van-popup>
   <payPopup
     v-model:pay="pay"
-    :order-id="orderId"
     :pay-callback="payCallback"
     :detail="detail"
   />
@@ -727,12 +743,12 @@
 import a2 from '@/assets/images/a2.png';
 import a5 from '@/assets/images/a5.png';
 import dayjs from 'dayjs';
-import { Toast } from 'vant';
+import { Toast, Dialog } from 'vant';
 import {
   computed,
   getCurrentInstance,
   ref,
-  watch
+  watch,
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { copyText } from 'vue3-clipboard';
@@ -764,7 +780,6 @@ let numberSid = ref(false);
 
 let sharePopup = ref(false);
 
-let orderId = ref('');
 let pay = ref(false);
 watch(pay, () => {
   if (!pay.value) {
@@ -801,13 +816,27 @@ function sellDownPopupSubmit() {
 async function clickSubmit() {
   let userinfo = await store.dispatch('getUserinfo');
   if (!userinfo.isAuth) {
-    Toast('请先实名认证');
-    proxy.$router.push('/tabbar/user/set/auth');
+    Dialog.confirm({
+      closeOnClickOverlay: true,
+      message: '请先实名认证',
+      theme: 'round-button',
+    })
+      .then(() => {
+        proxy.$router.push('/tabbar/user/set/auth');
+      })
+      .catch(() => {});
     return;
   }
   if (!userinfo.isPayPassWord) {
-    Toast('请先设置交易密码');
-    proxy.$router.push('/tabbar/user/set/payPassword');
+    Dialog.confirm({
+      closeOnClickOverlay: true,
+      message: '请先设置交易密码',
+      theme: 'round-button',
+    })
+      .then(() => {
+        proxy.$router.push('/tabbar/user/set/payPassword');
+      })
+      .catch(() => {});
     return;
   }
   if (sell.value) {
@@ -815,16 +844,7 @@ async function clickSubmit() {
     sellPopup.value = true;
     return;
   }
-  // 创建订单
-  proxy
-    .$http('post', '/v1/order/create', {
-      dcId: route.query.id,
-    })
-    .then((res) => {
-      pay.value = true;
-      orderId.value = res.data;
-    })
-    .thenError((res) => Toast(res.msg));
+  pay.value = true;
 }
 let sellPasswordPopup = ref(false);
 let sellPasswordPopupNext = ref(true);
@@ -1122,7 +1142,7 @@ function clickTokenId() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 50px 0 36px;
+  padding: 0 0 0 36px;
   color: white;
   .price {
     font-size: 18px;

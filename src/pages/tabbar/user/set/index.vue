@@ -66,7 +66,7 @@ import a2 from '@/assets/images/a5.png';
 import Line from '../component/Line.vue';
 import { logout } from '@/utils/common';
 import { useStore } from 'vuex';
-import { Toast } from 'vant';
+import { Toast, Dialog } from 'vant';
 let {proxy} = getCurrentInstance();
 let store = useStore();
 let list = ref([
@@ -171,8 +171,13 @@ store.dispatch('getUserinfo').then((res) => {
 
 function clickList(item) {
   if (item.auth && store.state.userinfo.isAuthStatus !== 2) {
-    Toast('请先实名认证');
-    proxy.$router.push('/tabbar/user/set/auth');
+    Dialog.confirm({
+      closeOnClickOverlay: true,
+      message: '请先实名认证',
+      theme: 'round-button',
+    }).then(() => {
+      proxy.$router.push('/tabbar/user/set/auth');
+    }).catch(() => {});
     return;
   }
   proxy.$router.push(item.href);

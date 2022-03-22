@@ -500,14 +500,13 @@
   </van-popup>
   <payPopup
     v-model:pay="pay"
-    :order-id="$route.query.id"
     :pay-callback="payCallback"
     :detail="detail"
   />
 </template>
 <script setup>
 import a5 from '@/assets/images/a5.png';
-import { Toast } from 'vant';
+import { Toast, Dialog } from 'vant';
 import {
   computed,
   getCurrentInstance, ref, watch
@@ -725,13 +724,23 @@ function payCallback() {
 async function clickPaySubmit() {
   let userinfo = await store.dispatch('getUserinfo');
   if (!userinfo.isAuth) {
-    Toast('请先实名认证');
-    proxy.$router.push('/tabbar/user/set/auth');
+    Dialog.confirm({
+      closeOnClickOverlay: true,
+      message: '请先实名认证',
+      theme: 'round-button',
+    }).then(() => {
+      proxy.$router.push('/tabbar/user/set/auth');
+    }).catch(() => {});
     return;
   }
   if (!userinfo.isPayPassWord) {
-    Toast('请先设置交易密码');
-    proxy.$router.push('/tabbar/user/set/payPassword');
+    Dialog.confirm({
+      closeOnClickOverlay: true,
+      message: '请先设置交易密码',
+      theme: 'round-button',
+    }).then(() => {
+      proxy.$router.push('/tabbar/user/set/payPassword');
+    }).catch(() => {});
     return;
   }
   pay.value = true;

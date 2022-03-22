@@ -20,11 +20,13 @@
     </div>
     <Space height="30" />
     <div class="flex items-center justify-between">
-      <Icon
-        type="icon-fanhui"
-        size="23"
-        @click="() => $router.back()"
-      />
+      <div class="flex justify-center items-center rounded-t rounded-b bg-white/30 w-9 h-9">
+        <Icon
+          type="icon-fanhui"
+          size="23"
+          @click="() => $router.back()"
+        />
+      </div>
       <van-image
         :width="parseInt($pxToPxRatio(37), 10)"
         :height="parseInt($pxToPxRatio(37), 10)"
