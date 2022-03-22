@@ -4,23 +4,34 @@
     :class="box ? 'h-screen perspective' : ''"
   >
     <router-view
-      v-if="box"
       v-slot="{ Component, route }"
     >
-      <transition :name="route.meta.transition">
+      <transition
+        v-if="box"
+        :name="route.meta.transition"
+      >
         <keep-alive>
           <component :is="Component" />
         </keep-alive>
       </transition>
+      <component
+        :is="Component"
+        v-else
+      />
     </router-view>
-    <router-view v-else />
   </div>
 </template>
 <script setup>
 import { useRoute, onBeforeRouteUpdate } from 'vue-router';
 import { ref } from 'vue';
 let box = ref(false);
+
 onBeforeRouteUpdate((to, from) => {
+  console.log('[ to, from ]-30', to, from);
+  if (to.meta.transition) {
+    box.value = true;
+    return;
+  }
   if (to.meta.transition && from.meta.transition) {
     box.value = true;
   } else {

@@ -133,17 +133,13 @@
   </div>
 </template>
 <script setup>
-import a1 from './images/a1.png';
-import a2 from './images/a2.png';
-import b2 from '../images/b2.png';
-import a5 from '@/assets/images/a5.png';
 import a3 from '@/assets/images/a3.png';
-import a4 from '@/assets/images/a4.png';
-import b1 from '@/assets/images/b1.png';
-import b3 from '@/assets/images/b3.png';
-import { computed, ref, watch, watchEffect, getCurrentInstance } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import a5 from '@/assets/images/a5.png';
+import { getCurrentInstance, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import b2 from '../images/b2.png';
+import a1 from './images/a1.png';
 let route = useRoute();
 let {proxy} = getCurrentInstance();
 let store = useStore();

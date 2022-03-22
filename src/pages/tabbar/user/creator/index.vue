@@ -26,8 +26,8 @@
         @click="() => $router.back()"
       />
       <van-image
-        :width="parseInt($pxToPxRatio(33), 10)"
-        :height="parseInt($pxToPxRatio(33), 10)"
+        :width="parseInt($pxToPxRatio(37), 10)"
+        :height="parseInt($pxToPxRatio(37), 10)"
         fit="cover"
         :src="a2"
         @click="() => $router.back()"

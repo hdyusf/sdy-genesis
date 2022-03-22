@@ -78,13 +78,12 @@
   </div>
 </template>
 <script setup>
-import { Toast } from 'vant';
-import { ref, getCurrentInstance } from 'vue';
 import { isIdentityCard } from 'validator';
+import { Toast } from 'vant';
+import { getCurrentInstance, ref } from 'vue';
+import { useStore } from 'vuex';
 import a1 from './images/a1.png';
 import a2 from './images/a2.png';
-import a3 from './images/a3.png';
-import { useStore } from 'vuex';
 
 let {proxy} = getCurrentInstance();
 let store = useStore();

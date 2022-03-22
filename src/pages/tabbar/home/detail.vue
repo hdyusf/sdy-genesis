@@ -61,9 +61,7 @@
     >
       <div class="flex items-center justify-between">
         <span>艺术家</span>
-        <span
-          class="flex items-center"
-        >
+        <span class="flex items-center">
           <van-image
             :width="parseInt($pxToPxRatio(18), 10)"
             :height="parseInt($pxToPxRatio(18), 10)"
@@ -585,7 +583,8 @@
         购买价格
         <Space width="31" />
         <div class="text-lg text-redTitle font-semibold">
-          ¥ {{ $formatPrice(sellParams.orderMoney, 2, true) }}
+          ¥
+          {{ $formatPrice(sellParams.orderMoney, 2, true) }}
         </div>
       </div>
       <Space height="20" />
@@ -600,7 +599,7 @@
           size="small"
           readonly
           placeholder="请选择出售类型"
-          class=" text-grayDefault"
+          class="text-grayDefault"
         />
         <!-- @click="() => (sellTypePopup = true)" -->
         <!-- <van-icon
@@ -626,9 +625,7 @@
       <div
         class="text-xs text-grayDefault flex items-center pl-1"
       >
-        <div>
-          版权费：{{ sellParams.copyrightFee }}%
-        </div>
+        <div>版权费：{{ sellParams.copyrightFee }}%</div>
         <div v-if="sellParams.isBuy">
           寄售手续费：{{ sellParams.serviceFee }}%
         </div>
@@ -641,9 +638,7 @@
         下架时间
       </div>
       <Space height="10" />
-      <div
-        class="border rounded-md px-3 flex items-center"
-      >
+      <div class="border rounded-md px-3 flex items-center">
         <van-field
           v-model="showTime"
           readonly
@@ -675,13 +670,16 @@
       <Space height="10" />
       <div
         class="text-right text-xs2 text-grayDefault"
-        @click="() => $router.push('/tabbar/user/set/payPassword')"
+        @click="
+          () => $router.push('/tabbar/user/set/payPassword')
+        "
       >
         忘记交易密码？
       </div>
       <Space height="39" />
       <div class="text-center text-xs">
-        预计此次出售实际可得：¥ {{ $formatPrice(sellGetPriceProgress, 2, true) }}
+        预计此次出售实际可得：¥
+        {{ $formatPrice(sellGetPriceProgress, 2, true) }}
       </div>
       <Space height="13" />
       <van-button
@@ -723,25 +721,21 @@
   </van-popup>
 </template>
 <script setup>
-import a1 from '@/assets/images/a3.png';
+import a2 from '@/assets/images/a2.png';
 import a5 from '@/assets/images/a5.png';
+import dayjs from 'dayjs';
+import { Toast } from 'vant';
 import {
-  ref,
-  watchEffect,
   computed,
   getCurrentInstance,
-  watch,
+  ref,
+  watch
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { copyText } from 'vue3-clipboard';
-import { Toast } from 'vant';
-import logoBorder from './images/c3.png';
-import c2 from './images/c2.png';
-import c1 from './images/c1.png';
-import c5 from './images/c5.png';
-import a2 from '@/assets/images/a2.png';
-import { useRouter, useRoute } from 'vue-router';
-import dayjs from 'dayjs';
 import { useStore } from 'vuex';
+import logoBorder from './images/c3.png';
+import c5 from './images/c5.png';
 let store = useStore();
 let route = useRoute();
 let { proxy } = getCurrentInstance();
@@ -784,12 +778,20 @@ let collect = computed(() => {
 });
 let sellPopup = ref(false);
 function sellDownPopupSubmit() {
-  proxy.$http('post', `/v1/dc/cancel?dcId=${route.query.id}`, {})
-    .then(res => {
+  proxy
+    .$http(
+      'post',
+      `/v1/dc/cancel?dcId=${route.query.id}`,
+      {},
+    )
+    .then((res) => {
       sellPopup.value = false;
-      proxy.$router.replace(`/tabbar/home/detail?id=${route.query.id}&type=collect`);
+      proxy.$router.replace(
+        `/tabbar/home/detail?id=${route.query.id}&type=collect`,
+      );
       getDetailProgress();
-    }).thenError(res => Toast(res.msg));
+    })
+    .thenError((res) => Toast(res.msg));
 }
 async function clickSubmit() {
   let userinfo = await store.dispatch('getUserinfo');
@@ -830,32 +832,48 @@ let payPassword = ref('');
 let sellGetPriceProgress = computed(() => {
   let rate = 0;
   if (sellParams.value.isBuy) {
-    rate = sellParams.value.copyrightFee + sellParams.value.serviceFee;
+    rate =
+      sellParams.value.copyrightFee +
+      sellParams.value.serviceFee;
   } else {
-    rate = sellParams.value.copyrightFee + sellParams.value.commission;
+    rate =
+      sellParams.value.copyrightFee +
+      sellParams.value.commission;
   }
-  return sellPrice.value * (100 - rate) / 100;
+  return (sellPrice.value * (100 - rate)) / 100;
 });
 function sellOutPopupSubmit() {
-  proxy.$http('post', '/v1/dc/sell', {
-    'dcId': route.query.id,
-    'overTime': dayjs(showTime.value).format('YYYY-MM-DD HH:mm:ss'),
-    'payPassWord': payPassword.value,
-    'price': sellPrice.value,
-  })
-    .then(res => {
+  proxy
+    .$http('post', '/v1/dc/sell', {
+      dcId: route.query.id,
+      overTime: dayjs(showTime.value).format(
+        'YYYY-MM-DD HH:mm:ss',
+      ),
+      payPassWord: payPassword.value,
+      price: sellPrice.value,
+    })
+    .then((res) => {
       Toast('上架成功');
       sellPasswordPopup.value = false;
-      proxy.$router.replace(`/tabbar/home/detail?id=${route.query.id}&type=sell`);
+      proxy.$router.replace(
+        `/tabbar/home/detail?id=${route.query.id}&type=sell`,
+      );
       getDetailProgress();
-    }).thenError(res => Toast(res.msg));
+    })
+    .thenError((res) => Toast(res.msg));
 }
 function clickSellSubmit() {
   sellPasswordPopup.value = true;
-  proxy.$http('post', `/v1/dc/sellConfig?dcId=${  route.query.id}`, {})
-    .then(res => {
+  proxy
+    .$http(
+      'post',
+      `/v1/dc/sellConfig?dcId=${route.query.id}`,
+      {},
+    )
+    .then((res) => {
       sellParams.value = res.data;
-    }).thenError(res => Toast(res.msg));
+    })
+    .thenError((res) => Toast(res.msg));
   // sellPasswordPopupNext.value = false;
 }
 // function sellPasswordPopupNextSubmit() {
@@ -874,7 +892,9 @@ const currentDate = ref(new Date());
 let showTime = ref('');
 function onConfirmSelectTime() {
   selectTime.value = false;
-  showTime.value = dayjs(currentDate.value).format('YYYY-MM-DD HH:mm:ss');
+  showTime.value = dayjs(currentDate.value).format(
+    'YYYY-MM-DD HH:mm:ss',
+  );
 }
 
 function formatSite(site) {
@@ -1022,19 +1042,21 @@ getDetailProgress();
 
 let switchLive = proxy.$debounce(() => {
   let switchType = detail.value.isLike ? 2 : 1;
-  proxy.$http('post', '/v1/friend/userLike', {
-    'dcId': route.query.id,
-    'likeType': 0,
-    'type': switchType,
-  })
-    .then(res => {
+  proxy
+    .$http('post', '/v1/friend/userLike', {
+      dcId: route.query.id,
+      likeType: 0,
+      type: switchType,
+    })
+    .then((res) => {
       detail.value.isLike = !detail.value.isLike;
       if (switchType === 1) {
         detail.value.likeNum++;
       } else {
         detail.value.likeNum--;
       }
-    }).thenError(err => {
+    })
+    .thenError((err) => {
       Toast(err.msg);
     });
 });

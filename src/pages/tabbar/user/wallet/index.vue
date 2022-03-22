@@ -251,19 +251,11 @@
 </template>
 <script setup>
 import a2 from '@/assets/images/a2.png';
-import a1 from './images/a1.png';
-import {
-  ref,
-  watchEffect,
-  watch,
-  computed,
-  getCurrentInstance,
-} from 'vue';
-import a3 from '@/assets/images/a3.png';
-import a4 from '@/assets/images/a4.png';
-import b1 from '@/assets/images/b1.png';
-import b3 from '@/assets/images/b3.png';
 import { Toast } from 'vant';
+import {
+  getCurrentInstance, ref, watch, watchEffect
+} from 'vue';
+import a1 from './images/a1.png';
 let { proxy } = getCurrentInstance();
 
 let listSelect = ref(null);

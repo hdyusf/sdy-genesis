@@ -41,15 +41,9 @@
   </div>
 </template>
 <script setup>
-import { useStore } from 'vuex';
 import {
-  ref,
-  watchEffect,
-  computed,
-  watch,
-  getCurrentInstance,
+  getCurrentInstance, ref, watch
 } from 'vue';
-import a3 from '@/assets/images/a3.png';
 
 let { proxy } = getCurrentInstance();
 const searchInput = ref('');

@@ -506,26 +506,18 @@
   />
 </template>
 <script setup>
-import { useStore } from 'vuex';
-import a3 from '@/assets/images/a3.png';
 import a5 from '@/assets/images/a5.png';
-import {
-  ref,
-  watchEffect,
-  computed,
-  getCurrentInstance,
-  watch,
-} from 'vue';
-import { copyText } from 'vue3-clipboard';
 import { Toast } from 'vant';
-import logoBorder from './images/c3.png';
-import c2 from './images/c2.png';
+import {
+  computed,
+  getCurrentInstance, ref, watch
+} from 'vue';
+import { useRoute } from 'vue-router';
+import { copyText } from 'vue3-clipboard';
+import { useStore } from 'vuex';
 import c1 from './images/c1.png';
-import c5 from './images/c5.png';
-import d1 from './images/d1.png';
-import d2 from './images/d2.png';
-import a2 from '@/assets/images/a2.png';
-import { useRouter, useRoute } from 'vue-router';
+import c2 from './images/c2.png';
+import logoBorder from './images/c3.png';
 let store = useStore();
 let route = useRoute();
 let { proxy } = getCurrentInstance();

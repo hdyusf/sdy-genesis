@@ -10,8 +10,8 @@
       <van-image
         v-if="creator"
         class="creatorProve absolute right-3 top-7"
-        :width="parseInt($pxToPxRatio(33), 10)"
-        :height="parseInt($pxToPxRatio(33), 10)"
+        :width="parseInt($pxToPxRatio(37), 10)"
+        :height="parseInt($pxToPxRatio(37), 10)"
         fit="cover"
         :src="b1"
         @click="() => router.push('/tabbar/user/creator')"
@@ -113,6 +113,10 @@
   </div>
 </template>
 <script setup>
+import { Toast } from 'vant';
+import { computed, ref, watchEffect } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import a1 from './images/a1.png';
 import a2 from './images/a2.png';
 import a3 from './images/a3.png';
@@ -124,10 +128,6 @@ import a8 from './images/a8.png';
 import b1 from './images/b1.png';
 import b2 from './images/b2.png';
 import b3 from './images/b3.png';
-import { computed, ref, watch, watchEffect } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-import { Toast } from 'vant';
 let store = useStore();
 let userinfo = ref(store.state.userinfo || {});
 store.dispatch('getUserinfo');

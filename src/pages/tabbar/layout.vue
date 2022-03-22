@@ -27,15 +27,15 @@
   </div>
 </template>
 <script setup>
+import { computed, ref } from 'vue';
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import a1 from './images/a1.png';
 import a2 from './images/a2.png';
 import a3 from './images/a3.png';
 import a4 from './images/a4.png';
 import a5 from './images/a5.png';
 import a6 from './images/a6.png';
-import { computed, ref, watchEffect } from 'vue';
-import { useRouter, onBeforeRouteUpdate, useRoute } from 'vue-router';
-import { useStore } from 'vuex';
 let router = useRouter();
 let route = useRoute();
 let store = useStore();

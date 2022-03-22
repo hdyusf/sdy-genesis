@@ -123,23 +123,15 @@
   </div>
 </template>
 <script setup>
-import banner from './images/a7.png';
-import a5 from './images/a5.png';
-import a6 from './images/a6.png';
-import a3 from '@/assets/images/a3.png';
-import a4 from '@/assets/images/a4.png';
-import b1 from '@/assets/images/b1.png';
-import b2 from '@/assets/images/b2.png';
-import b3 from '@/assets/images/b3.png';
 import {
-  ref,
-  watchEffect,
-  computed,
-  watch,
   getCurrentInstance,
+  ref,
+  watch,
+  watchEffect
 } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import a5 from './images/a5.png';
+import a6 from './images/a6.png';
 
 let { proxy } = getCurrentInstance();
 let router = useRouter();

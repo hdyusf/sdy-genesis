@@ -106,11 +106,10 @@
   </div>
 </template>
 <script setup>
-import a3 from '@/assets/images/a3.png';
-import { ref, watchEffect, computed, defineProps, getCurrentInstance } from 'vue';
-import { copyText } from 'vue3-clipboard';
 import { Toast } from 'vant';
-import { useRouter, useRoute } from 'vue-router';
+import { computed, defineProps, getCurrentInstance } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { copyText } from 'vue3-clipboard';
 let route = useRoute();
 let router = useRouter();
 let {proxy} = getCurrentInstance();
