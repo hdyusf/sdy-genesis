@@ -140,7 +140,6 @@ import {
   getCurrentInstance,
 } from 'vue';
 import a2 from '@/assets/images/a2.png';
-import a3 from '@/assets/images/a3.png';
 import CardStartCollect from './component/CardStartCollect.vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -213,7 +212,7 @@ async function getList(page) {
       live: item.likeNum,
       title: item.name,
       type: item.marketType,
-      userIcon: item.artistHeadPic || a3,
+      userIcon: item.artistHeadPic,
       userName: item.artistNickName,
       price: item.price,
       isLive: item.isLike,

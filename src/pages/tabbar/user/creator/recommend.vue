@@ -86,7 +86,6 @@
 <script setup>
 import { useStore } from 'vuex';
 import { ref, watch, getCurrentInstance } from 'vue';
-import a3 from '@/assets/images/a3.png';
 import d1 from './images/d1.png';
 import d2 from './images/d2.png';
 import { Toast } from 'vant';

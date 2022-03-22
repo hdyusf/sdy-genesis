@@ -36,7 +36,6 @@
   </div>
 </template>
 <script setup>
-import a3 from '@/assets/images/a3.png';
 import {
   ref,
   watchEffect,

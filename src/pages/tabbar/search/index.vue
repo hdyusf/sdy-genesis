@@ -93,7 +93,6 @@
   </div>
 </template>
 <script setup>
-import a3 from '@/assets/images/a3.png';
 import {
   getCurrentInstance, ref, watch, watchEffect
 } from 'vue';
@@ -134,7 +133,7 @@ async function getList(page) {
         live: item.likeNum,
         title: item.name,
         type: item.marketType,
-        userIcon: item.artistHeadPic || a3,
+        userIcon: item.artistHeadPic,
         userName: item.artistNickName,
         userId: item.artistUserId,
         price: item.price,
