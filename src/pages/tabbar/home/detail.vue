@@ -55,27 +55,41 @@
         <div>{{ detail.likeNum }}</div>
       </div>
     </div>
-    <Space height="11" />
+    <Space height="15" />
+    <div
+      class="rounded-lg2 bg-white shadow-md shadow-gray-100 py-3 px-4 text-grayCard text-xs2 grid gap-y-1  gap-x-6 grid grid-rows-2 grid-cols-6 grid-flow-col-dense items-center"
+      @click="goCreatorShow"
+    >
+      <van-image
+        :width="parseInt($pxToPxRatio(45), 10)"
+        :height="parseInt($pxToPxRatio(45), 10)"
+        fit="cover"
+        class="rounded-full overflow-hidden mr-2 row-span-2"
+        :src="detail.artistHeadPic || '123'"
+        :icon-size="parseInt($pxToPxRatio(45), 10)"
+        :error-icon="a5"
+      />
+      <div
+        class="max-w-bai2 truncate col-span-3 text-base"
+      >
+        {{ detail.artistNickName || '---' }}
+      </div>
+      <div class="max-w-bai2 truncate col-span-3">
+        {{ detail.artistDescr }}
+      </div>
+      <div
+        v-if="!isSelf"
+        class="keepButton row-span-2 justify-self-start ml-2 text-sm active:ring-2 ring-redTitle"
+        :class="{ active: detail.isFollow }"
+        @click="switchFollow"
+      >
+        {{ detail.isFollow ? '已关注' : '+关注' }}
+      </div>
+    </div>
+    <Space height="15" />
     <div
       class="rounded-lg2 bg-white shadow-md shadow-gray-100 py-3 px-4 text-grayCard text-xs2 grid gap-3"
     >
-      <div class="flex items-center justify-between">
-        <span>艺术家</span>
-        <span class="flex items-center">
-          <van-image
-            :width="parseInt($pxToPxRatio(18), 10)"
-            :height="parseInt($pxToPxRatio(18), 10)"
-            fit="cover"
-            class="rounded-full overflow-hidden mr-2"
-            :src="detail.artistHeadPic || '123'"
-            :icon-size="parseInt($pxToPxRatio(18), 10)"
-            :error-icon="a5"
-          />
-          <div class="max-w-bai2 truncate">
-            {{ detail.artistNickName }}
-          </div>
-        </span>
-      </div>
       <div class="flex items-center justify-between">
         <span>市场类型</span>
         <span>{{ detail.marketType }}</span>
@@ -98,7 +112,7 @@
         }}</span>
       </div>
     </div>
-    <Space height="32" />
+    <Space height="15" />
     <div
       class="text-base font-semibold px-4 text-blackTitle"
     >
@@ -129,12 +143,12 @@
         </span>
         <span class="flex items-center">
           {{ formatSite(detail.contractAddress) }}
-          <!-- <Icon
+          <Icon
             class="ml-1"
             type="icon-fuzhi"
             size="12"
             @click="() => copy()"
-          /> -->
+          />
         </span>
       </div>
       <div class="flex items-center justify-between">
@@ -155,17 +169,16 @@
             </template>
           </van-popover>
         </span>
-        <span
-          class="flex items-center text-orangeTitle"
-          @click="clickTokenId"
-        >
-          {{ formatSite(detail.tokenId) }}
-          <!-- <Icon
+        <span class="flex items-center text-orangeTitle">
+          <span @click="clickTokenId">{{
+            formatSite(detail.tokenId)
+          }}</span>
+          <Icon
             class="ml-1"
             type="icon-fuzhi"
             size="12"
             @click="() => copy()"
-          /> -->
+          />
         </span>
       </div>
       <div class="flex items-center justify-between">
@@ -188,12 +201,12 @@
         </span>
         <span class="flex items-center">
           {{ formatSite(detail.hash) }}
-          <!-- <Icon
+          <Icon
             class="ml-1"
             type="icon-fuzhi"
             size="12"
             @click="() => copy()"
-          /> -->
+          />
         </span>
       </div>
       <div class="flex items-center justify-between">
@@ -215,6 +228,14 @@
     <div class="detailContent text-xs2 text-grayTip">
       {{ detail.descr }}
     </div>
+    <Space height="15" />
+    <van-image
+      v-for="item of detail.imgDescr?.split(',')"
+      :key="item"
+      class="w-full"
+      fit="contain"
+      :src="item"
+    />
     <div
       v-if="collect"
       class="fixedBottomButton"
@@ -231,29 +252,40 @@
     <div
       v-else
       class="fixedButton"
+      :class="
+        !(
+          detail.status === 4 &&
+          detail.deriveStock &&
+          !sell
+        )
+          ? 'gray grayscale'
+          : ''
+      "
     >
       <span class="price">¥ {{ $formatPrice(detail.price, 2, true) }}</span>
       <span
         v-if="sell"
-        class=" flex-auto text-right pr-12 py-2"
+        class="flex-auto text-right pr-12 py-2"
         @click="clickSubmit"
       >下架</span>
       <span
         v-if="detail.status === 5"
-        class=" flex-auto text-right pr-12 py-2"
+        class="flex-auto text-right pr-12 py-2"
       >已下架</span>
       <span
         v-if="detail.status === 6"
-        class=" flex-auto text-right pr-12 py-2"
+        class="flex-auto text-right pr-12 py-2"
       >已锁定</span>
       <span
         v-if="!detail.deriveStock"
-        class=" flex-auto text-right pr-12 py-2"
+        class="flex-auto text-right pr-12 py-2"
         :class="{ 'text-grayDefault': !detail.deriveStock }"
       >已售罄</span>
       <span
-        v-if="detail.status === 4 && detail.deriveStock"
-        class=" flex-auto text-right pr-12 py-2"
+        v-if="
+          detail.status === 4 && detail.deriveStock && !sell
+        "
+        class="flex-auto text-right pr-12 py-2"
         @click="clickSubmit"
       >购买</span>
     </div>
@@ -648,7 +680,10 @@
         <div v-if="sellParams.isBuy">
           寄售手续费：{{ sellParams.serviceFee }}%
         </div>
-        <div v-else>
+        <div
+          v-else
+          class="ml-3"
+        >
           平台分佣：{{ sellParams.commission }}%
         </div>
       </div>
@@ -734,6 +769,7 @@
       type="datetime"
       title="选择下架时间"
       :min-date="minDate"
+      :formatter="formatter"
       @confirm="onConfirmSelectTime"
       @cancel="() => (selectTime = false)"
     />
@@ -762,6 +798,25 @@ let route = useRoute();
 let { proxy } = getCurrentInstance();
 
 let minDate = ref(new Date(dayjs().add(13, 'hour')));
+const formatter = (type, val) => {
+  if (type === 'year') {
+    return `${val}年`;
+  }
+  if (type === 'month') {
+    return `${val}月`;
+  }
+  if (type === 'day') {
+    return `${val}日`;
+  }
+  if (type === 'hour') {
+    return `${val}时`;
+  }
+  if (type === 'minute') {
+    return `${val}分`;
+  }
+  return val;
+};
+
 let sitePopover = ref(false);
 let idPopover = ref(false);
 let hashPopover = ref(false);
@@ -1089,6 +1144,36 @@ let switchLive = proxy.$debounce(() => {
 function clickTokenId() {
   location.href = `${envConfig.tokenIdUrl}/${detail.value.contractAddress}?a=${detail.value.tokenId}`;
 }
+
+let isSelf = computed(() => {
+  return detail.value.artistUserId === store.state.userinfo?.id;
+});
+
+let switchFollow = proxy.$debounce((e) => {
+  e.stopPropagation();
+  proxy
+    .$http('post', '/v1/friend/operation', {
+      type: detail.value.isFollow ? 2 : 1,
+      userId: detail.value.artistUserId,
+    })
+    .then((res) => {
+      if (!detail.value.isFollow) {
+        Toast('关注成功');
+      } else {
+        Toast('已取消关注');
+      }
+      detail.value.isFollow = !detail.value.isFollow;
+    })
+    .thenError((err) => {
+      Toast(err.msg);
+    });
+}, 300);
+
+function goCreatorShow() {
+  proxy.$router.push(
+    `/tabbar/user/creator/show?id=${detail.value.artistUserId}`,
+  );
+}
 </script>
 <style lang="less" scoped>
 .showCard {
@@ -1137,19 +1222,46 @@ function clickTokenId() {
     inset 0px 1px 7px 0px rgba(255, 249, 249, 1);
   border-radius: 25px;
   background: white url('@/assets/images/a1.png') no-repeat
-    center;
+    center right;
   background-size: cover;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 0 0 36px;
   color: white;
+  &.gray {
+    background: white url('@/assets/images/a7.png')
+      no-repeat center right;
+    background-size: cover;
+    color: #999999;
+    .price {
+      color: #999999;
+    }
+  }
   .price {
     font-size: 18px;
     font-weight: bold;
     color: #e0260e;
     line-height: 23px;
     letter-spacing: 1px;
+  }
+}
+
+.keepButton {
+  padding: 8px 16px;
+  background: #ffe5e5;
+  border-radius: 18px;
+  width: 85px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #e0260e;
+  line-height: 19px;
+  letter-spacing: 1px;
+  &.active {
+    background: #ef4034;
+    color: white;
   }
 }
 </style>

@@ -48,7 +48,7 @@
           round
           :width="parseInt($pxToPxRatio(30), 10)"
           :height="parseInt($pxToPxRatio(30), 10)"
-          :src="props.item.userIcon"
+          :src="props.item.userIcon || '123'"
           :icon-size="parseInt($pxToPxRatio(30), 10)"
           :error-icon="a5"
           fit="cover"
@@ -57,15 +57,15 @@
         <div
           class="text-base font-semibold max-w-bai3 truncate"
         >
-          {{ props.item.userName }}
+          {{ props.item.userName || '---' }}
         </div>
-        <div class="text-xs text-grayDefault">
+        <div class="text-xs text-grayDefault ml-2 mt-1">
           {{ $reducePrice(props.item.fans) }}粉丝
         </div>
       </div>
       <div
         v-if="!isSelf"
-        class="keepButton"
+        class="keepButton active:ring-2 ring-redTitle"
         :class="{ active: props.item.follow }"
         @click="switchFollow"
       >
@@ -154,16 +154,17 @@ function goCreatorDetail() {
   margin-bottom: 13px;
   position: relative;
   .keepButton {
-    padding: 8px 16px;
     background: #ffe5e5;
     border-radius: 18px;
     position: absolute;
     right: 15px;
     bottom: 15px;
+    width: 85px;
+    height: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 15px;
+    font-size: 14px;
     color: #e0260e;
     line-height: 19px;
     letter-spacing: 1px;

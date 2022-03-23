@@ -34,7 +34,7 @@
         <Space height="7" />
         <div class="flex props.items-center text-grayDefault justify-between text-xs2">
           <div
-            class="w-32 truncate"
+            class=" max-w-bai2 truncate"
             @click="goCreatorDetail"
           >
             {{ props.item.user }}

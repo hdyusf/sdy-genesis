@@ -386,7 +386,7 @@
           block
           :disabled="submitDisbled"
           :loading="loading"
-          @click="submit"
+          @click="submitBefore"
         >
           提交审核
         </van-button>
@@ -509,6 +509,85 @@
       @confirm="selectSeriesConfirm"
       @cancel="() => (selectSeries = false)"
     />
+  </van-popup>
+  <van-popup
+    v-model:show="confirmSubmitPopup"
+    :close-on-click-overlay="false"
+    class="transparent"
+  >
+    <div class="px-9 card w-80 text-blackDefault">
+      <Space height="37" />
+      <div class="text-base font-semibold text-center">
+        确认信息
+      </div>
+      <Space height="20" />
+      <div class="text-sm text-blackDefault mb-2.5">
+        名称
+      </div>
+      <div class="text-sm text-blackDefault mb-3.5 px-2.5 py-2 bg-grayBg rounded-md">
+        {{ name }}
+      </div>
+      <div class="text-sm text-blackDefault mb-2.5">
+        出售方式
+      </div>
+      <div class="text-sm text-blackDefault mb-3.5 px-2.5 py-2 bg-grayBg rounded-md">
+        定价
+      </div>
+      <div class="text-sm text-blackDefault mb-2.5">
+        价格
+      </div>
+      <div class="text-sm text-blackDefault mb-3.5 px-2.5 py-2 bg-grayBg rounded-md">
+        {{ price }}
+      </div>
+      <div class="text-sm text-blackDefault mb-2.5">
+        权益属性
+      </div>
+      <div class="text-sm text-blackDefault mb-3.5 px-2.5 py-2 bg-grayBg rounded-md">
+        {{ attrConfigList.find(item => item.id === property).name }}
+      </div>
+      <template v-if="number">
+        <div class="text-sm text-blackDefault mb-2.5">
+          数量
+        </div>
+        <div class="text-sm text-blackDefault mb-3.5 px-2.5 py-2 bg-grayBg rounded-md">
+          {{ number }}
+        </div>
+      </template>
+      <Space height="43" />
+      <div class="relative ring-1 rounded-3xl ring-redLine">
+        <van-image
+          class="w-full"
+          :height="parseInt($pxToPxRatio(40), 10)"
+          fit="fill"
+          :src="a2"
+        />
+        <div
+          class="flex items-center justify-between absolute left-0 top-0 z-1 w-full h-full text-xs2"
+        >
+          <div
+            class="flex-auto flex justify-center text-redLine"
+            @click="() => (confirmSubmitPopup = false)"
+          >
+            取消
+          </div>
+          <div
+            class="flex-auto flex justify-center text-white"
+            @click="submit"
+          >
+            确定
+          </div>
+        </div>
+      </div>
+      <Space height="10" />
+      <div class="text-xs text-grayDefault text-center text-[#4A79FF]">
+        预计实际可得：￥
+        {{
+          $toFixed((price / 100) * (100 - rate), 2, true)
+        }}
+        <span class=" ml-2">平台分佣：{{ rate }}%</span>
+      </div>
+      <Space height="30" />
+    </div>
   </van-popup>
 </template>
 <script setup>
@@ -669,7 +748,8 @@ let submitDisbled = computed(() => {
       price.value &&
       showTime.value &&
       intro.value &&
-      checked.value
+      checked.value &&
+      plotUploadList.value.length > 0
     )
   ) {
     return true;
@@ -681,6 +761,11 @@ let submitDisbled = computed(() => {
   }
   return false;
 });
+
+let confirmSubmitPopup = ref(false);
+function submitBefore() {
+  confirmSubmitPopup.value = true;
+}
 
 let loading = ref(false);
 let submit = proxy.$debounce(() => {

@@ -102,14 +102,14 @@
               </template>
             </van-popover>
           </span>
-          <span class="flex items-center text-orangeTitle">
+          <span class="flex items-center">
             {{ formatSite(detail.contractAddress) }}
-            <!-- <Icon
+            <Icon
               class="ml-1"
               type="icon-fuzhi"
               size="12"
               @click="() => copy()"
-            /> -->
+            />
           </span>
         </div>
         <div class="flex items-center justify-between">
@@ -131,13 +131,13 @@
             </van-popover>
           </span>
           <span class="flex items-center text-orangeTitle">
-            {{ formatSite(detail.uuid) }}
-            <!-- <Icon
+            <span @click="clickTokenId">{{ formatSite(detail.tokenId) }}</span>
+            <Icon
               class="ml-1"
               type="icon-fuzhi"
               size="12"
               @click="() => copy()"
-            /> -->
+            />
           </span>
         </div>
         <div class="flex items-center justify-between">
@@ -158,14 +158,14 @@
               </template>
             </van-popover>
           </span>
-          <span class="flex items-center text-orangeTitle">
+          <span class="flex items-center">
             {{ formatSite(detail.hash) }}
-            <!-- <Icon
+            <Icon
               class="ml-1"
               type="icon-fuzhi"
               size="12"
               @click="() => copy()"
-            /> -->
+            />
           </span>
         </div>
         <div class="flex items-center justify-between">
@@ -517,6 +517,7 @@ import { useStore } from 'vuex';
 import c1 from './images/c1.png';
 import c2 from './images/c2.png';
 import logoBorder from './images/c3.png';
+import envConfig from '@/utils/env';
 let store = useStore();
 let route = useRoute();
 let { proxy } = getCurrentInstance();
@@ -744,6 +745,10 @@ async function clickPaySubmit() {
     return;
   }
   pay.value = true;
+}
+
+function clickTokenId() {
+  location.href = `${envConfig.tokenIdUrl}/${detail.value.contractAddress}?a=${detail.value.tokenId}`;
 }
 </script>
 <style lang="less" scoped>

@@ -94,11 +94,11 @@
       </div>
       <Space height="24" />
       <template v-if="listSelect === 2">
-        <div class=" flex items-center text-xs gap-x-2 justify-end">
+        <div class=" rounded-lg2 bg-[#F5F5F5] h-11 grid grid-cols-3 items-center justify-items-center text-[#808080] text-xs2">
           <div
             v-for="(item, index) in listArrInner"
             :key="index"
-            class=" ring-1 rounded-md px-2 py-1"
+            class=" px-2 py-1"
             :class="listSelectInner === item.status ? 'text-redTitle ring-redTitle' : 'ring-grayDefault'"
             @click="() => listSelectInner = item.status"
           >

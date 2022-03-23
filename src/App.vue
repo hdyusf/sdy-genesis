@@ -14,6 +14,10 @@ watchEffect(() => {
 });
 store.replaceState(JSON.parse(localStorage.vuex));
 
+if (localStorage.getItem('token')) {
+  store.dispatch('getUserinfo');
+}
+
 proxy.$http('get', '/v1/service', {})
   .then(res => {
     let downloadUrl = res.data.downloadUrl;

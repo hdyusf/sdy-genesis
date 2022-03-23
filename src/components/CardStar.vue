@@ -58,7 +58,7 @@
         />
         <Space width="10" />
         <div class="text-xs text-grayDefault max-w-bai3 truncate">
-          {{ props.item.userName }}
+          {{ props.item.userName || '---' }}
         </div>
       </div>
       <Space height="20" />
