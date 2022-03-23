@@ -314,28 +314,53 @@
             />
           </div>
         </div>
-        <!-- <div class="flex items-center">
+        <div class="flex items-center">
           <div class="w-1/4">
             藏品故事
           </div>
           <van-uploader
             :after-read="plotUploadAfter"
+            :disabled="plotUploadList.length >= 3"
           >
-            <div class="border rounded-md px-3 py-2 text-sm text-grayTip w-28 text-center">
-              上传
+            <div
+              class="border rounded-md px-3 py-2 text-sm text-grayTip w-28 text-center"
+            >
+              上传（{{ plotUploadList.length }}/3）
             </div>
           </van-uploader>
-          <div class=" ml-1 text-xs text-grayTip">
+          <div class="ml-1 text-xs text-grayTip">
             建议上传宽度为*750
           </div>
         </div>
-        <Space height="30" />
-        <van-image
-          v-if="plotUpload"
-          class="w-full h-auto"
-          fit="cover"
-          :src="plotUpload"
-        /> -->
+
+        <div
+          v-if="plotUploadList.length"
+          class=""
+        >
+          <div
+            v-for="(item, index) of plotUploadList"
+            :key="item"
+          >
+            <div
+              class="flex items-center justify-between rounded-md bg-[#F9F9F9] pl-5 pr-2 py-2 mt-3 shadow-md mb-1"
+            >
+              <div class="w-48 truncate">
+                {{ item.name }}
+              </div>
+              <Icon
+                type="icon-sousuo-guanbi"
+                size="17"
+                @click="() => removePlotUploadList(index)"
+              />
+            </div>
+            <van-image
+              :width="parseInt($pxToPxRatio(309), 10)"
+              :height="parseInt($pxToPxRatio(309), 10)"
+              fit="cover"
+              :src="item.url"
+            />
+          </div>
+        </div>
         <Space height="41" />
         <div class="flex items-center justify-center">
           <van-checkbox
@@ -380,8 +405,8 @@
     >
       <Space height="23" />
       <van-image
-        :width="parseInt($pxToPxRatio(184), 10)"
-        :height="parseInt($pxToPxRatio(140), 10)"
+        :width="parseInt($pxToPxRatio(162), 10)"
+        :height="parseInt($pxToPxRatio(160), 10)"
         fit="cover"
         :src="b1"
       />
@@ -586,6 +611,24 @@ function uploadAfter(file) {
     });
 }
 
+let plotUploadList = ref([]);
+function plotUploadAfter(file) {
+  proxy
+    .$http('file', '/v1/cdn/uploadImg', {
+      file: file.file,
+    })
+    .then((res) => {
+      plotUploadList.value.push({
+        url: res.data,
+        name: file.file.name,
+      });
+    });
+}
+
+function removePlotUploadList(index) {
+  plotUploadList.value.splice(index, 1);
+}
+
 let attrConfigList = ref([]);
 function getConfig() {
   proxy
@@ -655,6 +698,7 @@ let submit = proxy.$debounce(() => {
       seriesType: series.value - 1,
       stock: number.value,
       storageType: 0,
+      imgDescr: plotUploadList.value.map((item) => item.url).join(','),
     })
     .then((res) => {
       successPopup.value = true;

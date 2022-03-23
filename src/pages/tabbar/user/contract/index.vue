@@ -130,8 +130,8 @@
     <div class="px-9 bg-white rounded-lg2 w-80 text-blackDefault flex flex-col items-center">
       <Space height="23" />
       <van-image
-        :width="parseInt($pxToPxRatio(184), 10)"
-        :height="parseInt($pxToPxRatio(140), 10)"
+        :width="parseInt($pxToPxRatio(162), 10)"
+        :height="parseInt($pxToPxRatio(160), 10)"
         fit="cover"
         :src="b1"
       />
