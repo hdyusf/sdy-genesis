@@ -115,7 +115,7 @@ let router = useRouter();
 let {proxy} = getCurrentInstance();
 
 function copy() {
-  copyText('Hello Clipborad', undefined, (error, event) => {
+  copyText(props.item.orderId, undefined, (error, event) => {
     if (error) {
       console.error('复制失败');
     } else {

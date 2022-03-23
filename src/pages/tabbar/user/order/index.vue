@@ -224,7 +224,7 @@
         </div>
         <div class="flex items-center justify-between">
           <span>支付时间</span>
-          <span>{{ detail.createTime }}</span>
+          <span>{{ detail.payTime }}</span>
         </div>
         <div class="flex items-center justify-between">
           <span>创建时间</span>
@@ -279,7 +279,7 @@
           v-if="detail.cochainTime"
           class="flex items-center justify-between"
         >
-          <span>存证时间</span>
+          <span>上链时间</span>
           <span>{{ detail.cochainTime }}</span>
         </div>
         <div class="flex items-center justify-between">

@@ -210,7 +210,7 @@ async function clickCard(item) {
         message: '请先实名认证',
         theme: 'round-button',
       }).then(() => {
-        proxy.$router.push('/tabbar/user/set/auth');
+        router.push('/tabbar/user/set/auth');
       }).catch(() => {});
       return;
     }
