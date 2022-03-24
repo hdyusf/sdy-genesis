@@ -109,8 +109,18 @@ const frontUpload = (file) => {
     file: file.file
   }).then((res) => {
     frontUploadUrl.value = res.data;
+    getCardValue(file.file);
   });
 };
+function getCardValue(file) {
+  proxy.$http('file', '/v1/user/verifyIdCard', {
+    file: file,
+  })
+    .then(res => {
+      name.value = res.data.name;
+      number.value = res.data.idnumber;
+    }).thenError(res => Toast(res.msg));
+}
 const backUpload = (file) => {
   proxy.$http('file', '/v1/cdn/uploadImg', {
     file: file.file

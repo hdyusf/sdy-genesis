@@ -134,7 +134,7 @@ let switchLive = proxy.$debounce(() => {
 }, 300);
 
 let isSelf = computed(() => {
-  return props.item.userId === store.state.userinfo?.id;
+  return +props.item.userId === store.state.userinfo?.id;
 });
 
 function goDetail() {

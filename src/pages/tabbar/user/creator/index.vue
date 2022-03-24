@@ -1,5 +1,7 @@
 <template>
-  <div class="relative z-1 pageCard-sm bg-grayBg w-full h-full">
+  <div
+    class="relative z-1 pageCard-sm bg-grayBg w-full h-full"
+  >
     <van-image
       class="w-full absolute top-0 left-0 -z-2"
       :height="parseInt($pxToPxRatio(208), 10)"
@@ -20,7 +22,9 @@
     </div>
     <Space height="30" />
     <div class="flex items-center justify-between">
-      <div class="flex justify-center items-center rounded-t rounded-b bg-white/30 w-9 h-9">
+      <div
+        class="flex justify-center items-center rounded-t rounded-b bg-white/30 w-9 h-9"
+      >
         <Icon
           type="icon-fanhui"
           size="23"
@@ -28,37 +32,15 @@
         />
       </div>
       <div
-        class=" absolute right-3 top-7 z-10"
-        @click="() => $router.back()"
+        class="flex justify-center items-center rounded-t rounded-b bg-white/30 text-xs2 px-3 py-2 text-blackDefault"
+        @click="
+          () =>
+            $router.push(
+              `/tabbar/user/creator/show?id=${userinfo.id}`,
+            )
+        "
       >
-        <van-image
-          class="creatorProve"
-          :width="parseInt($pxToPxRatio(37), 10)"
-          :height="parseInt($pxToPxRatio(37), 10)"
-          fit="cover"
-          :src="qrcodeDetail1"
-        />
-        <van-image
-          class="creatorProveAnimation one"
-          :width="parseInt($pxToPxRatio(37), 10)"
-          :height="parseInt($pxToPxRatio(37), 10)"
-          fit="contain"
-          :src="qrcodeDetail2"
-        />
-        <van-image
-          class="creatorProveAnimation two"
-          :width="parseInt($pxToPxRatio(37), 10)"
-          :height="parseInt($pxToPxRatio(37), 10)"
-          fit="contain"
-          :src="qrcodeDetail2"
-        />
-        <van-image
-          class="creatorProveAnimation three"
-          :width="parseInt($pxToPxRatio(37), 10)"
-          :height="parseInt($pxToPxRatio(37), 10)"
-          fit="contain"
-          :src="qrcodeDetail2"
-        />
+        预览主页
       </div>
     </div>
     <Space height="5" />
@@ -229,13 +211,16 @@ proxy
   transform: translate(-50%, -50%) scale(0.8);
   margin-top: -3px;
   &.one {
-    animation: creatorProveAnimation 1.5s ease-in-out infinite;
+    animation: creatorProveAnimation 1.5s ease-in-out
+      infinite;
   }
   &.two {
-    animation: creatorProveAnimation 1.5s ease-in-out .4s infinite;
+    animation: creatorProveAnimation 1.5s ease-in-out 0.4s
+      infinite;
   }
   &.three {
-    animation: creatorProveAnimation 1.5s ease-in-out .8s infinite;
+    animation: creatorProveAnimation 1.5s ease-in-out 0.8s
+      infinite;
   }
 }
 @keyframes creatorProveAnimation {

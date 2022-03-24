@@ -50,7 +50,7 @@
           版权声明
         </div>
         <div class="col-span-2 px-3 text-grayTip leading-6 -mt-5">
-          <span class="text-redTitle">【{{ detail.createNickName }}】</span>的作品<span class="text-redTitle">《{{ detail.dcName }}》</span>于<span class="text-redTitle">【{{ detail.createTime }}】</span>经河图数藏平台区块链网络完成版权登记，并加以保护，特此声明原创权利!记，并加以保护，特此声明原创权利!
+          <span class="text-redTitle">【{{ detail.createNickName }}】</span>的作品<span class="text-redTitle">《{{ detail.dcName }}》</span>于<span class="text-redTitle">【{{ detail.createTime }}】</span>经河图数藏平台区块链网络完成版权登记，并加以保护，特此声明原创权利!
         </div>
       </div>
       <Space height="12" />

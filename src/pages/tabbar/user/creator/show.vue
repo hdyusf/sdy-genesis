@@ -8,15 +8,10 @@
       :icon-size="parseInt($pxToPxRatio(375), 10)"
       :error-icon="a1"
     />
-    <div class="absolute top-28 left-0 w-full h-32 -z-1 px15">
-      <div
-        class="bg-white/30 w-full h-full rounded-lg2 backdrop-blur-lg shadow-lg"
-      />
-    </div>
     <Space height="30" />
     <span
       class=" sticky z-3 w-10"
-      :style="{top: $pxToPxRatio(15) + 'px'}"
+      :style="{top: $pxToPxRatio(8) + 'px'}"
     >
       <div class="flex justify-center items-center rounded-t rounded-b bg-white/30 w-9 h-9">
         <Icon
@@ -26,51 +21,64 @@
         />
       </div>
     </span>
-    <Space height="5" />
-    <div class="flex justify-center">
-      <van-image
-        round
-        :width="parseInt($pxToPxRatio(80), 10)"
-        :height="parseInt($pxToPxRatio(80), 10)"
-        fit="cover"
-        :src="creatorInfo.headPic || '123'"
-        :icon-size="parseInt($pxToPxRatio(80), 10)"
-        :error-icon="a5"
-      />
-    </div>
-    <Space height="10" />
-    <div class="flex justify-center">
-      <div class="truncate max-w-bai3">
-        {{ creatorInfo.nickName || '暂无' }}
+    <Space height="42" />
+    <div
+      class="bg-white/30 w-full rounded-lg2 backdrop-blur-lg shadow-lg relative"
+    >
+      <div class="flex justify-center absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
+        <van-image
+          round
+          :width="parseInt($pxToPxRatio(80), 10)"
+          :height="parseInt($pxToPxRatio(80), 10)"
+          fit="cover"
+          :src="creatorInfo.headPic || '123'"
+          :icon-size="parseInt($pxToPxRatio(80), 10)"
+          :error-icon="a5"
+        />
       </div>
-      <Space width="11" />
-      <van-image
-        :width="parseInt($pxToPxRatio(18), 10)"
-        :height="parseInt($pxToPxRatio(18), 10)"
-        fit="cover"
-        :src="b2"
-      />
-    </div>
-    <Space height="4" />
-    <div class="flex">
+      <Space height="42" />
+      <div class="flex justify-center">
+        <div class="truncate max-w-bai3">
+          {{ creatorInfo.nickName || '暂无' }}
+        </div>
+        <Space width="11" />
+        <van-image
+          :width="parseInt($pxToPxRatio(18), 10)"
+          :height="parseInt($pxToPxRatio(18), 10)"
+          fit="cover"
+          :src="b2"
+        />
+      </div>
+      <Space height="4" />
+      <div class="flex">
+        <div
+          class="flex-auto flex flex-col items-center"
+        >
+          <div class=" text-base">
+            {{ creatorInfo.fans || 0 }}
+          </div>
+          <div class=" text-xs text-grayTip">
+            粉丝
+          </div>
+        </div>
+        <div class="flex-auto flex flex-col items-center">
+          <div class=" text-base">
+            {{ creatorInfo.praiseNum || 0 }}
+          </div>
+          <div class=" text-xs text-grayTip">
+            获赞
+          </div>
+        </div>
+      </div>
       <div
-        class="flex-auto flex flex-col items-center"
+        v-if="!isSelf"
+        class="mx-auto mt-5 w-44 h-8 text-redTitle bg-[#FFE5E5] rounded-full text-xs2 active:ring-2 ring-redTitle flex justify-center items-center"
+        :class="{ active: creatorInfo.isFollow }"
+        @click="switchFollow"
       >
-        <div class=" text-base">
-          {{ creatorInfo.fans || 0 }}
-        </div>
-        <div class=" text-xs text-grayDefault">
-          粉丝
-        </div>
+        {{ creatorInfo.isFollow ? '已关注' : '+关注' }}
       </div>
-      <div class="flex-auto flex flex-col items-center">
-        <div class=" text-base">
-          {{ creatorInfo.praiseNum || 0 }}
-        </div>
-        <div class=" text-xs text-grayDefault">
-          获赞
-        </div>
-      </div>
+      <Space height="20" />
     </div>
     <Space height="30" />
     <div class="card px-5 py-5 text-xs2 text-grayTip leading-5 overflow-y-auto">
@@ -136,7 +144,7 @@
 </template>
 <script setup>
 import a5 from '@/assets/images/a5.png';
-import { getCurrentInstance, ref, watch } from 'vue';
+import { getCurrentInstance, ref, watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import b2 from '../images/b2.png';
@@ -226,6 +234,29 @@ watch(
     listView.value?.reset();
   },
 );
+
+let isSelf = computed(() => {
+  return +route.query.id === store.state.userinfo?.id;
+});
+
+let switchFollow = proxy.$debounce(() => {
+  proxy
+    .$http('post', '/v1/friend/operation', {
+      type: creatorInfo.value.isFollow ? 2 : 1,
+      userId: route.query.id,
+    })
+    .then((res) => {
+      if (!creatorInfo.value.isFollow) {
+        Toast('关注成功');
+      } else {
+        Toast('已取消关注');
+      }
+      creatorInfo.value.isFollow = !creatorInfo.value.isFollow;
+    })
+    .thenError((err) => {
+      Toast(err.msg);
+    });
+}, 300);
 </script>
 <style lang="less" scoped>
 </style>

@@ -1178,7 +1178,7 @@ function clickTokenId() {
 
 let isSelf = computed(() => {
   return (
-    detail.value.artistUserId === store.state.userinfo?.id
+    +detail.value.artistUserId === store.state.userinfo?.id
   );
 });
 

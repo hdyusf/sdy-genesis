@@ -31,7 +31,6 @@ router.replace = function(location) {
 };
 
 router.beforeEach((to, from, next) => {
-  console.log('[ to, from ]-34', to, from);
   // 路由跳转时 取消所有旧请求
   axios.prototype.axiosPromiseArr.forEach((ele, index) => {
     ele.cancel();

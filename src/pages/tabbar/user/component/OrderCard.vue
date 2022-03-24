@@ -1,15 +1,22 @@
 <template>
   <div class="card overflow-hidden relative mb-4">
     <div
-      class="absolute top-0 right-0 w-17 text-sm leading-4 text-white text-right pr-1"
+      class="absolute top-0 right-0 w-17 text-xs leading-4 text-right pr-3 py-1"
       :style="{
         'background': `linear-gradient(-90deg, ${statusColor}, white)`,
+        color: textColor,
       }"
     >
-      <span class=" transform scale-75 block">{{ props.item.status }}</span>
+      <span>{{ props.item.status }}</span>
     </div>
+    <Space height="15" />
+    <div class="pl-6 text-xs text-grayTip">
+      创建时间：2022/02/02 09:30:30
+    </div>
+    <Space height="10" />
+    <van-divider class="my-0 px-4" />
     <Space height="20" />
-    <div class="flex pl-3.5 pr-6">
+    <div class="flex pl-6 pr-6">
       <van-image
         class=" rounded-md overflow-hidden"
         :width="parseInt($pxToPxRatio(80), 10)"
@@ -119,7 +126,7 @@
 </template>
 <script setup>
 import { Toast } from 'vant';
-import { computed, defineProps, getCurrentInstance, ref } from 'vue';
+import { computed, defineProps, getCurrentInstance, ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { copyText } from 'vue3-clipboard';
 import { useCountDown } from '@vant/use';
@@ -153,23 +160,32 @@ let props = defineProps({
   },
 });
 
-let statusColor = computed(() => {
-  let color = 'rgba(93, 94, 117, 1)';
+let textColor = ref('#9B9B9B');
+let statusColor = ref('#E1E1E1');
+watchEffect(() => {
+  let color = '#E1E1E1';
   switch(props.item.status) {
     case '被拒绝':
-      color = '#CC0909';
+      color = '#FFD5D5';
+      textColor.value = '#D42E2E';
       break;
     case '审核中':
     case '被锁定':
     case '待支付':
     case '待付款':
-      color = '#FF7400';
+      color = '#FFE1C7';
+      textColor.value = '#FF7400';
       break;
     case '发布中':
-      color = '#4375FF';
+      color = '#E2EAFF';
+      textColor.value = '#5F8AFF';
+      break;
+    case '已完成':
+      color = '#D0EDBD';
+      textColor.value = '#5DBD1D';
       break;
   }
-  return color;
+  statusColor.value = color;
 });
 
 function clickDetail() {

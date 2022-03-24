@@ -34,9 +34,9 @@
       />
     </div>
     <Space height="14" />
-    <div class=" pl-4 text-grayDefault text-xs2">
+    <!-- <div class=" pl-4 text-grayDefault text-xs2">
       请设置2-24个字符，不包括@&lt;>/等无效字符哦
-    </div>
+    </div> -->
   </div>
 </template>
 <script setup>

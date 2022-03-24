@@ -1,23 +1,19 @@
 <template>
   <div
-    class="userLayout flex-auto"
+    class="userLayout flex-auto flex flex-col"
     :class="box ? 'h-screen perspective' : ''"
   >
-    <router-view
-      v-slot="{ Component, route }"
-    >
-      <transition
-        v-if="box"
-        :name="route.meta.transition"
-      >
+    <router-view v-slot="{ Component, route }">
+      <transition :name="box ? route.meta.transition : ''">
         <keep-alive>
-          <component :is="Component" />
+          <div
+            :key="route.meta.transition"
+            class="flex-auto flex flex-col"
+          >
+            <component :is="Component" />
+          </div>
         </keep-alive>
       </transition>
-      <component
-        :is="Component"
-        v-else
-      />
     </router-view>
   </div>
 </template>
@@ -40,6 +36,7 @@ onBeforeRouteUpdate((to, from) => {
 .skewUp-enter-active,
 .skewUp-leave-active {
   position: absolute !important;
+  width: 100%;
   left: 0;
   transition: transform 0.5s ease, opacity 0.05s linear;
   transform-style: preserve-3d;
