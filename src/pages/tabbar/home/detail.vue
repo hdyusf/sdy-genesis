@@ -328,8 +328,8 @@
     class="w-full transparent py-10"
   >
     <div class="flex flex-col items-center px15">
-      <!-- <Space height="104" /> -->
-      <!-- <div
+      <Space height="104" />
+      <div
         class="logo relative z-1 overflow-hidden rounded-xl"
       >
         <van-image
@@ -337,6 +337,15 @@
           :src="logoBorder"
           fit="contain"
         />
+        <div
+          class="download absolute right-4 top-4 z-1 bg-black/60 w-9 h-9 rounded-full flex items-center justify-center"
+          @click="downloadImage"
+        >
+          <Icon
+            type="icon-download"
+            size="20"
+          />
+        </div>
         <van-image
           class
           :width="$pxToVw(256)"
@@ -367,7 +376,7 @@
               <span>{{ detail.name }}</span>
             </div>
             <div class="flex item-center justify-between">
-              <span>存证人</span>
+              <span>拥有人</span>
               <span>{{ detail.artistNickName }}</span>
             </div>
             <div class="flex item-center justify-between">
@@ -387,7 +396,7 @@
               </span>
             </div>
             <div class="flex item-center justify-between">
-              <span>存证平台</span>
+              <span>藏品平台</span>
               <span>河图数藏</span>
             </div>
             <div class="flex item-center justify-between">
@@ -418,29 +427,15 @@
             <Qrcode
               :value="detail.certifyUrl"
               :size="$pxToPxRatio(100)"
-              :margin="$pxToPxRatio(2)"
+              :margin="$pxToPxRatio(4)"
             />
           </div>
           <Space height="8" />
           <div class="text-center">
-            扫码验证存证信息
+            扫码验证藏品信息
           </div>
         </div>
-        <van-image
-          class="absolute right-2 bottom-48 z-2"
-          :src="c2"
-          :width="$pxToVw(178)"
-          :height="$pxToVw(178)"
-          fit="contain"
-        />
-      </div> -->
-      <Space height="50" />
-      <van-image
-        class="rounded-2xl overflow-hidden"
-        :width="parseInt($pxToPxRatio(345), 10)"
-        fit="contain"
-        :src="detail.certifyUrl"
-      />
+      </div>
       <Space height="20" />
       <Icon
         type="icon-close_circle"
@@ -826,6 +821,7 @@ import { copyText } from 'vue3-clipboard';
 import { useStore } from 'vuex';
 import logoBorder from './images/c3.png';
 import c5 from './images/c5.png';
+import c1 from './images/c1.png';
 import envConfig from '@/utils/env';
 
 let store = useStore();
@@ -1206,6 +1202,26 @@ function goCreatorShow() {
   proxy.$router.push(
     `/tabbar/user/creator/show?id=${detail.value.artistUserId}`,
   );
+}
+
+function downloadImage() {
+  if (window.plus) {
+    window.AppSaveImage(detail.value.certifyUrl);
+  } else {
+    let request = new XMLHttpRequest();
+    request.responseType = 'blob';
+    request.open('GET', detail.value.certifyUrl);
+    request.onload = function () {
+      let u = window.URL.createObjectURL(this.response);
+      let a = document.createElement('a');
+      document.body.appendChild(a);
+      a.href = u;
+      a.download = name;
+      a.click();
+      document.body.removeChild(a);
+    };
+    request.send();
+  }
 }
 </script>
 <style lang="less" scoped>

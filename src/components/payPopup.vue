@@ -156,6 +156,17 @@ let payList = ref([
     status: 1,
   },
 ]);
+
+if (!window.plus) {
+  payList.value = [
+    {
+      icon: 'icon-renminbi',
+      title: '余额',
+      status: 0,
+    },
+  ];
+}
+
 let payNext = ref(false);
 let payType = ref(0);
 let payPassword = ref('');

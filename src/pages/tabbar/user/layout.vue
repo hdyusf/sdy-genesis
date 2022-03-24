@@ -20,6 +20,9 @@
 <script setup>
 import { useRoute, onBeforeRouteUpdate } from 'vue-router';
 import { ref } from 'vue';
+import { useStore } from 'vuex';
+let store = useStore();
+store.dispatch('getPayTime');
 let box = ref(false);
 
 onBeforeRouteUpdate((to, from) => {

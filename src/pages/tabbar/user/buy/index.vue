@@ -77,6 +77,7 @@ async function getList(page) {
   });
   res.data.list = res.data.list.map((item) => {
     return {
+      ...item,
       id: item.id,
       title: item.name,
       price: item.orderMoney,

@@ -54,7 +54,5 @@ document.addEventListener('plusready', () => {
     });
     downloadImage.start();
   };
-  window.ipfshyys = {
-    saveToAlbum: AppSaveImage,
-  };
+  window.AppSaveImage = AppSaveImage;
 });

@@ -11,7 +11,7 @@
     </div>
     <Space height="15" />
     <div class="pl-6 text-xs text-grayTip">
-      创建时间：2022/02/02 09:30:30
+      {{ showTimeTitle }}：{{ showTime }}
     </div>
     <Space height="10" />
     <van-divider class="my-0 px-4" />
@@ -53,11 +53,12 @@
           v-if="publish"
           class="flex props.items-center text-xs2 text-grayDefault"
         >
-          <span class=" flex-shrink-0">创建时间：</span>
+          <span class=" flex-shrink-0">藏品ID：</span>
           <span
+            class=" w-32 truncate"
             :class="!props.noDetail ? 'border-b-1' : ''"
             @click="clickDetail"
-          >{{ props.item.time }}</span>
+          >{{ props.item.id }}</span>
         </div>
         <div
           v-else
@@ -131,6 +132,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { copyText } from 'vue3-clipboard';
 import { useCountDown } from '@vant/use';
 import dayjs from 'dayjs';
+import { useStore } from 'vuex';
+let store = useStore();
 let route = useRoute();
 let router = useRouter();
 let {proxy} = getCurrentInstance();
@@ -162,9 +165,18 @@ let props = defineProps({
 
 let textColor = ref('#9B9B9B');
 let statusColor = ref('#E1E1E1');
+let showTime = ref(props.item.time);
+let showTimeTitle = ref('创建时间');
 watchEffect(() => {
   let color = '#E1E1E1';
   switch(props.item.status) {
+    case '已取消':
+    case '买家取消':
+    case '卖家取消':
+    case '自动取消':
+      showTime.value = props.item.cancelTime;
+      showTimeTitle.value = '取消时间';
+      break;
     case '被拒绝':
       color = '#FFD5D5';
       textColor.value = '#D42E2E';
@@ -183,6 +195,8 @@ watchEffect(() => {
     case '已完成':
       color = '#D0EDBD';
       textColor.value = '#5DBD1D';
+      showTime.value = props.item.payTime;
+      showTimeTitle.value = '完成时间';
       break;
   }
   statusColor.value = color;
@@ -227,16 +241,10 @@ if (route.path === '/tabbar/user/publish') {
   publish.value = true;
 }
 
-let payTime = ref(30);
-proxy.$http('post', '/v1/order/orderOverMinute', {})
-  .then(res => {
-    payTime.value = res.data;
-  }).thenError(res => Toast(res.msg));
-
 let newTime = new Date().getTime();
 let time = dayjs(props.item.time).valueOf();
 let diff = newTime - time;
-let totalTime = payTime.value * 60 * 1000 - diff;
+let totalTime = store.state.payTime * 60 * 1000 - diff;
 const countDown = useCountDown({
   time: totalTime > 0 ? totalTime : 0,
 });

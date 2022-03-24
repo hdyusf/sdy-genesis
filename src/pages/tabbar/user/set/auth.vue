@@ -76,6 +76,36 @@
       </van-button>
     </div>
   </div>
+  <van-popup
+    v-model:show="errorPopup"
+    :close-on-click-overlay="false"
+    class="transparent overflow-visible"
+  >
+    <div class="px-9 bg-white rounded-lg2 w-80 text-blackDefault flex flex-col items-center">
+      <Space height="23" />
+      <van-image
+        :width="parseInt($pxToPxRatio(141), 10)"
+        :height="parseInt($pxToPxRatio(156), 10)"
+        fit="cover"
+        :src="b2"
+      />
+      <Space height="40" />
+      <div class=" text-base font-semibold text-center">
+        申请失败
+      </div>
+      <Space height="20" />
+      <div class=" text-sm text-grayTip text-center">
+        原因：{{ detail.failReason }}
+      </div>
+      <Space height="30" />
+      <Icon
+        class="absolute z-1 left-1/2 -bottom-4 transform -translate-x-1/2 translate-y-full"
+        type="icon-close_circle"
+        size="26"
+        @click="() => errorPopup = false"
+      />
+    </div>
+  </van-popup>
 </template>
 <script setup>
 import { isIdentityCard } from 'validator';
@@ -84,6 +114,7 @@ import { getCurrentInstance, ref } from 'vue';
 import { useStore } from 'vuex';
 import a1 from './images/a1.png';
 import a2 from './images/a2.png';
+import b2 from '@/assets/images/b2.png';
 
 let {proxy} = getCurrentInstance();
 let store = useStore();
@@ -92,10 +123,18 @@ let name = ref('');
 let number = ref('');
 let frontUploadUrl = ref('');
 let backUploadUrl = ref('');
+let detail = ref({});
+let errorPopup = ref(false);
 
 function getDetail() {
   proxy.$http('post', '/v1/user/authenticationDetails', {})
     .then(res => {
+      if (res.data.status === 3) {
+        errorPopup.value = true;
+      } else {
+        errorPopup.value = false;
+      }
+      detail.value = res.data;
       name.value = res.data.cardName;
       number.value = res.data.cardId;
       frontUploadUrl.value = res.data.frontUrl;
@@ -157,7 +196,7 @@ let submit = proxy.$debounce(() => {
     'cardId': number.value,
     'cardName': name.value,
     'frontUrl': frontUploadUrl.value,
-    'id': '',
+    'id': detail.value.id,
     'passportUrl': '',
     'regions': '中国',
     'type': '0'

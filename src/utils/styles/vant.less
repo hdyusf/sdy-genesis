@@ -1,3 +1,38 @@
+.van-dialog {
+  &.van-dialog--round-button {
+    .van-dialog__footer {
+      width: 270px;
+      height: 40px;
+      border-radius: 25px;
+      background: url('/src/assets/images/a2.png') no-repeat top 10px right 24px;
+      background-size: auto 36px;
+      .van-dialog__cancel {
+        background: none;
+        font-size: 13px;
+        font-weight: 400;
+        color: #cc0909;
+        line-height: 19px;
+        border: 1px solid #cc0909;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        border-right: none;
+      }
+      .van-dialog__confirm {
+        background: none;
+        font-size: 13px;
+        font-weight: 400;
+        color: white;
+        line-height: 19px;
+        box-shadow: none;
+        border: 1px solid #cc0909;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+        border-left: none;
+      }
+    }
+  }
+}
+
 .van-nav-bar__placeholder {
   &.transparent {
     .van-nav-bar {
