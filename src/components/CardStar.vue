@@ -63,7 +63,7 @@
       </div>
       <Space height="20" />
       <div
-        class="absolute right-4 bottom-4 px-4 py-2 bg-[#ffe5e5] rounded-2xl1 text-redTitle font-semibold tracking-wide"
+        class="absolute right-4 bottom-4 px-4 py-2 bg-[#ffe5e5] rounded-2xl1 text-redTitle font-semibold tracking-wide text-xs2"
         @click="goDetail"
       >
         ¥ {{ $priceFilter(props.item.price, 2, true) }}

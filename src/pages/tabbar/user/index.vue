@@ -7,7 +7,7 @@
       :src="a1"
     />
     <div class="absolute left-0 top-0 z-1 w-full">
-      <van-image
+      <!-- <van-image
         v-if="creator"
         class="creatorProve absolute right-3 top-7"
         :width="parseInt($pxToPxRatio(37), 10)"
@@ -15,7 +15,41 @@
         fit="cover"
         :src="b1"
         @click="() => router.push('/tabbar/user/creator')"
-      />
+      /> -->
+      <div
+        v-if="creator"
+        class=" absolute right-3 top-7 z-1"
+        @click="() => router.push('/tabbar/user/creator')"
+      >
+        <van-image
+          class="creatorProve"
+          :width="parseInt($pxToPxRatio(37), 10)"
+          :height="parseInt($pxToPxRatio(37), 10)"
+          fit="cover"
+          :src="qrcodeDetail1"
+        />
+        <van-image
+          class="creatorProveAnimation one"
+          :width="parseInt($pxToPxRatio(37), 10)"
+          :height="parseInt($pxToPxRatio(37), 10)"
+          fit="contain"
+          :src="qrcodeDetail2"
+        />
+        <van-image
+          class="creatorProveAnimation two"
+          :width="parseInt($pxToPxRatio(37), 10)"
+          :height="parseInt($pxToPxRatio(37), 10)"
+          fit="contain"
+          :src="qrcodeDetail2"
+        />
+        <van-image
+          class="creatorProveAnimation three"
+          :width="parseInt($pxToPxRatio(37), 10)"
+          :height="parseInt($pxToPxRatio(37), 10)"
+          fit="contain"
+          :src="qrcodeDetail2"
+        />
+      </div>
       <Space height="67" />
       <div class="flex px-9 items-end">
         <van-image
@@ -128,6 +162,9 @@ import a8 from './images/a8.png';
 import b1 from './images/b1.png';
 import b2 from './images/b2.png';
 import b3 from './images/b3.png';
+import qrcodeDetail1 from '@/assets/images/qrcodeDetail1.svg';
+import qrcodeDetail2 from '@/assets/images/qrcodeDetail2.svg';
+
 let store = useStore();
 let userinfo = ref(store.state.userinfo || {});
 store.dispatch('getUserinfo');
@@ -219,5 +256,32 @@ async function clickCard(item) {
 }
 </script>
 <style lang="less" scoped>
+.creatorProveAnimation {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  transform: translate(-50%, -50%) scale(0.8);
+  margin-top: -3px;
+  &.one {
+    animation: creatorProveAnimation 1.5s ease-in-out infinite;
+  }
+  &.two {
+    animation: creatorProveAnimation 1.5s ease-in-out .4s infinite;
+  }
+  &.three {
+    animation: creatorProveAnimation 1.5s ease-in-out .8s infinite;
+  }
+}
+@keyframes creatorProveAnimation {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+}
 </style>
 

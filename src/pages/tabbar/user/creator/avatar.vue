@@ -54,7 +54,7 @@ const afterRead = (file) => {
         Toast.success('修改成功');
         getInfo();
       }).thenError(res => {
-        Toast.fail(res.message);
+        Toast(res.msg);
       });
   });
 };

@@ -70,9 +70,18 @@
         <span>出售类型</span>
         <span>{{ detail.sellType }}</span>
       </div>
-      <div class="flex items-center justify-between">
-        <span>系列</span>
+      <div
+        class="flex items-center justify-between"
+      >
+        <span>藏品类型</span>
         <span class=" max-w-bai3 truncate">{{ detail.seriesType }}</span>
+      </div>
+      <div
+        v-if="detail.seriesType==='系列'"
+        class="flex items-center justify-between"
+      >
+        <span>系列名称</span>
+        <span class=" max-w-bai3 truncate">{{ detail.seriesName }}</span>
       </div>
       <div class="flex items-center justify-between">
         <span>数量</span>
@@ -253,13 +262,13 @@
       <template v-if="publishVerify">
         <van-divider class="my-3" />
         <div class="flex items-center justify-between">
-          <span>订单状态</span>
+          <span>藏品状态</span>
           <span class="text-orangeTip">审核中</span>
         </div>
-        <div class="flex items-center justify-between">
+        <!-- <div class="flex items-center justify-between">
           <span>订单号</span>
           <span class=" max-w-bai3 truncate">{{ detail.id }}</span>
-        </div>
+        </div> -->
         <div class="flex items-center justify-between">
           <span>创建时间</span>
           <span>{{ detail.createTime }}</span>
@@ -268,13 +277,13 @@
       <template v-if="publishPublish">
         <van-divider class="my-3" />
         <div class="flex items-center justify-between">
-          <span>订单状态</span>
+          <span>藏品状态</span>
           <span class="text-blueDefault">发布中</span>
         </div>
-        <div class="flex items-center justify-between">
+        <!-- <div class="flex items-center justify-between">
           <span>订单号</span>
           <span class=" max-w-bai3 truncate">{{ detail.id }}</span>
-        </div>
+        </div> -->
         <div
           v-if="detail.cochainTime"
           class="flex items-center justify-between"
@@ -294,13 +303,13 @@
       <template v-if="publishCancel">
         <van-divider class="my-3" />
         <div class="flex items-center justify-between">
-          <span>订单状态</span>
+          <span>藏品状态</span>
           <span>已取消</span>
         </div>
-        <div class="flex items-center justify-between">
+        <!-- <div class="flex items-center justify-between">
           <span>订单号</span>
           <span class=" max-w-bai3 truncate">{{ detail.id }}</span>
-        </div>
+        </div> -->
         <div class="flex items-center justify-between">
           <span>取消时间</span>
           <span>{{ detail.cancelTime }}</span>
@@ -320,17 +329,17 @@
       <template v-if="publishReject">
         <van-divider class="my-3" />
         <div class="flex items-center justify-between">
-          <span>订单状态</span>
+          <span>藏品状态</span>
           <span>已拒绝</span>
         </div>
         <div class="flex items-center justify-between">
           <span>拒绝原因</span>
           <span class="text-orangeTip">{{ detail.failReason }}</span>
         </div>
-        <div class="flex items-center justify-between">
+        <!-- <div class="flex items-center justify-between">
           <span>订单号</span>
           <span class=" max-w-bai3 truncate">{{ detail.id }}</span>
-        </div>
+        </div> -->
         <div class="flex items-center justify-between">
           <span>拒绝时间</span>
           <span>{{ detail.auditTime }}</span>
@@ -609,7 +618,7 @@ function getCollectionDetail() {
             case 0:
               return '单品';
             case 1:
-              return res.data.seriesName;
+              return '系列';
           }
         })(),
         chainContract: (() => {
@@ -672,7 +681,7 @@ function getOrderDetail() {
             case 0:
               return '单品';
             case 1:
-              return res.data.seriesName;
+              return '系列';
           }
         })(),
         chainContract: (() => {

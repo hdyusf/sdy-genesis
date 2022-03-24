@@ -57,7 +57,7 @@
     </div>
     <Space height="15" />
     <div
-      class="rounded-lg2 bg-white shadow-md shadow-gray-100 py-3 px-4 text-grayCard text-xs2 grid gap-y-1  gap-x-6 grid grid-rows-2 grid-cols-6 grid-flow-col-dense items-center"
+      class="rounded-lg2 bg-white shadow-md shadow-gray-100 py-3 px-4 text-grayCard text-xs2 grid gap-y-1 gap-x-6 grid grid-rows-2 grid-cols-6 grid-flow-col-dense items-center"
       @click="goCreatorShow"
     >
       <van-image
@@ -69,9 +69,7 @@
         :icon-size="parseInt($pxToPxRatio(45), 10)"
         :error-icon="a5"
       />
-      <div
-        class="max-w-bai2 truncate col-span-3 text-base"
-      >
+      <div class="max-w-bai2 truncate col-span-3 text-base">
         {{ detail.artistNickName || '---' }}
       </div>
       <div class="max-w-bai2 truncate col-span-3">
@@ -79,7 +77,7 @@
       </div>
       <div
         v-if="!isSelf"
-        class="keepButton row-span-2 justify-self-start ml-2 text-sm active:ring-2 ring-redTitle"
+        class="keepButton row-span-2 justify-self-start ml-2 text-xs2 active:ring-2 ring-redTitle"
         :class="{ active: detail.isFollow }"
         @click="switchFollow"
       >
@@ -94,10 +92,7 @@
         <span>市场类型</span>
         <span>{{ detail.marketType }}</span>
       </div>
-      <div
-        v-if="detail.deriveStock > 1"
-        class="flex items-center justify-between"
-      >
+      <div class="flex items-center justify-between">
         <span>数量</span>
         <span>x{{ detail.deriveStock }}</span>
       </div>
@@ -106,9 +101,18 @@
         <span>{{ detail.sellType }}</span>
       </div>
       <div class="flex items-center justify-between">
-        <span>系列</span>
+        <span>藏品类型</span>
         <span class="max-w-bai3 truncate">{{
           detail.seriesType
+        }}</span>
+      </div>
+      <div
+        v-if="detail.seriesType === '系列'"
+        class="flex items-center justify-between"
+      >
+        <span>系列名称</span>
+        <span class="max-w-bai3 truncate">{{
+          detail.seriesName
         }}</span>
       </div>
     </div>
@@ -218,14 +222,40 @@
         <span>{{ detail.chainName }}</span>
       </div>
     </div>
-    <Space height="15" />
+    <Space height="20" />
+    <div
+      class="text-base font-semibold px-4 text-blackTitle"
+    >
+      购买须知
+    </div>
+    <Space height="11" />
+    <div
+      class="rounded-lg2 bg-white shadow-md shadow-gray-100 py-3 px-4 text-grayCard text-xs2 leading-loose"
+    >
+      为更好服务河图数藏平台的各位用户，请各位用户务必审慎阅读并同意相关规则后进行相应操作，以免造成不必要损失。
+      <div class="mt-4 -indent-5 pl-5">
+        1、依据我国法律要求，特定条件下的数字藏品的二次交易不支持任何形式的变相炒作，我们坚决反对数字藏品炒作、场外交易、欺诈，或以任何其他非法、侵权方式使用的违法违规行为，请大家注意甄别上述涉嫌网络欺诈的行为及其相关风险。
+      </div>
+      <div class="mt-2 -indent-5 pl-5">
+        2、数字藏品为虚拟数字商品，购买前请完成实名认证，未满16周岁人群禁止购买.本商品一经出售不支持无理由退换货。
+      </div>
+      <div class="mt-2 -indent-5 pl-5">
+        3、河图数藏版权作品在完成交易后，你享有该藏品除人身权利外的其他著作权（包括复制权、放映权、出租权、展览权、表演权、发行权、广播权、信息网络传播权、摄制权、改编权、翻译权、汇编权等）。
+      </div>
+      <div class="mt-2 -indent-5 pl-5">
+        4、河图数藏衍生品作品在完成交易后，你享有对该藏品进行占有、使用、处分的权利。
+      </div>
+    </div>
+    <Space height="20" />
     <div
       class="text-base font-semibold px-4 text-blackTitle"
     >
       藏品详情
     </div>
     <Space height="11" />
-    <div class="detailContent text-xs2 text-grayTip">
+    <div
+      class="detailContent text-xs2 text-grayTip leading-5 px-3 tracking-wider text-justify"
+    >
       {{ detail.descr }}
     </div>
     <Space height="15" />
@@ -253,13 +283,15 @@
       v-else
       class="fixedButton"
       :class="
-        !(
-          detail.status === 4 &&
-          detail.deriveStock &&
-          !sell
-        )
-          ? 'gray grayscale'
-          : ''
+        sell
+          ? ''
+          : !(
+            detail.status === 4 &&
+            detail.deriveStock &&
+            !sell
+          )
+            ? 'gray grayscale'
+            : ''
       "
     >
       <span class="price">¥ {{ $formatPrice(detail.price, 2, true) }}</span>
@@ -674,10 +706,13 @@
       </div>
       <Space height="6" />
       <div
-        class="text-xs text-grayDefault flex items-center pl-1"
+        class="text-xs text-blueDefault flex items-center pl-1"
       >
         <div>版权费：{{ sellParams.copyrightFee }}%</div>
-        <div v-if="sellParams.isBuy">
+        <div
+          v-if="sellParams.buy"
+          class="ml-3"
+        >
           寄售手续费：{{ sellParams.serviceFee }}%
         </div>
         <div
@@ -731,7 +766,7 @@
         忘记交易密码？
       </div>
       <Space height="39" />
-      <div class="text-center text-xs">
+      <div class="text-center text-xs text-blueDefault">
         预计此次出售实际可得：¥
         {{ $formatPrice(sellGetPriceProgress, 2, true) }}
       </div>
@@ -861,9 +896,7 @@ function sellDownPopupSubmit() {
     )
     .then((res) => {
       sellPopup.value = false;
-      proxy.$router.replace(
-        `/tabbar/home/detail?id=${route.query.id}&type=collect`,
-      );
+      proxy.$router.back();
       getDetailProgress();
     })
     .thenError((res) => Toast(res.msg));
@@ -911,7 +944,7 @@ let sellParams = ref({});
 let payPassword = ref('');
 let sellGetPriceProgress = computed(() => {
   let rate = 0;
-  if (sellParams.value.isBuy) {
+  if (sellParams.value.buy) {
     rate =
       sellParams.value.copyrightFee +
       sellParams.value.serviceFee;
@@ -935,9 +968,7 @@ function sellOutPopupSubmit() {
     .then((res) => {
       Toast('上架成功');
       sellPasswordPopup.value = false;
-      proxy.$router.replace(
-        `/tabbar/home/detail?id=${route.query.id}&type=sell`,
-      );
+      proxy.$router.replace('/tabbar/user/publish?type=4');
       getDetailProgress();
     })
     .thenError((res) => Toast(res.msg));
@@ -1022,7 +1053,7 @@ function getDetail() {
             case 0:
               return '单品';
             case 1:
-              return res.data.seriesName;
+              return '系列';
           }
         })(),
         chainContract: (() => {
@@ -1083,7 +1114,7 @@ function getSelfDetail() {
             case 0:
               return '单品';
             case 1:
-              return res.data.seriesName;
+              return '系列';
           }
         })(),
         chainContract: (() => {
@@ -1146,7 +1177,9 @@ function clickTokenId() {
 }
 
 let isSelf = computed(() => {
-  return detail.value.artistUserId === store.state.userinfo?.id;
+  return (
+    detail.value.artistUserId === store.state.userinfo?.id
+  );
 });
 
 let switchFollow = proxy.$debounce((e) => {
@@ -1248,17 +1281,14 @@ function goCreatorShow() {
 }
 
 .keepButton {
-  padding: 8px 16px;
   background: #ffe5e5;
   border-radius: 18px;
   width: 85px;
+  height: 35px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
   color: #e0260e;
-  line-height: 19px;
-  letter-spacing: 1px;
   &.active {
     background: #ef4034;
     color: white;

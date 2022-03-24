@@ -13,7 +13,7 @@
         @click="goDetail"
       />
       <div
-        class="absolute bottom-0 left-0 z-1 w-full text-base font-semibold flex items-center text-white bg-black/60 px-8 h-10"
+        class="absolute bottom-0 left-0 z-1 w-full text-sm font-semibold flex items-center text-white bg-black/60 px-8 h-9"
         @click="goDetail"
       >
         <div class="max-w-bai3 truncate">
@@ -164,7 +164,7 @@ function goCreatorDetail() {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 14px;
+    font-size: 13px;
     color: #e0260e;
     line-height: 19px;
     letter-spacing: 1px;

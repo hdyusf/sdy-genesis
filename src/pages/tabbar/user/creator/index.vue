@@ -27,13 +27,39 @@
           @click="() => $router.back()"
         />
       </div>
-      <van-image
-        :width="parseInt($pxToPxRatio(37), 10)"
-        :height="parseInt($pxToPxRatio(37), 10)"
-        fit="cover"
-        :src="a2"
+      <div
+        class=" absolute right-3 top-7 z-10"
         @click="() => $router.back()"
-      />
+      >
+        <van-image
+          class="creatorProve"
+          :width="parseInt($pxToPxRatio(37), 10)"
+          :height="parseInt($pxToPxRatio(37), 10)"
+          fit="cover"
+          :src="qrcodeDetail1"
+        />
+        <van-image
+          class="creatorProveAnimation one"
+          :width="parseInt($pxToPxRatio(37), 10)"
+          :height="parseInt($pxToPxRatio(37), 10)"
+          fit="contain"
+          :src="qrcodeDetail2"
+        />
+        <van-image
+          class="creatorProveAnimation two"
+          :width="parseInt($pxToPxRatio(37), 10)"
+          :height="parseInt($pxToPxRatio(37), 10)"
+          fit="contain"
+          :src="qrcodeDetail2"
+        />
+        <van-image
+          class="creatorProveAnimation three"
+          :width="parseInt($pxToPxRatio(37), 10)"
+          :height="parseInt($pxToPxRatio(37), 10)"
+          fit="contain"
+          :src="qrcodeDetail2"
+        />
+      </div>
     </div>
     <Space height="5" />
     <div class="flex justify-center">
@@ -162,6 +188,8 @@ import a1 from './images/a1.png';
 import a2 from './images/a2.png';
 import b2 from '../images/b2.png';
 import a5 from '@/assets/images/a5.png';
+import qrcodeDetail1 from '@/assets/images/qrcodeDetail1.svg';
+import qrcodeDetail2 from '@/assets/images/qrcodeDetail2.svg';
 import {
   computed,
   ref,
@@ -192,4 +220,32 @@ proxy
     creatorInfo.value.backImg = a1;
   });
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.creatorProveAnimation {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  transform: translate(-50%, -50%) scale(0.8);
+  margin-top: -3px;
+  &.one {
+    animation: creatorProveAnimation 1.5s ease-in-out infinite;
+  }
+  &.two {
+    animation: creatorProveAnimation 1.5s ease-in-out .4s infinite;
+  }
+  &.three {
+    animation: creatorProveAnimation 1.5s ease-in-out .8s infinite;
+  }
+}
+@keyframes creatorProveAnimation {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+}
+</style>

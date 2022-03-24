@@ -19,7 +19,7 @@
         <Space height="20" />
         <div class="flex items-center">
           <div class="w-1/4">
-            系列
+            类型
           </div>
           <div class="px-3 flex-auto flex">
             <van-radio-group
@@ -69,7 +69,7 @@
                 type="text"
                 placeholder="请选择系列名称"
                 class="text-sm"
-                @click="() => (selectSeries = true)"
+                @click="showSelectSeries"
               />
               <div
                 class="flex-shrink-0 text-blueDefault text-xs"
@@ -175,12 +175,12 @@
           </div>
         </div>
         <Space height="12" />
-        <div class="text-xs text-grayDefault text-right">
+        <div class="text-xs text-blueDefault text-right">
           预计实际可得：￥
           {{
             $toFixed((price / 100) * (100 - rate), 2, true)
           }}
-          平台分佣：{{ rate }}%
+          <span class=" ml-2">平台分佣：{{ rate }}%</span>
         </div>
         <Space height="20" />
         <div class="flex items-center">
@@ -329,7 +329,7 @@
             </div>
           </van-uploader>
           <div class="ml-1 text-xs text-grayTip">
-            建议上传宽度为*750
+            建议宽度为 750px
           </div>
         </div>
 
@@ -579,7 +579,7 @@
         </div>
       </div>
       <Space height="10" />
-      <div class="text-xs text-grayDefault text-center text-[#4A79FF]">
+      <div class="text-xs text-blueDefault text-center text-[#4A79FF]">
         预计实际可得：￥
         {{
           $toFixed((price / 100) * (100 - rate), 2, true)
@@ -604,7 +604,6 @@ import {
   computed,
 } from 'vue';
 import { Toast } from 'vant';
-import { isTemplateNode } from '@vue/compiler-core';
 import dayjs from 'dayjs';
 
 let { proxy } = getCurrentInstance();
@@ -805,5 +804,13 @@ function getRate() {
     });
 }
 getRate();
+
+function showSelectSeries() {
+  if (!seriesList.value.length) {
+    Toast('请先添加系列');
+    return;
+  }
+  selectSeries.value = true;
+}
 </script>
 <style lang="less" scoped></style>

@@ -37,12 +37,26 @@
             class=" max-w-bai2 truncate"
             @click="goCreatorDetail"
           >
-            {{ props.item.user }}
+            {{ props.item.user || '---' }}
           </div>
           <div>x {{ props.item.number }}</div>
         </div>
         <Space height="7" />
-        <div class="flex props.items-center text-xs2 text-grayDefault">
+        <div
+          v-if="publish"
+          class="flex props.items-center text-xs2 text-grayDefault"
+        >
+          <span class=" flex-shrink-0">创建时间：</span>
+          <span
+            :class="!props.noDetail ? 'border-b-1' : ''"
+            @click="clickDetail"
+          >{{ props.item.time }}</span>
+        </div>
+        <div
+          v-else
+          class="flex props.items-center text-xs2 text-grayDefault"
+          @click="() => props.noDetail ? copy() : ''"
+        >
           <span class=" flex-shrink-0">订单号：</span>
           <span
             class=" w-32 truncate"
@@ -64,12 +78,10 @@
       class=" px-3"
     >
       <van-divider class="my-0" />
-      <template v-if="props.item.tip">
-        <Space height="15" />
-        <div class=" text-xs text-orangeTip">
-          {{ props.item.tip }}
-        </div>
-      </template>
+      <Space height="15" />
+      <div class=" text-xs text-orangeTip">
+        订单将在 {{ showCountDown }} 分之后自动取消，请尽快付款
+      </div>
       <Space height="15" />
       <div class="flex justify-end props.items-center gap-4">
         <div
@@ -107,9 +119,11 @@
 </template>
 <script setup>
 import { Toast } from 'vant';
-import { computed, defineProps, getCurrentInstance } from 'vue';
+import { computed, defineProps, getCurrentInstance, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { copyText } from 'vue3-clipboard';
+import { useCountDown } from '@vant/use';
+import dayjs from 'dayjs';
 let route = useRoute();
 let router = useRouter();
 let {proxy} = getCurrentInstance();
@@ -133,10 +147,14 @@ let props = defineProps({
     type: Boolean,
     default: false,
   },
+  listView: {
+    type: Object,
+    default: null,
+  },
 });
 
 let statusColor = computed(() => {
-  let color = '#B8B8B8';
+  let color = 'rgba(93, 94, 117, 1)';
   switch(props.item.status) {
     case '被拒绝':
       color = '#CC0909';
@@ -169,6 +187,7 @@ let cancel = proxy.$debounce(() => {
     .then(res => {
       Toast('取消成功');
       props.item.status = '已取消';
+      props.listView?.reset();
     }).thenError(res => {
       Toast(res.msg);
     });
@@ -181,10 +200,34 @@ let clickCancelPay = proxy.$debounce(() => {
     .then(res => {
       Toast('取消成功');
       props.item.status = '已取消';
+      props.listView?.reset();
     }).thenError(res => {
       Toast(res.msg);
     });
 });
+
+let publish = ref(false);
+if (route.path === '/tabbar/user/publish') {
+  publish.value = true;
+}
+
+let payTime = ref(30);
+proxy.$http('post', '/v1/order/orderOverMinute', {})
+  .then(res => {
+    payTime.value = res.data;
+  }).thenError(res => Toast(res.msg));
+
+let newTime = new Date().getTime();
+let time = dayjs(props.item.time).valueOf();
+let diff = newTime - time;
+let totalTime = payTime.value * 60 * 1000 - diff;
+const countDown = useCountDown({
+  time: totalTime > 0 ? totalTime : 0,
+});
+let showCountDown = computed(() => {
+  return `${countDown.current.value.minutes}:${countDown.current.value.seconds}`;
+});
+countDown.start();
 </script>
 <style lang="less" scoped>
 </style>

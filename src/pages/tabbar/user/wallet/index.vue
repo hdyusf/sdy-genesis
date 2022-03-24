@@ -115,7 +115,7 @@
     >
       <template #default="{ data }">
         <template
-          v-for="(item, index) of data"
+          v-for="(item) of data"
           :key="item"
         >
           <div
@@ -224,7 +224,7 @@
         </div>
       </div>
       <Space height="10" />
-      <div class="text-xs text-center">
+      <div class="text-xs text-center text-blueDefault">
         提现手续费：{{ fee }}% 预计到账：¥{{
           $formatPrice(
             (money / 100) * (100 - fee) || 0,

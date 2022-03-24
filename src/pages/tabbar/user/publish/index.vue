@@ -36,6 +36,7 @@
           v-for="item of data"
           :key="item"
           :item="item"
+          :list-view="listView"
           :no-detail="item.status === '被锁定'"
         />
       </template>
@@ -87,6 +88,9 @@ let listArr = ref([
     status: 6,
   },
 ]);
+if (proxy.$route.query.type) {
+  listSelect.value = +proxy.$route.query.type;
+}
 
 async function getList(page) {
   let res = await proxy.$http('post', '/v1/dc/saleRecord', {
@@ -116,7 +120,6 @@ async function getList(page) {
         return a.title;
       })(),
       orderId: item.id,
-      tip: '订单将在 29 分之后自动取消，请尽快付款',
       time: item.createTime,
     };
   });

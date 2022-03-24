@@ -86,13 +86,22 @@ async function getList(page) {
       userId: item.createUserId,
       number: item.buyCount || 1,
       status: (() => {
-        let a = listArr.value.find((fi) => {
+        let a = listArr.value.concat().find((fi) => {
           return fi.status === item.status;
         });
+        if (a.title === '已取消') {
+          // 0：买家取消；1：卖家取消；2：自动取消
+          if (item.cancelType === 0) {
+            return '买家取消';
+          } else if (item.cancelType === 1) {
+            return '卖家取消';
+          } else if (item.cancelType === 2) {
+            return '自动取消';
+          }
+        }
         return a.title;
       })(),
       orderId: item.id,
-      tip: '订单将在 29 分之后自动取消，请尽快付款',
       time: item.createTime,
     };
   });

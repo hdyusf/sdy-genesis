@@ -1,6 +1,6 @@
 <template>
   <NavBar
-    title="数字藏品"
+    title="河图数藏"
     :go-back="false"
   />
   <div class="pageCard-sm">

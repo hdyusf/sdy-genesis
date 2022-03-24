@@ -43,7 +43,7 @@ const afterRead = (file) => {
         Toast.success('修改成功');
         store.dispatch('getUserinfo');
       }).thenError(res => {
-        Toast.fail(res.message);
+        Toast(res.msg);
       });
   });
 };

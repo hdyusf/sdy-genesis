@@ -25,10 +25,10 @@
       >
         ¥ {{ $formatPrice(props.detail.price, 2, true) }}
       </div>
-      <Space height="7" />
-      <div class="text-xs text-grayDefault text-center">
+      <Space height="30" />
+      <!-- <div class="text-xs text-grayDefault text-center">
         支付倒计时：{{ showCountDown }}
-      </div>
+      </div> -->
       <template v-if="!payNext">
         <Space height="15" />
         <div class="px-5 text-sm">

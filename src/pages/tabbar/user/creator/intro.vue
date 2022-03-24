@@ -63,7 +63,7 @@ let submit = proxy.$debounce(() => {
     .then(res => {
       Toast.success('修改成功');
     }).thenError(res => {
-      Toast.fail(res.message);
+      Toast(res.msg);
     }).all(res => {
       loading.value = false;
     });

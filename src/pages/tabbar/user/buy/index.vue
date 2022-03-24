@@ -69,12 +69,6 @@ let listArr = ref([
   },
 ]);
 
-let payTime = ref(30);
-proxy.$http('post', '/v1/order/orderOverMinute', {})
-  .then(res => {
-    payTime.value = res.data;
-  }).thenError(res => Toast(res.msg));
-
 async function getList(page) {
   let res = await proxy.$http('post', '/v1/order/buyList', {
     page: page,
@@ -82,10 +76,6 @@ async function getList(page) {
     status: listSelect.value,
   });
   res.data.list = res.data.list.map((item) => {
-    let newTime = new Date().getTime();
-    let time = dayjs(item.createTime).valueOf();
-    let diff = newTime - time;
-    let diffMin = payTime.value - Math.floor(diff / (60 * 1000));
     return {
       id: item.id,
       title: item.name,
@@ -101,7 +91,6 @@ async function getList(page) {
         return a.title;
       })(),
       orderId: item.id,
-      tip: `订单将在 ${diffMin > 0 ? diffMin : 0} 分之后自动取消，请尽快付款`,
       time: item.createTime,
     };
   });

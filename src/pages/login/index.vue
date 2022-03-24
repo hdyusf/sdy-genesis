@@ -227,6 +227,7 @@ let submit = proxy.$debounce(() => {
       }
     }).thenError(res => {
       Toast(res.msg);
+      getImageCode();
     }).all(res => {
       loading.value = false;
     });
