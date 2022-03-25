@@ -93,7 +93,7 @@
 </template>
 <script setup>
 import { ref, getCurrentInstance} from 'vue';
-import { isMobilePhone } from 'validator';
+import { isMobilePhone, isBIC } from 'validator';
 import {Toast} from 'vant';
 import bank1 from './images/bank1.png';
 import bank2 from './images/bank2.png';
@@ -105,6 +105,11 @@ import bank7 from './images/bank7.png';
 import bank8 from './images/bank8.png';
 import bank9 from './images/bank9.png';
 let {proxy} = getCurrentInstance();
+
+
+function validataPayCard(payCard) {
+  return /^[1-9]\d{9,29}$/.test(payCard);
+}
 
 const bankList = [
   {
@@ -160,6 +165,10 @@ const onConfirm = (value, index) => {
 };
 
 let submit = proxy.$debounce(() => {
+  if (!validataPayCard(bank.value)) {
+    Toast('请输入正确的银行卡');
+    return;
+  }
   if (!isMobilePhone(phone.value, ['zh-CN'])) {
     Toast('请输入正确的手机号');
     return;

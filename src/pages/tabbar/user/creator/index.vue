@@ -10,6 +10,7 @@
       :icon-size="parseInt($pxToPxRatio(375), 10)"
       :error-icon="a1"
     />
+    <div class="bgImageShadow" />
     <div
       class="absolute top-28 left-0 w-full -z-1 px15"
       :style="{
@@ -83,7 +84,7 @@
         <div class="text-base">
           {{ creatorInfo.fans || 0 }}
         </div>
-        <div class="text-xs text-grayDefault">
+        <div class="text-xs text-grayTip">
           我的粉丝
         </div>
       </div>
@@ -91,7 +92,7 @@
         <div class="text-base">
           {{ creatorInfo.praiseNum || 0 }}
         </div>
-        <div class="text-xs text-grayDefault">
+        <div class="text-xs text-grayTip">
           我的获赞
         </div>
       </div>
@@ -232,5 +233,18 @@ proxy
     opacity: 0;
     transform: translate(-50%, -50%) scale(1.3);
   }
+}
+.bgImageShadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 208px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    #fafafa 100%
+  );
 }
 </style>

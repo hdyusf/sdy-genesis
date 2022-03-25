@@ -211,6 +211,7 @@ let updateSubmit = proxy.$debounce(() => {
       passwordShow.value = false;
       verifyPasswordShow.value = false;
       store.dispatch('getUserinfo');
+      proxy.$router.back();
     }).thenError(res => {
       Toast(res.msg);
     }).all(res => {

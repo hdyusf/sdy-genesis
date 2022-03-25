@@ -164,7 +164,7 @@
         权益属性
       </div>
       <Space height="21" />
-      <div class="flex gap-x-3">
+      <div class="grid grid-cols-3 gap-x-3">
         <div
           v-for="(item, index) of attrList"
           :key="index"
@@ -182,7 +182,7 @@
         类型
       </div>
       <Space height="21" />
-      <div class="flex gap-x-3">
+      <div class="grid grid-cols-3 gap-x-3">
         <div
           v-for="(item, index) of typeList"
           :key="index"
@@ -200,7 +200,7 @@
         状态
       </div>
       <Space height="21" />
-      <div class="flex gap-x-3">
+      <div class="grid grid-cols-3 gap-x-3">
         <div
           v-for="(item, index) of statusList"
           :key="index"

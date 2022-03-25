@@ -154,7 +154,7 @@ const phone = ref('');
 const code = ref('');
 const imageCode = ref('');
 const password = ref('');
-const checked = ref(true);
+const checked = ref(false);
 let codeLogin = ref(true);
 let passwordShow = ref(false);
 watchEffect(() => {
@@ -183,9 +183,9 @@ onBeforeRouteLeave((to, from) => {
 
 let submitDisabled = computed(() => {
   if (codeLogin.value) {
-    return !(phone.value && code.value);
+    return !(phone.value && code.value && checked.value);
   } else {
-    return !(phone.value && password.value && imageCode.value);
+    return !(phone.value && password.value && checked.value && imageCode.value);
   }
 });
 

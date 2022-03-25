@@ -1,5 +1,8 @@
 <template>
-  <NavBar :go-back="true" />
+  <NavBar
+    :go-back="true"
+    :title="route.query.origin === 'buy' ? '订单详情' : '藏品详情'"
+  />
   <div
     :key="$route.type"
     class="pageCard-sm"
@@ -117,7 +120,7 @@
               class="ml-1"
               type="icon-fuzhi"
               size="12"
-              @click="() => copy()"
+              @click="() => copy(detail.contractAddress)"
             />
           </span>
         </div>
@@ -145,7 +148,7 @@
               class="ml-1"
               type="icon-fuzhi"
               size="12"
-              @click="() => copy()"
+              @click="() => copy(detail.tokenId)"
             />
           </span>
         </div>
@@ -173,7 +176,7 @@
               class="ml-1"
               type="icon-fuzhi"
               size="12"
-              @click="() => copy()"
+              @click="() => copy(detail.hash)"
             />
           </span>
         </div>
@@ -535,8 +538,8 @@ let sitePopover = ref(false);
 let idPopover = ref(false);
 let hashPopover = ref(false);
 
-function copy() {
-  copyText('Hello Clipborad', undefined, (error, event) => {
+function copy(res) {
+  copyText(res, undefined, (error, event) => {
     if (error) {
       console.error('复制失败');
     } else {

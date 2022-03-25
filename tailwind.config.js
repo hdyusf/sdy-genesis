@@ -58,6 +58,9 @@ module.exports = {
         bai3: '12.5rem',
         bai4: '15.625rem',
       },
+      padding: {
+        '4.5': '1.13rem',
+      }
     },
   },
   plugins: [],

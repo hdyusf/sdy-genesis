@@ -1,5 +1,8 @@
 <template>
-  <NavBar :go-back="true">
+  <NavBar
+    :go-back="true"
+    title="藏品详情"
+  >
     <!-- <template #right>
       <Icon
         type="icon-fenxiang"
@@ -151,7 +154,7 @@
             class="ml-1"
             type="icon-fuzhi"
             size="12"
-            @click="() => copy()"
+            @click="() => copy(detail.contractAddress)"
           />
         </span>
       </div>
@@ -181,7 +184,7 @@
             class="ml-1"
             type="icon-fuzhi"
             size="12"
-            @click="() => copy()"
+            @click="() => copy(detail.tokenId)"
           />
         </span>
       </div>
@@ -209,7 +212,7 @@
             class="ml-1"
             type="icon-fuzhi"
             size="12"
-            @click="() => copy()"
+            @click="() => copy(detail.hash)"
           />
         </span>
       </div>
@@ -230,20 +233,16 @@
     </div>
     <Space height="11" />
     <div
-      class="rounded-lg2 bg-white shadow-md shadow-gray-100 py-3 px-4 text-grayCard text-xs2 leading-loose"
+      class="rounded-lg2 bg-white shadow-md shadow-gray-100 py-3 px-4 text-grayCard text-xs2 leading-normal"
     >
-      为更好服务河图数藏平台的各位用户，请各位用户务必审慎阅读并同意相关规则后进行相应操作，以免造成不必要损失。
-      <div class="mt-4 -indent-5 pl-5">
-        1、依据我国法律要求，特定条件下的数字藏品的二次交易不支持任何形式的变相炒作，我们坚决反对数字藏品炒作、场外交易、欺诈，或以任何其他非法、侵权方式使用的违法违规行为，请大家注意甄别上述涉嫌网络欺诈的行为及其相关风险。
+      <div class="">
+        数字藏品为虚拟数字商品，而非实物，仅限实名认证为年满18岁的中国大陆用户购买。
       </div>
-      <div class="mt-2 -indent-5 pl-5">
-        2、数字藏品为虚拟数字商品，购买前请完成实名认证，未满16周岁人群禁止购买.本商品一经出售不支持无理由退换货。
+      <div class="">
+        数字藏品的版权由原创者或发行方所有，用户不得将数字藏品用于任何商业用途，包括但不限于出售数字藏品的副本、使用权、衍生作品。数字藏品一经售出，不支持退换。
       </div>
-      <div class="mt-2 -indent-5 pl-5">
-        3、河图数藏版权作品在完成交易后，你享有该藏品除人身权利外的其他著作权（包括复制权、放映权、出租权、展览权、表演权、发行权、广播权、信息网络传播权、摄制权、改编权、翻译权、汇编权等）。
-      </div>
-      <div class="mt-2 -indent-5 pl-5">
-        4、河图数藏衍生品作品在完成交易后，你享有对该藏品进行占有、使用、处分的权利。
+      <div class="">
+        请勿对数字藏品进行炒作、欺诈，或以任何其他非法方式进行使用。
       </div>
     </div>
     <Space height="20" />
@@ -435,6 +434,13 @@
             扫码验证藏品信息
           </div>
         </div>
+        <van-image
+          class="absolute right-0 bottom-52 z-2"
+          :src="c2"
+          :width="$pxToVw(152)"
+          :height="$pxToVw(152)"
+          fit="contain"
+        />
       </div>
       <Space height="20" />
       <Icon
@@ -822,6 +828,7 @@ import { useStore } from 'vuex';
 import logoBorder from './images/c3.png';
 import c5 from './images/c5.png';
 import c1 from './images/c1.png';
+import c2 from './images/c2.png';
 import envConfig from '@/utils/env';
 
 let store = useStore();
@@ -852,8 +859,8 @@ let sitePopover = ref(false);
 let idPopover = ref(false);
 let hashPopover = ref(false);
 
-function copy() {
-  copyText('Hello Clipborad', undefined, (error, event) => {
+function copy(res) {
+  copyText(res, undefined, (error, event) => {
     if (error) {
       console.error('复制失败');
     } else {

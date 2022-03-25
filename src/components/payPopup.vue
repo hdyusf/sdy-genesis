@@ -3,7 +3,6 @@
     v-model:show="pay"
     position="bottom"
     :round="true"
-    :style="{ height: $pxToVw(321) }"
   >
     <Icon
       v-if="payNext"
@@ -101,6 +100,7 @@
       >
         {{ payNext || payType ? '确认支付' : '下一步' }}
       </van-button>
+      <Space height="30" />
     </div>
   </van-popup>
 </template>

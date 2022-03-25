@@ -2,7 +2,16 @@
   <NavBar
     title="钱包"
     :transparent="navBarTransparent"
-  />
+  >
+    <template #right>
+      <div
+        class=" text-xs2"
+        @click="() => $router.push('/tabbar/user/wallet/extractRecord')"
+      >
+        提现详情
+      </div>
+    </template>
+  </NavBar>
   <van-image
     class="w-full absolute top-0 left-0"
     :height="parseInt($pxToPxRatio(290), 10)"
@@ -12,7 +21,7 @@
   <div class="pageCard-sm">
     <Space height="15" />
     <div class="bg-white/60 rounded-lg2 overflow-hidden">
-      <div class="text-xs2 p-4 bg2">
+      <div class=" text-sm p-4.5 bg2">
         <span class="text-grayDefault">总金额(元)</span>
         <span class="ml-2.5 text-grayTip">¥{{ $formatPrice(info.balance, 2, true) }}</span>
       </div>
@@ -82,7 +91,7 @@
     </div>
     <Space height="20" />
     <div class="text-base font-semibold">
-      账单
+      资金流水
     </div>
     <Space height="15" />
     <van-divider class="my-0 w-screen -ml-4" />

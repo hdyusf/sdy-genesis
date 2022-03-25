@@ -280,6 +280,13 @@ export default [
                     '@/pages/tabbar/user/wallet/index.vue'
                   ),
               },
+              {
+                path: 'extractRecord',
+                component: () =>
+                  import(
+                    '@/pages/tabbar/user/wallet/extractRecord.vue'
+                  ),
+              },
             ],
           },
           {
