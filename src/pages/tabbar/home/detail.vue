@@ -424,7 +424,7 @@
           <Space height="91" />
           <div class="flex justify-center">
             <Qrcode
-              :value="detail.certifyUrl"
+              :value="qrcodeVerifyAuth"
               :size="$pxToPxRatio(100)"
               :margin="$pxToPxRatio(4)"
             />
@@ -1236,6 +1236,12 @@ function downloadImage() {
     request.send();
   }
 }
+
+let qrcodeVerifyAuth = computed(() => {
+  let origin = location.origin;
+  return `${origin}/#/verifyAuth?certifyId=${detail.value.certifyId}`;
+});
+
 </script>
 <style lang="less" scoped>
 .showCard {
