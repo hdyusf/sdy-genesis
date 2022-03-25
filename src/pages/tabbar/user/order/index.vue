@@ -760,7 +760,12 @@ async function clickPaySubmit() {
 }
 
 function clickTokenId() {
-  location.href = `${envConfig.tokenIdUrl}/${detail.value.contractAddress}?a=${detail.value.tokenId}`;
+  let url = `${envConfig.tokenIdUrl}/${detail.value.contractAddress}?a=${detail.value.tokenId}`;
+  if (window.plus) {
+    plus.runtime.openURL(url);
+  } else {
+    window.open(url);
+  }
 }
 </script>
 <style lang="less" scoped>

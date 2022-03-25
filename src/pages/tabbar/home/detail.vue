@@ -830,6 +830,7 @@ import c5 from './images/c5.png';
 import c1 from './images/c1.png';
 import c2 from './images/c2.png';
 import envConfig from '@/utils/env';
+import router from '../../../router';
 
 let store = useStore();
 let route = useRoute();
@@ -1176,7 +1177,12 @@ let switchLive = proxy.$debounce(() => {
 });
 
 function clickTokenId() {
-  location.href = `${envConfig.tokenIdUrl}/${detail.value.contractAddress}?a=${detail.value.tokenId}`;
+  let url = `${envConfig.tokenIdUrl}/${detail.value.contractAddress}?a=${detail.value.tokenId}`;
+  if (window.plus) {
+    plus.runtime.openURL(url);
+  } else {
+    window.open(url);
+  }
 }
 
 let isSelf = computed(() => {

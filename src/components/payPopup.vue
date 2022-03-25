@@ -124,7 +124,6 @@ let { proxy, emit } = getCurrentInstance();
 let props = defineProps({
   detail: {},
   pay: Boolean,
-  orderId: String,
   payCallback: Function,
 });
 let pay = ref(false);
@@ -216,11 +215,14 @@ async function paySubmit() {
   }
 
 }
-function payStart(orderId) {
+let orderId = ref('');
+let payCallbackVerify = ref(false);
+function payStart(res) {
+  orderId.value = res;
   // pay submit
   proxy
     .$http('post', '/v1/order/buy', {
-      orderId: orderId,
+      orderId: res,
       payPassWord: payPassword.value,
       type: payType.value,
     })
@@ -233,16 +235,41 @@ function payStart(orderId) {
       }
       if (payType.value === 1) {
         let callback = () => {
-          Toast.success('购买成功');
-          payNext.value = false;
-          pay.value = false;
-          props.payCallback();
+          // await pay success callback
+          apySuccess();
+        };
+        let errorCallback = (res) => {
+          Toast.fail('支付失败');
         };
         // alipay
-        originPay('alipay', res.data, callback);
+        originPay('alipay', res.data, callback, errorCallback);
+        awaitPaySuccess();
       }
     })
     .thenError((res) => Toast(res.msg));
+}
+let awaitPayCallbackTime = ref('');
+let awaitPayCallbackNumber = ref(0);
+function apySuccess() {
+  if (payCallbackVerify.value) return;
+  payCallbackVerify.value = true;
+  Toast.success('购买成功');
+  payNext.value = false;
+  pay.value = false;
+  props.payCallback();
+}
+function awaitPaySuccess() {
+  awaitPayCallbackTime.value = setInterval(() => {
+    proxy.$http('post', `/v1/order/getStatusById?orderId=${orderId.value}`, {})
+      .then(res => {
+        if (res.data) {
+          clearTimeout(awaitPayCallbackTime.value);
+          apySuccess();
+        }
+      }).thenError(res => Toast(res.msg)).all(() => {
+        awaitPayCallbackNumber.value++;
+      });
+  }, 2000);
 }
 watchEffect(() => {
   if (!pay.value) {

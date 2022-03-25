@@ -8,7 +8,7 @@ import { Toast } from 'vant';
  * @param {Object} payType  支付类型
  * @param {Object} payStatement  调起支付宝或微信的statment支付订单信息
  */
-export const originPay = async (payType, payStatement, callback) => {
+export const originPay = async (payType, payStatement, callback, errorCallback) => {
   /***判断支付通道****/
   //最终的支付通道
   let channel;
@@ -38,7 +38,7 @@ export const originPay = async (payType, payStatement, callback) => {
           callback();
         },
         (error) => {
-          // Toast('支付失败');
+          errorCallback(error);
         },
       );
     },

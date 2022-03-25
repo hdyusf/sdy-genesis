@@ -99,7 +99,7 @@
           取消
         </div>
         <div
-          class=" flex justify-center props.items-center ring-1 ring-redTitle py-1.5 px-7 rounded-full text-xs2 text-redTitle"
+          class=" ml-4 flex justify-center props.items-center ring-1 ring-redTitle py-1.5 px-7 rounded-full text-xs2 text-redTitle"
           @click="clickDetail"
         >
           付款
@@ -168,39 +168,45 @@ let statusColor = ref('#E1E1E1');
 let showTime = ref(props.item.time);
 let showTimeTitle = ref('创建时间');
 watchEffect(() => {
-  let color = '#E1E1E1';
+  if (props.item.status) {
+    updateStatusShow();
+  }
+});
+function updateStatusShow() {
+  statusColor.value = '#E1E1E1';
   switch(props.item.status) {
     case '已取消':
     case '买家取消':
     case '卖家取消':
     case '自动取消':
+      statusColor.value = '#E1E1E1';
       showTime.value = props.item.cancelTime;
       showTimeTitle.value = '取消时间';
+      textColor.value = '#9B9B9B';
       break;
     case '被拒绝':
-      color = '#FFD5D5';
+      statusColor.value = '#FFD5D5';
       textColor.value = '#D42E2E';
       break;
     case '审核中':
     case '被锁定':
     case '待支付':
     case '待付款':
-      color = '#FFE1C7';
+      statusColor.value = '#FFE1C7';
       textColor.value = '#FF7400';
       break;
     case '发布中':
-      color = '#E2EAFF';
+      statusColor.value = '#E2EAFF';
       textColor.value = '#5F8AFF';
       break;
     case '已完成':
-      color = '#D0EDBD';
+      statusColor.value = '#D0EDBD';
       textColor.value = '#5DBD1D';
       showTime.value = props.item.payTime;
       showTimeTitle.value = '完成时间';
       break;
   }
-  statusColor.value = color;
-});
+}
 
 function clickDetail() {
   if (props.noDetail) return;
@@ -217,6 +223,7 @@ let cancel = proxy.$debounce(() => {
     .then(res => {
       Toast('取消成功');
       props.item.status = '已取消';
+      updateStatusShow();
       props.listView?.reset();
     }).thenError(res => {
       Toast(res.msg);
@@ -230,6 +237,7 @@ let clickCancelPay = proxy.$debounce(() => {
     .then(res => {
       Toast('取消成功');
       props.item.status = '已取消';
+      updateStatusShow();
       props.listView?.reset();
     }).thenError(res => {
       Toast(res.msg);
