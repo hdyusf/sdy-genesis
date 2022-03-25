@@ -45,6 +45,7 @@ let router = useRouter();
 
 const props = defineProps({
   item: Object,
+  restart: Function,
 });
 
 let switchLive = proxy.$debounce(() => {
@@ -61,6 +62,7 @@ let switchLive = proxy.$debounce(() => {
       } else {
         props.item.live--;
       }
+      props.restart && props.restart();
     }).thenError(err => {
       Toast(err.msg);
     });

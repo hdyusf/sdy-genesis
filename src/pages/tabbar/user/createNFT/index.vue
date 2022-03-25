@@ -582,7 +582,7 @@
       <div class="text-xs text-blueDefault text-center text-[#4A79FF]">
         预计实际可得：￥
         {{
-          $toFixed((price / 100) * (100 - rate), 2, true)
+          $toFixed(((price * number) / 100) * (100 - rate), 2, true)
         }}
         <span class=" ml-2">平台分佣：{{ rate }}%</span>
       </div>

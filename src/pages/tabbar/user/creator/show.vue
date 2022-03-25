@@ -142,6 +142,7 @@
           v-for="(item, index) of data"
           :key="index"
           :item="item"
+          :restart="getDetail"
         />
       </template>
     </ListView>
@@ -212,14 +213,18 @@ let listArrInner = ref([
 ]);
 
 let creatorInfo = ref({});
-proxy
-  .$http('get', '/v1/artist/getArtistInfo', {
-    artistUserId: route.query.id,
-  })
-  .then((res) => {
-    creatorInfo.value = res.data;
-  })
-  .thenError((res) => Toast(res.msg));
+function getDetail() {
+  proxy
+    .$http('get', '/v1/artist/getArtistInfo', {
+      artistUserId: route.query.id,
+    })
+    .then((res) => {
+      creatorInfo.value = res.data;
+    })
+    .thenError((res) => Toast(res.msg));
+}
+getDetail();
+
 
 async function getList(page) {
   let res = await proxy.$http('post', '/v1/artist/dcList', {
@@ -275,8 +280,8 @@ let switchFollow = proxy.$debounce(() => {
       } else {
         Toast('已取消关注');
       }
-      creatorInfo.value.isFollow =
-        !creatorInfo.value.isFollow;
+      creatorInfo.value.isFollow = !creatorInfo.value.isFollow;
+      getDetail();
     })
     .thenError((err) => {
       Toast(err.msg);

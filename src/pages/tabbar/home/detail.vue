@@ -957,7 +957,7 @@ let sellGetPriceProgress = computed(() => {
       sellParams.value.copyrightFee +
       sellParams.value.commission;
   }
-  return (sellPrice.value * (100 - rate)) / 100;
+  return ((sellPrice.value * detail.value.deriveStock) * (100 - rate)) / 100;
 });
 function sellOutPopupSubmit() {
   proxy
