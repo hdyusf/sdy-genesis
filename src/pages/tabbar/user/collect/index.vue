@@ -216,7 +216,7 @@ async function getList(page) {
       userName: item.artistNickName,
       price: item.price,
       isLive: item.isLike,
-      number: item.deriveStock || 1,
+      number: item.deriveStock || 0,
     };
   });
 

@@ -107,7 +107,7 @@ async function getList(page) {
       img: item.fileUrl,
       user: store.state.userinfo.nickName,
       userId: store.state.userinfo.id,
-      number: item.deriveStock || 1,
+      number: item.deriveStock || 0,
       status: (() => {
         let a = listArr.value.find((fi) => {
           if (item.status === 2) {

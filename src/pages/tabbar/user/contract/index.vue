@@ -1,6 +1,6 @@
 <template>
   <NavBar title="签约艺术家" />
-  <div class="relative z-1 flex-auto">
+  <div class="relative z-1 flex-auto bg-[#F1F0F0]">
     <van-image
       class="w-full h-full absolute top-0 left-0 -z-1"
       :height="parseInt($pxToPxRatio(798), 10)"
@@ -41,20 +41,28 @@
         </div>
         <div
           v-if="uploadList.length"
-          class="pl-14"
         >
           <div
             v-for="(item, index) of uploadList"
             :key="item"
-            class=" flex items-center justify-between rounded-md bg-[#F9F9F9] pl-5 pr-2 py-2 mt-2.5"
           >
-            <div class=" w-48 truncate">
-              {{ item.name }}
+            <div
+              class=" flex items-center justify-between rounded-md bg-[#F9F9F9] pl-5 pr-2 py-2 mt-3 shadow-md mb-1"
+            >
+              <div class=" w-48 truncate">
+                {{ item.name }}
+              </div>
+              <Icon
+                type="icon-sousuo-guanbi"
+                size="17"
+                @click="() => removeUploadList(index)"
+              />
             </div>
-            <Icon
-              type="icon-sousuo-guanbi"
-              size="17"
-              @click="() => removeUploadList(index)"
+            <van-image
+              :width="parseInt($pxToPxRatio(309), 10)"
+              :height="parseInt($pxToPxRatio(309), 10)"
+              fit="cover"
+              :src="item.url"
             />
           </div>
         </div>

@@ -55,5 +55,6 @@ async function buildNext() {
   console.log(chalk.green('remove dist.zip'));
   console.log(chalk.green('nodeGit.js end...'));
   console.log(chalk.red('http://172.18.3.2:7000/'));
+  console.log(chalk.green(new Date().toLocaleString()));
   process.exit();
 }

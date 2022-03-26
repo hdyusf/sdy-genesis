@@ -12,19 +12,30 @@
         <div
           v-for="item of data"
           :key="item"
-          class="card px-4 grid grid-cols-3 text-xs2 gap-y-3 py-4 text-grayCard mb-4"
+          class="card px-4 grid grid-cols-3 text-xs2 gap-y-3 py-4 text-grayCard mb-4 overflow-hidden relative"
         >
           <div
-            class="text-blackDefault text-base font-semibold"
+            class="absolute top-0 right-0 w-17 text-xs leading-4 text-right pr-3 py-1"
+            :style="{
+              'background': `linear-gradient(-90deg, ${item.statusColor}, white)`,
+              color: item.textColor,
+            }"
+          >
+            <span>{{ item.status }}</span>
+          </div>
+          <div
+            class="text-blackDefault text-base mt-1.5"
           >
             提现金额
           </div>
           <div
-            class="col-span-2 text-right truncate text-redLine text-base font-semibold"
+            class="col-span-2 text-right truncate text-redLine text-base font-semibold mt-4"
           >
             ¥ {{ $formatPrice(item.actualAmount, 2, true) }}
           </div>
-
+          <van-divider
+            class=" my-0 col-span-3 -mt-2"
+          />
           <div>申请金额：</div>
           <div class="col-span-2 text-right truncate">
             ¥ {{ $formatPrice(item.amount, 2, true) }}
@@ -41,22 +52,17 @@
           <div class="col-span-2 text-right truncate">
             {{ item.cardNo }}
           </div>
-          <div>订单编号：</div>
-          <div class="col-span-2 text-right truncate">
-            {{ item.id }}
-          </div>
           <div>申请时间：</div>
           <div class="col-span-2 text-right truncate">
             {{ item.createTime }}
           </div>
-          <div>状态：</div>
+          <div>订单编号：</div>
           <div class="col-span-2 text-right truncate">
-            {{ item.status }}
+            {{ item.id }}
           </div>
           <template v-if="item.failReason">
-            <div>拒绝原因：</div>
             <div
-              class="col-span-2 text-right truncate text-orangeTip"
+              class="col-span-2 truncate text-orangeTip"
             >
               {{ item.failReason }}
             </div>
@@ -76,19 +82,29 @@ async function getList(page) {
     size: 5,
   });
   res.data.list = res.data.list.map((item) => {
+    let statusColor = 'red';
+    let textColor = 'red';
     return {
       ...item,
       id: item.id,
       status: (() => {
         switch (item.status) {
           case 1:
-            return '提现中';
+            statusColor = '#FFE1C7';
+            textColor = '#FF7400';
+            return '审核中';
           case 2:
-            return '提现成功';
+            statusColor = '#D0EDBD';
+            textColor = '#5DBD1D';
+            return '已完成';
           case 3:
-            return '提现失败';
+            statusColor = '#FFD5D5';
+            textColor = '#D42E2E';
+            return '已拒绝';
         }
       })(),
+      statusColor,
+      textColor,
     };
   });
   return res;

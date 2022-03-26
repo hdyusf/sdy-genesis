@@ -293,12 +293,19 @@
             : ''
       "
     >
-      <span class="price">¥ {{ $formatPrice(detail.price, 2, true) }}</span>
+      <span class="price truncate w-48 text-center px-2">¥ {{ $formatPrice(detail.price, 2, true) }}</span>
       <span
         v-if="sell"
         class="flex-auto text-right pr-12 py-2"
         @click="clickSubmit"
       >下架</span>
+      <template v-else>
+        <span
+          v-if="!detail.deriveStock"
+          class="flex-auto text-right pr-12 py-2"
+          :class="{ 'text-grayDefault': !detail.deriveStock }"
+        >已售罄</span>
+      </template>
       <span
         v-if="detail.status === 5"
         class="flex-auto text-right pr-12 py-2"
@@ -307,11 +314,6 @@
         v-if="detail.status === 6"
         class="flex-auto text-right pr-12 py-2"
       >已锁定</span>
-      <span
-        v-if="!detail.deriveStock"
-        class="flex-auto text-right pr-12 py-2"
-        :class="{ 'text-grayDefault': !detail.deriveStock }"
-      >已售罄</span>
       <span
         v-if="
           detail.status === 4 && detail.deriveStock && !sell
@@ -919,18 +921,6 @@ async function clickSubmit() {
       .catch(() => {});
     return;
   }
-  if (!userinfo.isPayPassWord) {
-    Dialog.confirm({
-      closeOnClickOverlay: true,
-      message: '请先设置交易密码',
-      theme: 'round-button',
-    })
-      .then(() => {
-        proxy.$router.push('/tabbar/user/set/payPassword');
-      })
-      .catch(() => {});
-    return;
-  }
   if (sell.value) {
     // 下架
     sellPopup.value = true;
@@ -957,9 +947,17 @@ let sellGetPriceProgress = computed(() => {
       sellParams.value.copyrightFee +
       sellParams.value.commission;
   }
-  return ((sellPrice.value * detail.value.deriveStock) * (100 - rate)) / 100;
+  return ((sellPrice.value * (detail.value.deriveStock || 1)) * (100 - rate)) / 100;
 });
 function sellOutPopupSubmit() {
+  if (sellPrice.value < 0) {
+    Toast('价格不能小于0');
+    return false;
+  }
+  if (sellPrice.value > 999999999) {
+    Toast('价格不能大于999999999');
+    return false;
+  }
   proxy
     .$http('post', '/v1/dc/sell', {
       dcId: route.query.id,
@@ -1295,7 +1293,6 @@ let qrcodeVerifyAuth = computed(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 0 0 36px;
   color: white;
   &.gray {
     background: white url('@/assets/images/a7.png')

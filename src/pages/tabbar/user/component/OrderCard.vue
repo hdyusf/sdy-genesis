@@ -34,7 +34,7 @@
           >
             {{ props.item.title }}
           </div>
-          <div class=" text-xs2 text-redTitle font-semibold">
+          <div class=" text-xs2 text-redTitle font-semibold max-w-bai2 truncate">
             ¥ {{ $formatPrice(props.item.price) }}
           </div>
         </div>
@@ -178,7 +178,6 @@ function updateStatusShow() {
     case '已取消':
     case '买家取消':
     case '卖家取消':
-    case '自动取消':
       statusColor.value = '#E1E1E1';
       showTime.value = props.item.cancelTime;
       showTimeTitle.value = '取消时间';

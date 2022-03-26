@@ -1,34 +1,32 @@
 <template>
-  <NavBar
-    title="添加银行卡"
-  />
-  <div class=" pageCard-sm">
+  <NavBar title="添加银行卡" />
+  <div class="pageCard-sm">
     <Space height="16" />
     <div class="card px-5 py-5">
-      <div class=" text-sm">
+      <div class="text-sm">
         银行
       </div>
       <Space height="10" />
-      <div class=" inputCard flex items-center">
+      <div class="inputCard flex items-center">
         <van-field
           v-model="name"
           type="text"
           size="small"
           readonly
           placeholder="请选择银行"
-          @click="() => selectBankPopup = true"
+          @click="() => (selectBankPopup = true)"
         />
         <van-icon
           name="arrow-down"
-          class=" text-grayDefault"
+          class="text-grayDefault"
         />
       </div>
       <Space height="15" />
-      <div class=" text-sm">
+      <div class="text-sm">
         开户行
       </div>
       <Space height="10" />
-      <div class=" inputCard">
+      <div class="inputCard">
         <van-field
           v-model="bankSite"
           type="text"
@@ -37,11 +35,11 @@
         />
       </div>
       <Space height="15" />
-      <div class=" text-sm">
+      <div class="text-sm">
         银行卡号
       </div>
       <Space height="10" />
-      <div class=" inputCard">
+      <div class="inputCard">
         <van-field
           v-model="bank"
           type="text"
@@ -50,11 +48,11 @@
         />
       </div>
       <Space height="15" />
-      <div class=" text-sm">
+      <div class="text-sm">
         银行卡预留手机号
       </div>
       <Space height="10" />
-      <div class=" inputCard">
+      <div class="inputCard">
         <van-field
           v-model="phone"
           type="tel"
@@ -63,9 +61,7 @@
         />
       </div>
     </div>
-    <div
-      class="fixedBottomButton"
-    >
+    <div class="fixedBottomButton">
       <van-button
         type="danger"
         block
@@ -84,7 +80,7 @@
     position="bottom"
   >
     <van-picker
-      :columns="bankList.map(item => item.title)"
+      :columns="bankList.map((item) => item.title)"
       :default-index="bankIndex"
       @cancel="selectBankPopup = false"
       @confirm="onConfirm"
@@ -92,9 +88,9 @@
   </van-popup>
 </template>
 <script setup>
-import { ref, getCurrentInstance} from 'vue';
-import { isMobilePhone, isBIC } from 'validator';
-import {Toast} from 'vant';
+import { ref, getCurrentInstance } from 'vue';
+import { isMobilePhone } from 'validator';
+import { Toast } from 'vant';
 import bank1 from './images/bank1.png';
 import bank2 from './images/bank2.png';
 import bank3 from './images/bank3.png';
@@ -104,12 +100,7 @@ import bank6 from './images/bank6.png';
 import bank7 from './images/bank7.png';
 import bank8 from './images/bank8.png';
 import bank9 from './images/bank9.png';
-let {proxy} = getCurrentInstance();
-
-
-function validataPayCard(payCard) {
-  return /^[1-9]\d{9,29}$/.test(payCard);
-}
+let { proxy } = getCurrentInstance();
 
 const bankList = [
   {
@@ -165,7 +156,7 @@ const onConfirm = (value, index) => {
 };
 
 let submit = proxy.$debounce(() => {
-  if (!validataPayCard(bank.value)) {
+  if (!/^[1-9]\d{9,29}$/.test(bank.value)) {
     Toast('请输入正确的银行卡');
     return;
   }
@@ -173,26 +164,32 @@ let submit = proxy.$debounce(() => {
     Toast('请输入正确的手机号');
     return;
   }
+
   loading.value = true;
-  proxy.$http('post', '/v1/assets/bindCarc', {
-    'bankOpening': bankSite.value,
-    'cardId': bankIndex.value + 1,
-    'cardNo': bank.value,
-    'phone': phone.value
-  })
-    .then(res => {
+  proxy
+    .$http('post', '/v1/assets/bindCarc', {
+      bankOpening: bankSite.value,
+      cardId: bankIndex.value + 1,
+      cardNo: bank.value,
+      phone: phone.value,
+    })
+    .then((res) => {
       Toast.success('添加成功');
       bank.value = '';
       phone.value = '';
       bankSite.value = '';
       bankIndex.value = '';
       proxy.$router.back();
-    }).thenError(err => {
+    })
+    .thenError((err) => {
       Toast(err.msg);
-    }).all(res => {
+    })
+    .catch((res) => {
+      Toast.fail(JSON.stringify(res));
+    })
+    .all((res) => {
       loading.value = false;
     });
 });
 </script>
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

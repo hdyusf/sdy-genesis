@@ -5,8 +5,13 @@
   >
     <template #right>
       <div
-        class=" text-xs2"
-        @click="() => $router.push('/tabbar/user/wallet/extractRecord')"
+        class="text-xs2"
+        @click="
+          () =>
+            $router.push(
+              '/tabbar/user/wallet/extractRecord',
+            )
+        "
       >
         提现详情
       </div>
@@ -21,7 +26,7 @@
   <div class="pageCard-sm">
     <Space height="15" />
     <div class="bg-white/60 rounded-lg2 overflow-hidden">
-      <div class=" text-sm p-4.5 bg2">
+      <div class="text-sm p-4.5 bg2">
         <span class="text-grayDefault">总金额(元)</span>
         <span class="ml-2.5 text-grayTip">¥{{ $formatPrice(info.balance, 2, true) }}</span>
       </div>
@@ -96,8 +101,8 @@
     <Space height="15" />
     <van-divider class="my-0 w-screen -ml-4" />
     <div
-      class=" sticky bg-grayBg z-2"
-      :style="{top: $pxToPxRatio(46) + 'px'}"
+      class="sticky bg-grayBg z-2"
+      :style="{ top: $pxToPxRatio(46) + 'px' }"
     >
       <Space height="9" />
       <div class="listSelectType">
@@ -124,7 +129,7 @@
     >
       <template #default="{ data }">
         <template
-          v-for="(item) of data"
+          v-for="item of data"
           :key="item"
         >
           <div
@@ -191,7 +196,9 @@
       </div>
       <Space height="10" />
       <div class="text-xs text-blueDefault">
-        可提现金额：{{ $formatPrice(info.available, 2, true) }}元
+        可提现金额：{{
+          $formatPrice(info.available, 2, true)
+        }}元
       </div>
       <Space height="15" />
       <div>交易密码</div>
@@ -202,8 +209,12 @@
           size="small"
           placeholder="请输入交易密码"
           :type="payPasswordShow ? 'text' : 'password'"
-          :right-icon="payPasswordShow ? 'eye' : 'closed-eye'"
-          @click-right-icon="() => payPasswordShow = !payPasswordShow"
+          :right-icon="
+            payPasswordShow ? 'eye' : 'closed-eye'
+          "
+          @click-right-icon="
+            () => (payPasswordShow = !payPasswordShow)
+          "
         />
       </div>
       <Space height="20" />
@@ -260,11 +271,16 @@
 </template>
 <script setup>
 import a2 from '@/assets/images/a2.png';
-import { Toast } from 'vant';
+import { Toast, Dialog } from 'vant';
 import {
-  getCurrentInstance, ref, watch, watchEffect
+  getCurrentInstance,
+  ref,
+  watch,
+  watchEffect,
 } from 'vue';
 import a1 from './images/a1.png';
+import { useStore } from 'vuex';
+let store = useStore();
 let { proxy } = getCurrentInstance();
 
 let listSelect = ref(null);
@@ -327,7 +343,11 @@ async function getList(page) {
       id: 1,
       name: item.typeName,
       time: item.createTime,
-      price: proxy.$formatPrice(Math.abs(item.amount), 2, true),
+      price: proxy.$formatPrice(
+        Math.abs(item.amount),
+        2,
+        true,
+      ),
       type: item.direction === 0 ? '-' : '+',
     };
   });
@@ -403,20 +423,23 @@ let submit = proxy.$debounce(() => {
     return;
   }
   loading.value = true;
-  proxy.$http('post', '/v1/assets/withdraw', {
-    'amount': money.value,
-    'cardId': bankList.value[bankIndex.value].id,
-    'payPassword': payPassword.value
-  })
-    .then(res => {
+  proxy
+    .$http('post', '/v1/assets/withdraw', {
+      amount: money.value,
+      cardId: bankList.value[bankIndex.value].id,
+      payPassword: payPassword.value,
+    })
+    .then((res) => {
       Toast('提交成功');
       money.value = '';
       payPassword.value = '';
       withdraw.value = false;
       getWalletInfo();
-    }).thenError(res => {
+    })
+    .thenError((res) => {
       Toast(res.msg);
-    }).all(res => {
+    })
+    .all((res) => {
       loading.value = false;
     });
 });
@@ -430,13 +453,35 @@ window.onscroll = () => {
   }
 };
 
-function clickOutMoney() {
+async function clickOutMoney() {
   if (!bankList.value.length) {
-    Toast('请先绑定银行卡');
+    Dialog.confirm({
+      closeOnClickOverlay: true,
+      message: '请先绑定银行卡',
+      theme: 'round-button',
+    })
+      .then(() => {
+        proxy.$router.push('/tabbar/user/set/bankPay');
+      })
+      .catch(() => {});
     return;
-  } else {
-    withdraw.value = true;
+    return;
   }
+  let userinfo = await store.dispatch('getUserinfo');
+  if (!userinfo.isPayPassWord) {
+    Dialog.confirm({
+      closeOnClickOverlay: true,
+      message: '请先设置交易密码',
+      theme: 'round-button',
+    })
+      .then(() => {
+        proxy.$router.push('/tabbar/user/set/payPassword');
+      })
+      .catch(() => {});
+    return;
+  }
+
+  withdraw.value = true;
 }
 </script>
 <style lang="less" scoped>

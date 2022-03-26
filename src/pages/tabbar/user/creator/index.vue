@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative z-1 pageCard-sm bg-grayBg w-full h-full"
+    class="relative z-1 pageCard-sm bg-grayBg w-full h-screen"
   >
     <van-image
       class="w-full absolute top-0 left-0 -z-2"

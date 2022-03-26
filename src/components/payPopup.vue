@@ -114,12 +114,14 @@ import {
 } from 'vue';
 import { Toast } from 'vant';
 import { useCountDown } from '@vant/use';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router';
 import d1 from '@/assets/images/d1.png';
 import d2 from '@/assets/images/d2.png';
 import { originPay } from '@/utils/common';
+import { useStore } from 'vuex';
 let route = useRoute();
 let { proxy, emit } = getCurrentInstance();
+let store = useStore();
 
 let props = defineProps({
   detail: {},
@@ -187,6 +189,19 @@ proxy
   .thenError((res) => Toast(res.msg));
 async function paySubmit() {
   if (payType.value === 0) {
+    let userinfo = await store.dispatch('getUserinfo');
+    if (!userinfo.isPayPassWord) {
+      Dialog.confirm({
+        closeOnClickOverlay: true,
+        message: '请先设置交易密码',
+        theme: 'round-button',
+      })
+        .then(() => {
+          proxy.$router.push('/tabbar/user/set/payPassword');
+        })
+        .catch(() => {});
+      return;
+    }
     if (!payNext.value) {
       payNext.value = true;
       return;
@@ -273,10 +288,16 @@ function awaitPaySuccess() {
 }
 watchEffect(() => {
   if (!pay.value) {
+    clearTimeout(awaitPayCallbackTime.value);
     setTimeout(() => {
       payNext.value = false;
     }, 300);
   }
 });
+
+onBeforeRouteLeave(() => {
+  clearTimeout(awaitPayCallbackTime.value);
+});
+
 </script>
 <style lang="less" scoped></style>

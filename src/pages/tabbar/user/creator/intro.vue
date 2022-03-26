@@ -62,6 +62,7 @@ let submit = proxy.$debounce(() => {
   })
     .then(res => {
       Toast.success('修改成功');
+      proxy.$router.back();
     }).thenError(res => {
       Toast(res.msg);
     }).all(res => {

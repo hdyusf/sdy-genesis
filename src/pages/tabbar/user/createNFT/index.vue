@@ -1,16 +1,10 @@
 <template>
   <NavBar title="铸造NFT" />
-  <div class="relative z-1 flex-auto">
+  <div class="relative z-1 flex-auto bg-[#F0F0F0]">
     <van-image
       class="w-full h-full absolute top-0 left-0 -z-1"
       :height="parseInt($pxToPxRatio(1034), 10)"
       fit="cover-top"
-      :src="bg1"
-    />
-    <van-image
-      class="w-full h-full fixed top-0 left-0 -z-2"
-      :height="parseInt($pxToPxRatio(1134), 10)"
-      fit="cover-bottom"
       :src="bg1"
     />
     <div class="pageCard-sm">
@@ -110,17 +104,25 @@
         </div>
         <div
           v-if="upload"
-          class="pl-16"
         >
-          <div class="pl-3">
-            <div
-              class="flex items-center justify-between rounded-md bg-[#F9F9F9] pl-5 pr-2 py-2 mt-2.5"
-            >
-              <div class="w-48 truncate">
-                {{ upload }}
-              </div>
+          <div
+            class="flex items-center justify-between rounded-md bg-[#F9F9F9] pl-5 pr-2 py-2 mt-3 shadow-md mb-1"
+          >
+            <div class="w-48 truncate">
+              {{ upload }}
             </div>
+            <Icon
+              type="icon-sousuo-guanbi"
+              size="17"
+              @click="() => upload = ''"
+            />
           </div>
+          <van-image
+            :width="parseInt($pxToPxRatio(309), 10)"
+            :height="parseInt($pxToPxRatio(309), 10)"
+            fit="cover"
+            :src="upload"
+          />
         </div>
         <Space height="20" />
         <div class="flex items-center">
@@ -178,7 +180,7 @@
         <div class="text-xs text-blueDefault text-right">
           预计实际可得：￥
           {{
-            $toFixed((price / 100) * (100 - rate), 2, true)
+            $toFixed(((price * (number || 1)) / 100) * (100 - rate), 2, true)
           }}
           <span class=" ml-2">平台分佣：{{ rate }}%</span>
         </div>
@@ -582,7 +584,7 @@
       <div class="text-xs text-blueDefault text-center text-[#4A79FF]">
         预计实际可得：￥
         {{
-          $toFixed(((price * number) / 100) * (100 - rate), 2, true)
+          $toFixed(((price * (number || 1)) / 100) * (100 - rate), 2, true)
         }}
         <span class=" ml-2">平台分佣：{{ rate }}%</span>
       </div>
@@ -763,6 +765,14 @@ let submitDisbled = computed(() => {
 
 let confirmSubmitPopup = ref(false);
 function submitBefore() {
+  if (price.value < 0) {
+    Toast('价格不能小于0');
+    return false;
+  }
+  if (price.value > 999999999) {
+    Toast('价格不能大于999999999');
+    return false;
+  }
   confirmSubmitPopup.value = true;
 }
 
