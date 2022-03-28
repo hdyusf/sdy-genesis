@@ -17,13 +17,10 @@ switch (process.env.NODE_ENV) {
   case 'development':
     targetConfig = devConfig();
     break;
-  // case 'testing':
-  //   targetConfig = testConfig();
-  //   break;
-  case 'production':
-    targetConfig = prodConfig();
+  case 'testing':
+    targetConfig = devConfig();
     break;
-  default:
+  case 'production':
     targetConfig = prodConfig();
     break;
 }

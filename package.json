@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "test": "vite build --mode testing",
     "build-test": "node nodeGit.js",
     "preview": "vite preview"
   },

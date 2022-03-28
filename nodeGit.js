@@ -12,7 +12,7 @@ const process = require('process');
 console.log(chalk.green('nodeGit.js start...'));
 
 const buildOra = ora().start('yarn build... \n');
-let yarnBuild = exec('yarn build');
+let yarnBuild = exec('yarn test');
 yarnBuild.stdout.on('data', (data) => {
   console.log(chalk.gray(data));
 });
