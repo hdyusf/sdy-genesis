@@ -4,8 +4,12 @@
     fit="cover"
     :src="startLoad"
   />
-  <div class=" absolute right-5 top-5 z-1 text-white ring-2 px-4 w-16 text-center ring-white/50 rounded-full text-sm py-1">
+  <div class=" absolute right-5 top-5 z-1 text-white ring-2 px-4 text-center ring-white/50 rounded-full text-sm py-1">
     {{ showCountDown }}
+    <span
+      class=" text-xs2"
+      @click="nextPage"
+    >跳过</span>
   </div>
 </template>
 <script setup>
@@ -29,11 +33,14 @@ let showCountDown = computed(() => {
 
 watch(showCountDown, (val) => {
   if (val === 0) {
-    window.plus?.navigator.setStatusBarStyle('dark');
-    window.plus?.navigator.setStatusBarBackground('white');
-    router.replace('/');
+    nextPage();
   }
 });
+function nextPage() {
+  window.plus?.navigator.setStatusBarStyle('dark');
+  window.plus?.navigator.setStatusBarBackground('white');
+  router.replace('/');
+}
 </script>
 <style lang="less" scoped>
 </style>

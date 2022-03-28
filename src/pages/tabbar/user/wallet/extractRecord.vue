@@ -1,5 +1,5 @@
 <template>
-  <NavBar title="提现详情" />
+  <NavBar title="提现记录" />
   <div class="pageCard-sm">
     <Space height="10" />
     <ListView

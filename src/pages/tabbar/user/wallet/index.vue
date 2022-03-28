@@ -13,7 +13,7 @@
             )
         "
       >
-        提现详情
+        提现记录
       </div>
     </template>
   </NavBar>

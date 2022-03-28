@@ -46,6 +46,26 @@
     </div>
     <Space height="22" />
     <van-field
+      v-model="password"
+      class="text-sm"
+      placeholder="请输入新的交易密码"
+      :type="passwordShow ? 'text' : 'password'"
+      :right-icon="passwordShow ? 'eye' : 'closed-eye'"
+      @click-right-icon="() => passwordShow = !passwordShow"
+    />
+    <van-divider class="my-0" />
+    <Space height="22" />
+    <van-field
+      v-model="verifyPassword"
+      class="text-sm"
+      placeholder="请确认交易密码"
+      :type="verifyPasswordShow ? 'text' : 'password'"
+      :right-icon="verifyPasswordShow ? 'eye' : 'closed-eye'"
+      @click-right-icon="() => verifyPasswordShow = !verifyPasswordShow"
+    />
+    <van-divider class="my-0" />
+    <Space height="22" />
+    <van-field
       v-model="code"
       type="digit"
       placeholder="请输入验证码"
@@ -65,26 +85,6 @@
         </div>
       </template>
     </van-field>
-    <van-divider class="my-0" />
-    <Space height="22" />
-    <van-field
-      v-model="password"
-      class="text-sm"
-      placeholder="请输入新的交易密码"
-      :type="passwordShow ? 'text' : 'password'"
-      :right-icon="passwordShow ? 'eye' : 'closed-eye'"
-      @click-right-icon="() => passwordShow = !passwordShow"
-    />
-    <van-divider class="my-0" />
-    <Space height="22" />
-    <van-field
-      v-model="verifyPassword"
-      class="text-sm"
-      placeholder="请确认交易密码"
-      :type="verifyPasswordShow ? 'text' : 'password'"
-      :right-icon="verifyPasswordShow ? 'eye' : 'closed-eye'"
-      @click-right-icon="() => verifyPasswordShow = !verifyPasswordShow"
-    />
     <van-divider class="my-0" />
     <Space height="22" />
     <div class=" text-xs text-grayDefault text-right">

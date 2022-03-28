@@ -54,27 +54,6 @@
       <div class=" text-xs2 text-grayDefault mt-1">
         {{ update ? '修改' : '设置' }}登录密码需先验证当前手机号
       </div>
-      <Space height="22" />
-      <van-field
-        v-model="code"
-        type="digit"
-        placeholder="请输入验证码"
-      >
-        <template #button>
-          <div class="flex items-center">
-            <Space
-              height="12"
-              width="1"
-              background-color="#D8D8D8"
-            />
-            <Space width="12" />
-            <SendCode
-              url="/v1/modifyUser/modifyLoginPasswordCode"
-              :phone="store.state.userinfo?.phone"
-            />
-          </div>
-        </template>
-      </van-field>
       <van-divider class="my-0" />
       <Space height="22" />
       <van-field
@@ -96,6 +75,27 @@
         @click-right-icon="() => verifyPasswordShow = !verifyPasswordShow"
       />
       <van-divider class="my-0" />
+      <Space height="22" />
+      <van-field
+        v-model="code"
+        type="digit"
+        placeholder="请输入验证码"
+      >
+        <template #button>
+          <div class="flex items-center">
+            <Space
+              height="12"
+              width="1"
+              background-color="#D8D8D8"
+            />
+            <Space width="12" />
+            <SendCode
+              url="/v1/modifyUser/modifyLoginPasswordCode"
+              :phone="store.state.userinfo?.phone"
+            />
+          </div>
+        </template>
+      </van-field>
       <Space height="22" />
       <div
         class="fixedBottomButton"
