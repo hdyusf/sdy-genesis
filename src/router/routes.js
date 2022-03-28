@@ -1,5 +1,9 @@
 export default [
   {
+    path: '/startAfter',
+    component: () => import('@/pages/startAfter.vue'),
+  },
+  {
     path: '/login',
     meta: {
       loginBefore: true,

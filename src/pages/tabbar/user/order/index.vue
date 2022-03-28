@@ -88,7 +88,7 @@
       </div>
       <div class="flex items-center justify-between">
         <span>数量</span>
-        <span>x{{ detail.number }}</span>
+        <span class=" text-orangeTip">x{{ detail.number }}</span>
       </div>
       <template
         v-if="
@@ -392,6 +392,15 @@
           :src="logoBorder"
           fit="contain"
         />
+        <div
+          class="download absolute right-4 top-4 z-1 bg-black/60 w-9 h-9 rounded-full flex items-center justify-center"
+          @click="downloadImage"
+        >
+          <Icon
+            type="icon-download"
+            size="20"
+          />
+        </div>
         <van-image
           class
           :width="$pxToVw(256)"
@@ -765,6 +774,26 @@ function clickTokenId() {
     plus.runtime.openURL(url);
   } else {
     window.open(url);
+  }
+}
+
+function downloadImage() {
+  if (window.plus) {
+    window.AppSaveImage(detail.value.certifyUrl);
+  } else {
+    let request = new XMLHttpRequest();
+    request.responseType = 'blob';
+    request.open('GET', detail.value.certifyUrl);
+    request.onload = function () {
+      let u = window.URL.createObjectURL(this.response);
+      let a = document.createElement('a');
+      document.body.appendChild(a);
+      a.href = u;
+      a.download = name;
+      a.click();
+      document.body.removeChild(a);
+    };
+    request.send();
   }
 }
 </script>

@@ -7,8 +7,11 @@
 <script setup>
 import { watchEffect, getCurrentInstance } from 'vue';
 import { useStore } from 'vuex';
+import router from './router';
+import { Dialog } from 'vant';
 let {proxy} = getCurrentInstance();
 let store = useStore();
+
 watchEffect(() => {
   localStorage.setItem('vuex', JSON.stringify(store.state));
 });
@@ -18,42 +21,62 @@ if (localStorage.getItem('token')) {
   store.dispatch('getUserinfo');
 }
 
-proxy.$http('get', '/v1/service', {})
-  .then(res => {
-    let downloadUrl = res.data.downloadUrl;
-    let version = res.data.version;
-    document.addEventListener('plusready', () => {
+document.addEventListener('plusready', () => {
+  router.replace('/startAfter');
+  setTimeout(() => {
+    checkUpdateApp();
+  }, 5000);
+});
+function checkUpdateApp() {
+  proxy.$http('get', '/v1/service', {})
+    .then(res => {
+      let downloadUrl = res.data.downloadUrl;
+      let version = res.data.version;
       plus.runtime.getProperty(plus.runtime.appid, inf => {
-        let appVersion = inf.version;
-        if (appVersion !== version) {
-          plus.nativeUI.showWaiting('下载更新文件...');
-          plus.downloader
-            .createDownload(downloadUrl, { filename: '_doc/update/' }, (d, status) => {
-              if (status === 200) {
-                plus.runtime.install(
-                  d.filename,
-                  {},
-                  () => {
-                    plus.nativeUI.closeWaiting();
-                    plus.nativeUI.alert('版本更新成功', () => {
-                      plus.runtime.restart();
-                    });
-                  },
-                  e => {
-                    plus.nativeUI.closeWaiting();
-                    plus.nativeUI.alert('安装更新文件失败');
-                  },
-                );
-              } else {
-                plus.nativeUI.alert('下载更新文件失败！');
-                plus.nativeUI.closeWaiting();
-              }
+        let appVersionNumber = parseInt(inf.version.split('.').join(''), 10);
+        let getVersionNumber = parseInt(version.split('.').join(''), 10);
+        if (getVersionNumber > appVersionNumber) {
+          Dialog.confirm({
+            message: '有新版本，是否更新？',
+            theme: 'round-button',
+          })
+            .then(() => {
+              updateApp(downloadUrl);
             })
-            .start();
-        }
+            .catch(() => {
+              plus.runtime.quit();
+            });
+        };
       });
-    });
-  }).thenError(res => Toast(res.msg));
+    }).thenError(res => Toast(res.msg));
+}
+
+function updateApp(downloadUrl) {
+  plus.nativeUI.showWaiting('下载更新文件...');
+  plus.downloader
+    .createDownload(downloadUrl, { filename: '_doc/update/' }, (d, status) => {
+      if (status === 200) {
+        plus.runtime.install(
+          d.filename,
+          {},
+          () => {
+            plus.nativeUI.closeWaiting();
+            plus.nativeUI.alert('版本更新成功', () => {
+              plus.runtime.restart();
+            });
+          },
+          e => {
+            plus.nativeUI.closeWaiting();
+            plus.nativeUI.alert('安装更新文件失败');
+          },
+        );
+      } else {
+        plus.nativeUI.alert('下载更新文件失败！');
+        plus.nativeUI.closeWaiting();
+      }
+    })
+    .start();
+}
 </script>
 
 <style lang="less">

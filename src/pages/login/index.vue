@@ -136,7 +136,6 @@
   </div>
 </template>
 <script setup>
-import { isMobilePhone } from 'validator';
 import login1 from './images/login1.png';
 import login2 from './images/login2.png';
 import login3 from './images/login3.png';
@@ -203,7 +202,7 @@ let submit = proxy.$debounce(() => {
     Toast('请勾选用户协议和隐私协议');
     return;
   }
-  if (!isMobilePhone(phone.value, ['zh-CN'])) {
+  if (!proxy.$isMobilePhone(phone.value, ['zh-CN'])) {
     Toast('请输入正确的手机号');
     return;
   }

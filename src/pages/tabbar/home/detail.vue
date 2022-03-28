@@ -97,7 +97,7 @@
       </div>
       <div class="flex items-center justify-between">
         <span>数量</span>
-        <span>x{{ detail.deriveStock }}</span>
+        <span class=" text-orangeTip">x{{ detail.deriveStock }}</span>
       </div>
       <div class="flex items-center justify-between">
         <span>出售类型</span>
@@ -385,7 +385,7 @@
               <span
                 class="flex items-center text-orangeTitle"
               >
-                {{ formatSite(detail.uuid) }}
+                {{ formatSite(detail.tokenId) }}
               </span>
             </div>
             <div class="flex item-center justify-between">

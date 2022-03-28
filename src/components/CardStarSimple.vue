@@ -69,7 +69,7 @@ let switchLive = proxy.$debounce(() => {
 });
 
 function goDetail() {
-  router.push(`/tabbar/home/detail?id=${props.item.id}`);
+  router.push(`/tabbar/market?search=${props.item.title}`);
 }
 </script>
 <style lang="less" scoped>

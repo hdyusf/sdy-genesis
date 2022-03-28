@@ -62,7 +62,6 @@
 </template>
 <script setup>
 import { Toast } from 'vant';
-import { isMobilePhone } from 'validator';
 import { ref, watchEffect, getCurrentInstance, computed } from 'vue';
 let {proxy} = getCurrentInstance();
 
@@ -75,7 +74,7 @@ const verifyPasswordShow = ref(false);
 
 let loading = ref(false);
 let submit = proxy.$debounce(() => {
-  if (!isMobilePhone(phone.value, ['zh-CN'])) {
+  if (!proxy.$isMobilePhone(phone.value, ['zh-CN'])) {
     Toast('请输入正确的手机号');
     return;
   }

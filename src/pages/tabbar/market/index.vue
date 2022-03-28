@@ -254,6 +254,9 @@ let route = useRoute();
 
 let searchKeysList = ref([]);
 let search = ref('');
+if (route.query.search) {
+  search.value = route.query.search;
+}
 watch(
   () => search.value,
   () => {

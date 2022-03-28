@@ -123,6 +123,7 @@
   </div>
 </template>
 <script setup>
+import { Toast } from 'vant';
 import {
   getCurrentInstance,
   ref,
@@ -139,7 +140,7 @@ let router = useRouter();
 let bannerList = ref([]);
 proxy
   .$http('get', '/v1/home/bannerInfo', {
-    type: 0,
+    type: 1,
   })
   .then((res) => {
     bannerList.value = res.data;

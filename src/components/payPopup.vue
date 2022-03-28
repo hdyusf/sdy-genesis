@@ -112,7 +112,7 @@ import {
   getCurrentInstance,
   watch,
 } from 'vue';
-import { Toast } from 'vant';
+import { Toast, Dialog } from 'vant';
 import { useCountDown } from '@vant/use';
 import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router';
 import d1 from '@/assets/images/d1.png';

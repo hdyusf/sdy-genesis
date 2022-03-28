@@ -109,7 +109,7 @@
           </div>
           <Space height="8" />
           <div class="text-xs2 text-grayTip truncate w-52">
-            {{ userinfo.descr || ' 他好像对元宇宙没什么了解' }}
+            {{ userinfo.descr || ' 开启数字藏品元宇宙' }}
           </div>
         </div>
         <div class="flex flex-shrink-0 items-center">

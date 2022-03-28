@@ -1,16 +1,13 @@
 let devConfig = () => {
   return {
     url: 'http://172.18.3.2:8088/api',
-    // url: 'http://172.18.1.64:8090/api',
-    // url: '/api',
     tokenIdUrl: 'https://mumbai.polygonscan.com/token/',
   };
 };
 
 let prodConfig = () => {
   return {
-    // url: 'http://172.18.1.92:8090/api',
-    url: 'http://172.18.3.2:8088/api',
+    url: 'http://www.fsyun.vip/api',
     tokenIdUrl: 'https://mumbai.polygonscan.com/token/',
   };
 };

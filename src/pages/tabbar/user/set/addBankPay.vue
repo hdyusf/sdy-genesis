@@ -89,7 +89,6 @@
 </template>
 <script setup>
 import { ref, getCurrentInstance } from 'vue';
-import { isMobilePhone } from 'validator';
 import { Toast } from 'vant';
 import bank1 from './images/bank1.png';
 import bank2 from './images/bank2.png';
@@ -160,7 +159,7 @@ let submit = proxy.$debounce(() => {
     Toast('请输入正确的银行卡');
     return;
   }
-  if (!isMobilePhone(phone.value, ['zh-CN'])) {
+  if (!proxy.$isMobilePhone(phone.value, ['zh-CN'])) {
     Toast('请输入正确的手机号');
     return;
   }

@@ -237,7 +237,6 @@ import b1 from './images/b1.png';
 import b2 from './images/b2.png';
 import b3 from './images/b3.png';
 import { ref, watchEffect, getCurrentInstance } from 'vue';
-import { isMobilePhone } from 'validator';
 import { Toast } from 'vant';
 
 let {proxy} = getCurrentInstance();
@@ -301,7 +300,7 @@ function removeUploadList(index) {
 
 let loading = ref(false);
 let submit = proxy.$debounce(() => {
-  if (!isMobilePhone(phone.value, ['zh-CN'])) {
+  if (!proxy.$isMobilePhone(phone.value, ['zh-CN'])) {
     Toast('请输入正确的手机号');
     return;
   }

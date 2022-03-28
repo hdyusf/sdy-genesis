@@ -110,20 +110,21 @@
         </div>
       </div>
       <Space height="24" />
-      <template v-if="listSelect === 2">
+      <template v-if="filterArr.length > 1">
         <div
-          class="rounded-lg2 bg-[#F5F5F5] h-11 grid grid-cols-3 items-center justify-items-center text-[#808080] text-xs2"
+          class="rounded-lg2 bg-[#F5F5F5] h-11 items-center justify-items-center text-[#808080] text-xs2"
+          :class="filterArr.length > 3 ? 'flex flex-nowrap gap-4 overflow-x-auto item-center justify-content-center' : 'grid grid-cols-3'"
         >
           <div
-            v-for="(item, index) in listArrInner"
+            v-for="(item, index) in filterArr"
             :key="index"
-            class="px-2 py-1"
+            class="px-2 py-1 flex-shrink-0 min-w-4 text-center"
             :class="
-              listSelectInner === item.status
+              filterActive === item.status
                 ? 'text-redTitle ring-redTitle'
                 : 'ring-grayDefault'
             "
-            @click="() => (listSelectInner = item.status)"
+            @click="() => switchFilter(item.status)"
           >
             {{ item.title }}
           </div>
@@ -170,6 +171,8 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import b2 from '../images/b2.png';
 import a1 from './images/a1.png';
+import { Toast } from 'vant';
+import router from '../../../../router';
 let route = useRoute();
 let { proxy } = getCurrentInstance();
 let store = useStore();
@@ -212,6 +215,55 @@ let listArrInner = ref([
   },
 ]);
 
+let opusListSelectInner = ref(null);
+let opusListArrInner = ref([]);
+
+getServiesList();
+function getServiesList() {
+  proxy
+    .$http('get', '/v1/artist/series', {
+      artistUserId: route.query.id,
+    })
+    .then((res) => {
+      if (res.data.length) {
+        opusListArrInner.value = [
+          {
+            title: '全部',
+            status: null,
+          },
+        ].concat(res.data.map((item) => ({
+          title: item.name,
+          status: item.id,
+        })));
+      }
+    })
+    .thenError((res) => Toast(res.msg));
+}
+
+let filterArr = computed(() => {
+  if (listSelect.value === 1) {
+    return opusListArrInner.value;
+  } else if (listSelect.value === 2) {
+    return listArrInner.value;
+  }
+  return opusListArrInner.value;
+});
+let filterActive = computed(() => {
+  if (listSelect.value === 1) {
+    return opusListSelectInner.value;
+  } else if (listSelect.value === 2) {
+    return listSelectInner.value;
+  }
+  return opusListSelectInner.value;
+});
+function switchFilter(res) {
+  if (listSelect.value === 1) {
+    opusListSelectInner.value = res;
+  } else if (listSelect.value === 2) {
+    listSelectInner.value = res;
+  }
+}
+
 let creatorInfo = ref({});
 function getDetail() {
   proxy
@@ -225,11 +277,11 @@ function getDetail() {
 }
 getDetail();
 
-
 async function getList(page) {
   let res = await proxy.$http('post', '/v1/artist/dcList', {
     page: page,
     size: 5,
+    seriesId: opusListSelectInner.value,
     collectionType: listSelectInner.value,
     type: listSelect.value,
     userId: route.query.id,
@@ -254,11 +306,19 @@ let listView = ref();
 watch(
   () => listSelect.value,
   () => {
+    opusListSelectInner.value = null;
+    listSelectInner.value = null;
     listView.value?.reset();
   },
 );
 watch(
   () => listSelectInner.value,
+  () => {
+    listView.value?.reset();
+  },
+);
+watch(
+  () => opusListSelectInner.value,
   () => {
     listView.value?.reset();
   },
@@ -280,7 +340,8 @@ let switchFollow = proxy.$debounce(() => {
       } else {
         Toast('已取消关注');
       }
-      creatorInfo.value.isFollow = !creatorInfo.value.isFollow;
+      creatorInfo.value.isFollow =
+        !creatorInfo.value.isFollow;
       getDetail();
     })
     .thenError((err) => {

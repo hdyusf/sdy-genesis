@@ -3,6 +3,11 @@ import axios from 'axios';
 import router from '@/router';
 import { Toast } from 'vant';
 
+//验证手机号
+export function isMobilePhone(val) {
+  return /^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(val);
+}
+
 /**
  * 支付
  * @param {Object} payType  支付类型
@@ -455,9 +460,11 @@ export const http = (type, url, params, configs = {}) => {
     },
     catch(callback) {
       catchCallback = callback;
+      return this;
     },
     all(callback) {
       allCallback = callback;
+      return this;
     },
   };
 };

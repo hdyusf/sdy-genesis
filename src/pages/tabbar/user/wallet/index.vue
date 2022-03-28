@@ -38,7 +38,7 @@
               <div class="text-xs2 text-grayDefault">
                 可用余额(元)
               </div>
-              <Icon
+              <!-- <Icon
                 class="ml-2.5"
                 :type="
                   showMoney
@@ -47,7 +47,7 @@
                 "
                 size="16"
                 @click="() => (showMoney = !showMoney)"
-              />
+              /> -->
             </div>
             <div
               class="mt-3 text-xl2 font-medium text-redTitle"

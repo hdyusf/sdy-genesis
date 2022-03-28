@@ -86,7 +86,7 @@ let list = ref([
   },
   {
     title: '简介',
-    value: '他好像对元宇宙没什么了解',
+    value: '开启数字藏品元宇宙',
     rightIcon: true,
     auth: false,
     href: '/tabbar/user/set/intro',

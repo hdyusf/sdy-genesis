@@ -26,7 +26,7 @@
           <div
             class="text-blackDefault text-base mt-1.5"
           >
-            提现金额
+            到账金额
           </div>
           <div
             class="col-span-2 text-right truncate text-redLine text-base font-semibold mt-4"
