@@ -207,7 +207,7 @@
           </van-popover>
         </span>
         <span class="flex items-center">
-          {{ formatSite(detail.hash) }}
+          <span @click="clickHash">{{ formatSite(detail.hash) }}</span>
           <Icon
             class="ml-1"
             type="icon-fuzhi"
@@ -377,8 +377,8 @@
               <span>{{ detail.name }}</span>
             </div>
             <div class="flex item-center justify-between">
-              <span>拥有人</span>
-              <span>{{ detail.artistNickName }}</span>
+              <span>所属人</span>
+              <span>{{ detail.ownerNickName }}</span>
             </div>
             <div class="flex item-center justify-between">
               <span>区块链存证ID</span>
@@ -417,7 +417,7 @@
           <div
             class="text-base text-blackTitle font-semibold"
           >
-            存证声明
+            藏品声明
           </div>
           <Space height="10" />
           <div class="text-grayDefault leading-relaxed">
@@ -1176,6 +1176,15 @@ let switchLive = proxy.$debounce(() => {
 
 function clickTokenId() {
   let url = `${envConfig.tokenIdUrl}/${detail.value.contractAddress}?a=${detail.value.tokenId}`;
+  if (window.plus) {
+    plus.runtime.openURL(url);
+  } else {
+    window.open(url);
+  }
+}
+
+function clickHash() {
+  let url = detail.value.fileUrl;
   if (window.plus) {
     plus.runtime.openURL(url);
   } else {

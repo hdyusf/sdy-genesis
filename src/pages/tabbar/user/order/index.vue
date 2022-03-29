@@ -171,7 +171,7 @@
             </van-popover>
           </span>
           <span class="flex items-center">
-            {{ formatSite(detail.hash) }}
+            <span @click="clickHash">{{ formatSite(detail.hash) }}</span>
             <Icon
               class="ml-1"
               type="icon-fuzhi"
@@ -431,8 +431,8 @@
               <span>{{ detail.name }}</span>
             </div>
             <div class="flex item-center justify-between">
-              <span>存证人</span>
-              <span>{{ detail.artistNickName }}</span>
+              <span>所属人</span>
+              <span>{{ detail.ownerNickName }}</span>
             </div>
             <div class="flex item-center justify-between">
               <span>区块链存证ID</span>
@@ -463,7 +463,7 @@
               </span>
             </div>
             <div class="flex item-center justify-between">
-              <span>存证平台</span>
+              <span>藏品平台</span>
               <span>河图数藏</span>
             </div>
             <div class="flex item-center justify-between">
@@ -483,7 +483,7 @@
           <div
             class="text-base text-blackTitle font-semibold"
           >
-            存证声明
+            藏品声明
           </div>
           <Space height="10" />
           <div class="text-grayDefault leading-relaxed">
@@ -499,7 +499,7 @@
           </div>
           <Space height="8" />
           <div class="text-center">
-            扫码验证存证信息
+            扫码验证藏品信息
           </div>
         </div>
         <van-image
@@ -770,6 +770,15 @@ async function clickPaySubmit() {
 
 function clickTokenId() {
   let url = `${envConfig.tokenIdUrl}/${detail.value.contractAddress}?a=${detail.value.tokenId}`;
+  if (window.plus) {
+    plus.runtime.openURL(url);
+  } else {
+    window.open(url);
+  }
+}
+
+function clickHash() {
+  let url = detail.value.fileUrl;
   if (window.plus) {
     plus.runtime.openURL(url);
   } else {
