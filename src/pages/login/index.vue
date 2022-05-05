@@ -1,8 +1,6 @@
 <template>
-  <div class=" pageCard">
-    <div
-      class="absolute left-0 top-0 -z-1"
-    >
+  <div class="pageCard">
+    <div class="absolute left-0 top-0 -z-1">
       <van-image
         class="h-full w-full"
         fit="cover"
@@ -55,7 +53,9 @@
         placeholder="请输入密码"
         :type="passwordShow ? 'text' : 'password'"
         :right-icon="passwordShow ? 'eye' : 'closed-eye'"
-        @click-right-icon="() => passwordShow = !passwordShow"
+        @click-right-icon="
+          () => (passwordShow = !passwordShow)
+        "
       >
         <template #button>
           <div class="flex items-center">
@@ -97,7 +97,7 @@
     <div class="flex items-center">
       <van-checkbox
         v-model="checked"
-        class=" h-min"
+        class="h-min"
       >
         <template #icon="props">
           <img
@@ -107,12 +107,12 @@
         </template>
       </van-checkbox>
       <Space width="4" />
-      <div
-        class="text-xs2 text-grayDefault"
-      >
+      <div class="text-xs2 text-grayDefault">
         我已阅读并同意<span
           class="text-blueDefault"
-          @click="() => $router.push('/content/userAgreement')"
+          @click="
+            () => $router.push('/content/userAgreement')
+          "
         >《用户协议》</span>和<span class="text-blueDefault">《隐私协议》</span>
       </div>
     </div>
@@ -129,7 +129,7 @@
     <Space height="25" />
     <div
       class="text-center text-blueDefault text-xs2"
-      @click="() => codeLogin = !codeLogin"
+      @click="() => (codeLogin = !codeLogin)"
     >
       切换{{ codeLogin ? '密码' : '验证码' }}登录
     </div>
@@ -139,12 +139,17 @@
 import login1 from './images/login1.png';
 import login2 from './images/login2.png';
 import login3 from './images/login3.png';
-import { ref, watchEffect, getCurrentInstance, computed } from 'vue';
+import {
+  ref,
+  watchEffect,
+  getCurrentInstance,
+  computed,
+} from 'vue';
 import { Toast } from 'vant';
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
 import { useStore } from 'vuex';
 let router = useRouter();
-let { proxy }  = getCurrentInstance();
+let { proxy } = getCurrentInstance();
 let store = useStore();
 
 store.commit('reset');
@@ -184,16 +189,20 @@ let submitDisabled = computed(() => {
   if (codeLogin.value) {
     return !(phone.value && code.value && checked.value);
   } else {
-    return !(phone.value && password.value && checked.value && imageCode.value);
+    return !(
+      phone.value &&
+      password.value &&
+      checked.value &&
+      imageCode.value
+    );
   }
 });
 
 function getImageCode() {
-  proxy.$http('get', '/v1/auth/code', {})
-    .then(res => {
-      imageCodeOrigin.value = res.data.uuid;
-      imageCodeUrl.value = res.data.img;
-    });
+  proxy.$http('get', '/v1/auth/code', {}).then((res) => {
+    imageCodeOrigin.value = res.data.uuid;
+    imageCodeUrl.value = res.data.img;
+  });
 }
 
 let loading = ref(false);
@@ -207,14 +216,15 @@ let submit = proxy.$debounce(() => {
     return;
   }
   loading.value = true;
-  proxy.$http('post', '/v1/auth/login', {
-    'code': code.value,
-    'imgCode': imageCode.value,
-    'password': password.value,
-    'phone': phone.value,
-    'uuid': imageCodeOrigin.value
-  })
-    .then(async res => {
+  proxy
+    .$http('post', '/v1/auth/login', {
+      code: code.value,
+      imgCode: imageCode.value,
+      password: password.value,
+      phone: phone.value,
+      uuid: imageCodeOrigin.value,
+    })
+    .then(async (res) => {
       let token = res.data.token;
       localStorage.token = token;
       let userinfo = await store.dispatch('getUserinfo');
@@ -222,15 +232,18 @@ let submit = proxy.$debounce(() => {
       if (userinfo.isPassWord) {
         router.push('/');
       } else {
-        router.push('/tabbar/user/set/loginPassword?type=login');
+        router.push(
+          '/tabbar/user/set/loginPassword?type=login',
+        );
       }
-    }).thenError(res => {
+    })
+    .thenError((res) => {
       Toast(res.msg);
       getImageCode();
-    }).all(res => {
+    })
+    .all((res) => {
       loading.value = false;
     });
 });
 </script>
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

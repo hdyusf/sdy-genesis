@@ -128,7 +128,7 @@ import {
   getCurrentInstance,
   ref,
   watch,
-  watchEffect
+  watchEffect,
 } from 'vue';
 import { useRouter } from 'vue-router';
 import a5 from './images/a5.png';
