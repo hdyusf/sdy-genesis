@@ -3,7 +3,7 @@
     <router-view />
     <van-popup
       v-model:show="updatePopup"
-      :close-on-click-overlay="false"
+      :close-on-click-overlay="true"
       round
     >
       <div class="px-9 card w-80 text-blackDefault">
@@ -70,10 +70,6 @@ store.replaceState(
 if ($localStorage.getItem('token')) {
   store.dispatch('getUserinfo');
 }
-
-document.addEventListener('plusready', () => {
-  router.replace('/start');
-});
 
 const updatePopup = ref(false);
 const version = ref('');

@@ -1,43 +1,31 @@
 <template>
-  <NavBar
-    :go-back="true"
-    title="藏品详情"
+  <div
+    class="flex justify-center items-center rounded-t rounded-b bg-white/30 w-9 h-9 absolute left-3 top-4 backShadow"
   >
-    <!-- <template #right>
-      <Icon
-        type="icon-fenxiang"
-        size="23"
-        @click="() => sharePopup = true"
-      />
-    </template> -->
-  </NavBar>
+    <Icon
+      type="icon-fanhui"
+      size="23"
+      @click="() => $router.back()"
+    />
+  </div>
+  <ThreeBanner />
+  <div
+    class="lookNumberSid"
+    @click="() => (numberSid = true)"
+  >
+    查看数字证书
+  </div>
+  <!-- <div
+    class="shareBox"
+    @click="() => (numberSid = true)"
+  >
+    <Icon
+      type="icon-fenxiang"
+      size="23"
+    />
+  </div> -->
   <div class="pageCard-sm pb-24">
     <Space height="11" />
-    <div class="showCard">
-      <div
-        class="showCardBg"
-        :style="{
-          backgroundImage: `url('${detail.fileUrl}')`,
-        }"
-      />
-      <van-image
-        :src="detail.fileUrl"
-        class="rounded-3xl overflow-hidden"
-        fit="contain"
-        :width="$pxToVw(345)"
-        :height="$pxToVw(345)"
-      />
-      <div
-        class="lookNumberSid"
-        @click="() => (numberSid = true)"
-      >
-        查看数字证书
-      </div>
-      <!-- <div class="number absolute right-5 top-5 text-white text-xs opacity-80 font-light">
-        {{ detail.deriveStock }}
-      </div> -->
-    </div>
-    <Space height="15" />
     <div class="flex items-center justify-between px-4">
       <div
         class="text-base font-semibold text-blackTitle max-w-bai3 truncate"
@@ -836,7 +824,7 @@ import c5 from './images/c5.png';
 import c1 from './images/c1.png';
 import c2 from './images/c2.png';
 import envConfig from '@/utils/env';
-import router from '../../../router';
+import ThreeBanner from '@/components/ThreeBanner.vue';
 
 let store = useStore();
 let route = useRoute();
@@ -1260,40 +1248,37 @@ let qrcodeVerifyAuth = computed(() => {
 });
 </script>
 <style lang="less" scoped>
-.showCard {
-  position: relative;
-  .showCardBg {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 75%;
-    height: 165px;
-    transform: translateX(-50%);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    filter: blur(30px);
-  }
-  .lookNumberSid {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-    background: linear-gradient(
-      180deg,
-      #ffd8bd 0%,
-      #dbaa88 100%
-    );
-    box-shadow: 0px 3px 10px 0px rgba(242, 195, 162, 1);
-    border-radius: 19px;
-    padding: 7px 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 13px;
-    font-weight: 400;
-    color: #7a2a00;
-    line-height: 18px;
-  }
+.shareBox {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 367px;
+  width: 30px;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.41);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.lookNumberSid {
+  width: 99px;
+  height: 32px;
+  background: rgba(0, 0, 0, 1);
+  border-radius: 7px;
+  opacity: 0.7;
+  font-size: 13px;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 43px;
+  top: 347px;
+  z-index: 1;
 }
 .fixedButton {
   position: fixed;
@@ -1343,5 +1328,9 @@ let qrcodeVerifyAuth = computed(() => {
     background: #ef4034;
     color: white;
   }
+}
+
+.backShadow {
+  box-shadow: 0px 1px 15px 0px rgba(170, 170, 170, 0.5);
 }
 </style>
