@@ -1,7 +1,7 @@
 export default [
   {
-    path: '/startAfter',
-    component: () => import('@/pages/startAfter.vue'),
+    path: '/start',
+    component: () => import('@/pages/start.vue'),
   },
   {
     path: '/login',

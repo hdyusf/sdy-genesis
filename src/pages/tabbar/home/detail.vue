@@ -97,7 +97,7 @@
       </div>
       <div class="flex items-center justify-between">
         <span>数量</span>
-        <span class=" text-orangeTip">x{{ detail.deriveStock }}</span>
+        <span class="text-orangeTip">x{{ detail.deriveStock }}</span>
       </div>
       <div class="flex items-center justify-between">
         <span>出售类型</span>
@@ -207,7 +207,9 @@
           </van-popover>
         </span>
         <span class="flex items-center">
-          <span @click="clickHash">{{ formatSite(detail.hash) }}</span>
+          <span @click="clickHash">{{
+            formatSite(detail.hash)
+          }}</span>
           <Icon
             class="ml-1"
             type="icon-fuzhi"
@@ -303,7 +305,9 @@
         <span
           v-if="!detail.deriveStock"
           class="flex-auto text-right pr-12 py-2"
-          :class="{ 'text-grayDefault': !detail.deriveStock }"
+          :class="{
+            'text-grayDefault': !detail.deriveStock,
+          }"
         >已售罄</span>
       </template>
       <span
@@ -398,7 +402,7 @@
             </div>
             <div class="flex item-center justify-between">
               <span>藏品平台</span>
-              <span>河图数藏</span>
+              <span>创世数藏</span>
             </div>
             <div class="flex item-center justify-between">
               <span>认证标准</span>
@@ -421,7 +425,7 @@
           </div>
           <Space height="10" />
           <div class="text-grayDefault leading-relaxed">
-            本作品通过河图数藏区块链进行存证，商鼎云分布式永文存储本证书作为该作品通行的原创声明，具备法律效力，侵权必究。
+            本作品通过创世数藏区块链进行存证，商鼎云分布式永文存储本证书作为该作品通行的原创声明，具备法律效力，侵权必究。
           </div>
           <Space height="91" />
           <div class="flex justify-center">
@@ -947,7 +951,12 @@ let sellGetPriceProgress = computed(() => {
       sellParams.value.copyrightFee +
       sellParams.value.commission;
   }
-  return ((sellPrice.value * (detail.value.deriveStock || 1)) * (100 - rate)) / 100;
+  return (
+    (sellPrice.value *
+      (detail.value.deriveStock || 1) *
+      (100 - rate)) /
+    100
+  );
 });
 function sellOutPopupSubmit() {
   if (sellPrice.value < 0) {
@@ -1246,9 +1255,9 @@ function downloadImage() {
 
 let qrcodeVerifyAuth = computed(() => {
   let origin = location.origin;
-  return `${origin}/#/verifyAuth?certifyId=${detail.value.certifyId}`;
+  let url = `${origin}/#/verifyAuth?certifyId=${detail.value.certifyId}`;
+  return url;
 });
-
 </script>
 <style lang="less" scoped>
 .showCard {

@@ -1,9 +1,9 @@
 <template>
   <NavBar />
-  <div class=" pageCard-sm">
+  <div class="pageCard-sm">
     <div
-      class=" sticky bg-grayBg z-2"
-      :style="{top: $pxToPxRatio(46) + 'px'}"
+      class="sticky bg-grayBg z-2"
+      :style="{ top: $pxToPxRatio(46) + 'px' }"
     >
       <Space height="10" />
       <van-search
@@ -28,7 +28,9 @@
           搜索历史：
         </div>
         <Space height="15" />
-        <div class="flex flex-wrap flex-shrink-0 text-xs2 gap-2.5">
+        <div
+          class="flex flex-wrap flex-shrink-0 text-xs2 gap-2.5"
+        >
           <div
             v-for="item of searchHistoryList"
             :key="item"
@@ -44,7 +46,9 @@
         热门推荐：
       </div>
       <Space height="15" />
-      <div class="flex flex-wrap flex-shrink-0 text-xs2 gap-2.5">
+      <div
+        class="flex flex-wrap flex-shrink-0 text-xs2 gap-2.5"
+      >
         <div
           v-for="item of hotList"
           :key="item"
@@ -57,8 +61,8 @@
     </template>
     <template v-else>
       <div
-        class=" sticky bg-grayBg z-2"
-        :style="{top: $pxToPxRatio(90) + 'px'}"
+        class="sticky bg-grayBg z-2"
+        :style="{ top: $pxToPxRatio(90) + 'px' }"
       >
         <Space height="15" />
         <div class="listSelectType">
@@ -66,8 +70,10 @@
             v-for="(item, index) in listArr"
             :key="index"
             class="flex-auto"
-            :class="{ 'text-redTitle': listSelect === item.status }"
-            @click="() => listSelect = item.status"
+            :class="{
+              'text-redTitle': listSelect === item.status,
+            }"
+            @click="() => (listSelect = item.status)"
           >
             {{ item.title }}
           </div>
@@ -94,7 +100,10 @@
 </template>
 <script setup>
 import {
-  getCurrentInstance, ref, watch, watchEffect
+  getCurrentInstance,
+  ref,
+  watch,
+  watchEffect,
 } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -112,7 +121,7 @@ let listArr = ref([
   {
     title: '艺术家',
     status: 2,
-  }
+  },
 ]);
 let listView = ref(null);
 watch(listSelect, () => {
@@ -122,7 +131,7 @@ async function getList(page) {
   let res = await proxy.$http('post', '/v1/home/list', {
     page: page,
     size: 5,
-    'search': searchInput.value,
+    search: searchInput.value,
     type: listSelect.value,
   });
   if (listSelect.value === 1) {
@@ -165,26 +174,35 @@ watchEffect(() => {
 });
 
 let hotList = ref([]);
-proxy.$http('post', '/v1/dc/hotWord', {})
-  .then(res => {
-    hotList.value = res.data.map(item => item.hot);
-  }).thenError(res => Toast(res.msg));
+proxy
+  .$http('post', '/v1/dc/hotWord', {})
+  .then((res) => {
+    hotList.value = res.data.map((item) => item.hot);
+  })
+  .thenError((res) => Toast(res.msg));
 function clickHot(item) {
   searchInput.value = item;
   searchBlur();
 }
 
 let searchHistoryList = ref(['']);
-searchHistoryList.value = JSON.parse(localStorage.getItem('searchHistoryList')) || [];
+searchHistoryList.value =
+  JSON.parse($localStorage.getItem('searchHistoryList')) ||
+  [];
 function searchBlur() {
-  if (!searchInput.value || !searchInput.value.trim()) return;
-  const index = searchHistoryList.value.indexOf(searchInput.value);
+  if (!searchInput.value || !searchInput.value.trim())
+    return;
+  const index = searchHistoryList.value.indexOf(
+    searchInput.value,
+  );
   if (index !== -1) {
     searchHistoryList.value.splice(index, 1);
   }
   searchHistoryList.value.push(searchInput.value);
-  localStorage.searchHistoryList = JSON.stringify(searchHistoryList.value);
+  $localStorage.setItem(
+    'searchHistoryList',
+    JSON.stringify(searchHistoryList.value),
+  );
 }
 </script>
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

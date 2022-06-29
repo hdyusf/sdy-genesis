@@ -16,7 +16,7 @@
     <Space height="132" />
     <div class="text-2xl font-semibold">
       你好， <br>
-      欢迎来到河图
+      欢迎来到创世数藏
     </div>
     <Space height="45" />
     <van-field
@@ -148,6 +148,7 @@ import {
 import { Toast } from 'vant';
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
 import { useStore } from 'vuex';
+
 let router = useRouter();
 let { proxy } = getCurrentInstance();
 let store = useStore();
@@ -178,7 +179,7 @@ function closeLogin() {
   router.back();
 }
 onBeforeRouteLeave((to, from) => {
-  if (!localStorage.token) {
+  if (!$localStorage.getItem('token')) {
     if (to.meta.loginAfter) {
       router.push('/');
     }
@@ -226,7 +227,7 @@ let submit = proxy.$debounce(() => {
     })
     .then(async (res) => {
       let token = res.data.token;
-      localStorage.token = token;
+      $localStorage.setItem('token', token);
       let userinfo = await store.dispatch('getUserinfo');
       Toast.success('登录成功');
       if (userinfo.isPassWord) {

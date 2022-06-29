@@ -2,11 +2,11 @@
   <NavBar title="用户协议" />
   <div class=" pageCard-sm bg-grayBg py-6 px-6 whitespace-pre-wrap text-sm text-blackTitle">
     <div class=" text-lg font-semibold text-blackDefault">
-      《河图》用户协议
+      《创世数藏》用户协议
     </div>
     <br>
     <br>
-    欢迎您与“河图”数字艺术电商平台经营者（详见定义条款）共同签署本《数字艺术电商平台服务协议》（下称“本协议”）并使用数字艺电商平台服务！
+    欢迎您与“创世”数字艺术电商平台经营者（详见定义条款）共同签署本《数字艺术电商平台服务协议》（下称“本协议”）并使用数字艺电商平台服务！
     <br>
     <br>
     自本协议发布之日起，数字艺术电商平台各处所称“数字艺术电商平台服务协议”或“平台服务协议”均指本协议。

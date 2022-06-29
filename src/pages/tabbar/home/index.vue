@@ -1,6 +1,6 @@
 <template>
   <NavBar
-    title="河图数藏"
+    title="创世数藏"
     :go-back="false"
   />
   <div class="pageCard-sm">

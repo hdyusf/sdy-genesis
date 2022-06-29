@@ -1,6 +1,5 @@
 import axios from 'axios';
 import envConfig from '@/utils/env';
-import router from '@/router/index';
 import { Dialog, Toast } from 'vant';
 import { logout, toNumber } from '@/utils/common';
 
@@ -9,38 +8,42 @@ axios.defaults.timeout = 10000;
 axios.defaults.baseURL = envConfig.url;
 
 axios.interceptors.request.use(
-  config => {
-    let token = localStorage.getItem('token');
+  (config) => {
+    let token = $localStorage.getItem('token');
     if (token) {
       config.headers['token'] = token;
     }
     return config;
   },
-  error => {
+  (error) => {
     return Promise.reject(error);
   },
 );
 
 axios.interceptors.response.use(
-  res => {
+  (res) => {
     if (res.data.code !== 0) {
       if (res.data.code === 401) {
-        if (localStorage.getItem('token')) {
+        if ($localStorage.getItem('token')) {
           Toast('登录状态已失效, 请重新登录');
+          logout();
         } else {
           Dialog.confirm({
             closeOnClickOverlay: true,
             message: '请先登录',
             theme: 'round-button',
-          }).then(() => {
-            logout();
-          }).catch(() => {});
+          })
+            .then(() => {
+              logout();
+            })
+            .catch(() => {});
         }
         return Promise.reject();
       }
       if (res.data.code === 402) {
         Dialog.alert({
-          message: '此账号已在别处登录，如不是本人操作，请尽快修改密码',
+          message:
+            '此账号已在别处登录，如不是本人操作，请尽快修改密码',
         }).then(() => {
           logout();
         });
@@ -49,7 +52,7 @@ axios.interceptors.response.use(
     }
     return res.data;
   },
-  error => {
+  (error) => {
     if (error.request.readyState === 4) {
       if (error.request.status === 0) {
         Toast('网络错误');

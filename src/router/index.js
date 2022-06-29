@@ -36,7 +36,7 @@ router.beforeEach((to, from, next) => {
     ele.cancel();
     delete axios.prototype.axiosPromiseArr[index];
   });
-  let token = localStorage.getItem('token');
+  let token = $localStorage.getItem('token');
   if (token) {
     if (
       to.matched.some((record) => record.meta.loginBefore)

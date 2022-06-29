@@ -22,36 +22,66 @@ import '@/utils/styles/tailwindcss.css';
 import '@/utils/styles/vant.less';
 import 'animate.css';
 
+import {
+  updateLocalStorageStorage,
+  $localStorage,
+} from '@/utils/common';
+window.$localStorage = $localStorage;
 
 app.mount('#app');
 
-
 // html5+ App包配置
 document.addEventListener('plusready', () => {
+  updateLocalStorageStorage();
+  let webview = plus.webview.currentWebview();
+  let nextBack = false;
   plus.key.addEventListener('backbutton', () => {
-    router.back();
-  });
-  const AppSaveImage = url => {
-    let downloadImage = plus.downloader.createDownload(url, { filename: '_doc/update/' }, (d, status) => {
-      if (status === 200) {
-        let filepath = plus.io.convertLocalFileSystemURL(d.filename);
-        plus.gallery.save(filepath);
-        Toast('保存成功');
-        // 删除
-        plus.io.resolveLocalFileSystemURL(
-          filepath,
-          entry => {
-            entry.remove(
-              e => {},
-              e => {},
-            );
-          },
-          e => {},
-        );
+    webview.canBack((e) => {
+      if (e.canBack) {
+        router.go(-1);
       } else {
-        Toast(`保存文件发生错误: ${status}`);
+        if (!nextBack) {
+          nextBack = true;
+          Toast({
+            message: '再按一次退出应用',
+            duration: 1000,
+          });
+          setTimeout(() => {
+            nextBack = false;
+          }, 1000);
+        } else {
+          plus.runtime.quit();
+        }
       }
     });
+  });
+  const AppSaveImage = (url) => {
+    let downloadImage = plus.downloader.createDownload(
+      url,
+      { filename: '_doc/update/' },
+      (d, status) => {
+        if (status === 200) {
+          let filepath = plus.io.convertLocalFileSystemURL(
+            d.filename,
+          );
+          plus.gallery.save(filepath);
+          Toast('保存成功');
+          // 删除
+          plus.io.resolveLocalFileSystemURL(
+            filepath,
+            (entry) => {
+              entry.remove(
+                (e) => {},
+                (e) => {},
+              );
+            },
+            (e) => {},
+          );
+        } else {
+          Toast(`保存文件发生错误: ${status}`);
+        }
+      },
+    );
     downloadImage.start();
   };
   window.AppSaveImage = AppSaveImage;

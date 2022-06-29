@@ -3,6 +3,57 @@ import axios from 'axios';
 import router from '@/router';
 import { Toast } from 'vant';
 
+export const updateLocalStorageStorage = () => {
+  if (
+    localStorage.getItem('token') &&
+    !plus.storage.getItem('token')
+  ) {
+    for (let i = 0; i < localStorage.length; i++) {
+      let key = localStorage.key(i);
+      let value = localStorage.getItem(key);
+      if (value) {
+        plus.storage.setItem(key, value.toString());
+      }
+    }
+  }
+  if (
+    !localStorage.getItem('token') &&
+    plus.storage.getItem('token')
+  ) {
+    for (let i = 0; i < plus.storage.getLength(); i++) {
+      let key = plus.storage.key(i);
+      let value = plus.storage.getItem(key);
+      if (value) {
+        localStorage.setItem(key, value);
+      }
+    }
+  }
+};
+
+export const $localStorage = {
+  setItem: (key, value) => {
+    localStorage.setItem(key, value);
+    window.plus &&
+      plus.storage.setItem(key, value.toString());
+  },
+  getItem: (key) => {
+    let res = '';
+    res = localStorage.getItem(key);
+    if ((res === '' || res === null) && window.plus) {
+      res = plus.storage.getItem(key);
+    }
+    return res;
+  },
+  removeItem: (key) => {
+    localStorage.removeItem(key);
+    window.plus && plus.storage.removeItem(key);
+  },
+  clear: () => {
+    localStorage.clear();
+    window.plus && plus.storage.clear();
+  },
+};
+
 //验证手机号
 export function isMobilePhone(val) {
   return /^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(val);
@@ -13,7 +64,12 @@ export function isMobilePhone(val) {
  * @param {Object} payType  支付类型
  * @param {Object} payStatement  调起支付宝或微信的statment支付订单信息
  */
-export const originPay = async (payType, payStatement, callback, errorCallback) => {
+export const originPay = async (
+  payType,
+  payStatement,
+  callback,
+  errorCallback,
+) => {
   /***判断支付通道****/
   //最终的支付通道
   let channel;
@@ -27,7 +83,7 @@ export const originPay = async (payType, payStatement, callback, errorCallback) 
   // 取出支付宝和微信的支付通道
   plus.payment.getChannels(
     (channels) => {
-      channels.map(item => {
+      channels.map((item) => {
         if (item.id === payType) {
           channel = item;
         }
