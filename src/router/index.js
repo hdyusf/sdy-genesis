@@ -19,16 +19,16 @@ const router = createRouter({
 });
 
 // 拦截push异常
-const originalPush = router.push;
-router.push = function(location) {
-  return originalPush.call(this, location).catch(err => err);
-};
+// const originalPush = router.push;
+// router.push = function(location) {
+//   return originalPush.call(this, location).catch(err => err);
+// };
 
-// 拦截replace异常
-const originalReplace = router.replace;
-router.replace = function(location) {
-  return originalReplace.call(this, location).catch(err => err);
-};
+// // 拦截replace异常
+// const originalReplace = router.replace;
+// router.replace = function(location) {
+//   return originalReplace.call(this, location).catch(err => err);
+// };
 
 router.beforeEach((to, from, next) => {
   // 路由跳转时 取消所有旧请求

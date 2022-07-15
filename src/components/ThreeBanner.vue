@@ -5,17 +5,33 @@
   </div>
 </template>
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, watchEffect } from 'vue';
 import defaultImage from '@/assets/images/a5.png';
 import { pxToPxRatio } from '@/utils/common';
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.127.0/build/three.module.js';
-import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.127.0/examples/jsm/controls/OrbitControls.js';
-import { FBXLoader } from 'https://cdn.jsdelivr.net/npm/three@0.127.0/examples/jsm/loaders/FBXLoader.js';
+import * as THREE from '@/assets/js/three.module.js';
+import { OrbitControls } from '@/assets/js/OrbitControls.js';
+import { FBXLoader } from '@/assets/js/FBXLoader.js';
 let camera, scene, renderer;
 const clock = new THREE.Clock();
 let T0 = new Date();
 let touchStart = false;
+
+let props = defineProps({
+  url: {
+    type: String,
+    default: '',
+  },
+});
+
+watchEffect(() => {
+  if (props.url) {
+    updateImage();
+  }
+});
+
 onMounted(() => {
+  document.querySelector('#ThreeBannerCanvas').innerHTML =
+    '';
   init();
   animate();
 });
@@ -40,7 +56,7 @@ function init() {
   // const light = new THREE.AmbientLight(0xffffff);
   // scene.add(light);
   // 定向光
-  const dirLight = new THREE.DirectionalLight(0xffffff);
+  const dirLight = new THREE.DirectionalLight(0x48527e);
   dirLight.position.set(0, 200, 100);
   dirLight.castShadow = true;
   dirLight.shadow.camera.top = 180;
@@ -48,38 +64,7 @@ function init() {
   dirLight.shadow.camera.left = -120;
   dirLight.shadow.camera.right = 120;
   scene.add(dirLight);
-  const loader = new FBXLoader();
-  loader.load('./banner.fbx', (object) => {
-    let texture = new THREE.TextureLoader().load(
-      defaultImage,
-    );
-    object.traverse((obj) => {
-      if (obj instanceof THREE.Mesh) {
-        obj.material.emissive = obj.material.color;
-        obj.material.emissiveIntensity = 1;
-        obj.material.emissiveMap = obj.material.map;
-        if (obj.material.name === 'imageBox') {
-          const geometry = new THREE.PlaneGeometry(
-            199,
-            199,
-          );
-          const material = new THREE.MeshBasicMaterial({
-            map: texture,
-          });
-          const plane = new THREE.Mesh(geometry, material);
-          plane.translateZ(3);
-          plane.translateY(105);
-          scene.add(plane);
-        }
-      }
-
-      if (obj.isMesh) {
-        obj.castShadow = true;
-        obj.receiveShadow = true;
-      }
-    });
-    scene.add(object);
-  });
+  updateImage();
   renderer = new THREE.WebGLRenderer({
     antialias: true,
     alpha: true,
@@ -113,6 +98,38 @@ function init() {
 
   // window.addEventListener('resize', onWindowResize, false);
 }
+function updateImage() {
+  const loader = new FBXLoader();
+  loader.load('./banner.fbx', (object) => {
+    let texture = new THREE.TextureLoader().load(props.url);
+    object.traverse((obj) => {
+      if (obj instanceof THREE.Mesh) {
+        obj.material.emissive = obj.material.color;
+        obj.material.emissiveIntensity = 1;
+        obj.material.emissiveMap = obj.material.map;
+        if (obj.material.name === 'imageBox') {
+          const geometry = new THREE.PlaneGeometry(
+            199,
+            199,
+          );
+          const material = new THREE.MeshBasicMaterial({
+            map: texture,
+          });
+          const plane = new THREE.Mesh(geometry, material);
+          plane.translateZ(3);
+          plane.translateY(105);
+          scene.add(plane);
+        }
+      }
+
+      if (obj.isMesh) {
+        obj.castShadow = true;
+        obj.receiveShadow = true;
+      }
+    });
+    scene.add(object);
+  });
+}
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
@@ -125,14 +142,15 @@ function animate() {
   requestAnimationFrame(animate);
   const delta = clock.getDelta();
   if (!touchStart) {
-    scene.rotateY(0.001 * t);
+    scene.rotateY(0.0003 * t);
   }
   renderer.render(scene, camera);
 }
 </script>
 <style lang="less" scoped>
 .ThreeBanner {
-  background: url('@/assets/images/c4.png') no-repeat center top;
+  background: url('@/assets/images/c4.png') no-repeat center
+    top;
   background-size: cover;
   padding-top: 10px;
 }

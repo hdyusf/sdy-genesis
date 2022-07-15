@@ -114,7 +114,7 @@ export const noOpen = () => {
 };
 
 export const logout = () => {
-  localStorage.clear();
+  $localStorage.clear();
   router.push('/login');
 };
 

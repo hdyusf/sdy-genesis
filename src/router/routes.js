@@ -446,6 +446,16 @@ export default [
         alias: '',
         component: () => import('@/pages/content/userAgreement.vue'),
       },
+      {
+        path: 'agreement',
+        alias: '',
+        component: () => import('@/pages/content/agreement.vue'),
+      },
+      {
+        path: 'zhuzao',
+        alias: '',
+        component: () => import('@/pages/content/zhuzao.vue'),
+      },
     ],
   },
   {

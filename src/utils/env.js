@@ -7,7 +7,8 @@ let devConfig = () => {
 
 let prodConfig = () => {
   return {
-    url: 'http://www.fsyun.vip/api',
+    // url: 'http://www.fsyun.vip/api',
+    url: 'https://www.moonfs.shop/api',
     tokenIdUrl: 'https://mumbai.polygonscan.com/token/',
   };
 };

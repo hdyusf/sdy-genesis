@@ -102,9 +102,7 @@
             </div>
           </van-uploader>
         </div>
-        <div
-          v-if="upload"
-        >
+        <div v-if="upload">
           <div
             class="flex items-center justify-between rounded-md bg-[#F9F9F9] pl-5 pr-2 py-2 mt-3 shadow-md mb-1"
           >
@@ -114,7 +112,7 @@
             <Icon
               type="icon-sousuo-guanbi"
               size="17"
-              @click="() => upload = ''"
+              @click="() => (upload = '')"
             />
           </div>
           <van-image
@@ -180,9 +178,14 @@
         <div class="text-xs text-blueDefault text-right">
           预计实际可得：￥
           {{
-            $toFixed(((price * (number || 1)) / 100) * (100 - rate), 2, true)
+            $toFixed(
+              ((price * (number || 1)) / 100) *
+                (100 - rate),
+              2,
+              true,
+            )
           }}
-          <span class=" ml-2">平台分佣：{{ rate }}%</span>
+          <span class="ml-2">平台分佣：{{ rate }}%</span>
         </div>
         <Space height="20" />
         <div class="flex items-center">
@@ -378,7 +381,10 @@
           </van-checkbox>
           <Space width="4" />
           <div class="text-xs2 text-grayDefault">
-            我已阅读并同意<span class="text-blueDefault">《数字藏品铸造协议》</span>
+            我已阅读并同意<span
+              class="text-blueDefault"
+              @click="$router.push('/content/zhuzao')"
+            >《数字藏品铸造协议》</span>
           </div>
         </div>
         <Space height="15" />
@@ -526,32 +532,46 @@
       <div class="text-sm text-blackDefault mb-2.5">
         名称
       </div>
-      <div class="text-sm text-blackDefault mb-3.5 px-2.5 py-2 bg-grayBg rounded-md">
+      <div
+        class="text-sm text-blackDefault mb-3.5 px-2.5 py-2 bg-grayBg rounded-md"
+      >
         {{ name }}
       </div>
       <div class="text-sm text-blackDefault mb-2.5">
         出售方式
       </div>
-      <div class="text-sm text-blackDefault mb-3.5 px-2.5 py-2 bg-grayBg rounded-md">
+      <div
+        class="text-sm text-blackDefault mb-3.5 px-2.5 py-2 bg-grayBg rounded-md"
+      >
         定价
       </div>
       <div class="text-sm text-blackDefault mb-2.5">
         价格
       </div>
-      <div class="text-sm text-blackDefault mb-3.5 px-2.5 py-2 bg-grayBg rounded-md">
+      <div
+        class="text-sm text-blackDefault mb-3.5 px-2.5 py-2 bg-grayBg rounded-md"
+      >
         {{ price }}
       </div>
       <div class="text-sm text-blackDefault mb-2.5">
         权益属性
       </div>
-      <div class="text-sm text-blackDefault mb-3.5 px-2.5 py-2 bg-grayBg rounded-md">
-        {{ attrConfigList.find(item => item.id === property).name }}
+      <div
+        class="text-sm text-blackDefault mb-3.5 px-2.5 py-2 bg-grayBg rounded-md"
+      >
+        {{
+          attrConfigList.find(
+            (item) => item.id === property,
+          ).name
+        }}
       </div>
       <template v-if="number">
         <div class="text-sm text-blackDefault mb-2.5">
           数量
         </div>
-        <div class="text-sm text-blackDefault mb-3.5 px-2.5 py-2 bg-grayBg rounded-md">
+        <div
+          class="text-sm text-blackDefault mb-3.5 px-2.5 py-2 bg-grayBg rounded-md"
+        >
           {{ number }}
         </div>
       </template>
@@ -581,12 +601,18 @@
         </div>
       </div>
       <Space height="10" />
-      <div class="text-xs text-blueDefault text-center text-[#4A79FF]">
+      <div
+        class="text-xs text-blueDefault text-center text-[#4A79FF]"
+      >
         预计实际可得：￥
         {{
-          $toFixed(((price * (number || 1)) / 100) * (100 - rate), 2, true)
+          $toFixed(
+            ((price * (number || 1)) / 100) * (100 - rate),
+            2,
+            true,
+          )
         }}
-        <span class=" ml-2">平台分佣：{{ rate }}%</span>
+        <span class="ml-2">平台分佣：{{ rate }}%</span>
       </div>
       <Space height="30" />
     </div>
@@ -607,6 +633,7 @@ import {
 } from 'vue';
 import { Toast } from 'vant';
 import dayjs from 'dayjs';
+import { NFTStorage, File } from 'nft.storage';
 
 let { proxy } = getCurrentInstance();
 
@@ -679,16 +706,33 @@ let storeType = ref(1);
 let showTime = ref('');
 let intro = ref('');
 let upload = ref();
+let uploadOss = ref();
 let number = ref();
 
-function uploadAfter(file) {
+async function uploadAfter(file) {
+  Toast.loading({
+    duration: 0,
+    message: '上传中...',
+    forbidClick: true,
+  });
   proxy
-    .$http('file', '/v1/cdn/uploadImgIpfs', {
+    .$http('file', '/v1/cdn/uploadImg', {
       file: file.file,
     })
     .then((res) => {
-      upload.value = res.data;
+      uploadOss.value = res.data;
     });
+  const NFT_STORAGE_TOKEN =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweERiNDBjZDYzMzkzNmNjOTQ3ZUEwOTU2ZDcwMjc4NEZGMkRGRmNkRDQiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY1NjkxNDUzMTY2OCwibmFtZSI6Ik5GVCJ9.dNdBegzZgvEIQo9RE-4TihA2HPC-Ai95WWyXYSrKiGk';
+  const client = new NFTStorage({
+    token: NFT_STORAGE_TOKEN,
+  });
+  const fileType = file.file.type;
+  const blob = new Blob([file.file], { type: fileType || 'application/*' });
+  const cid = await client.storeBlob(blob);
+  let openUrl = `https://${cid}.ipfs.nftstorage.link`;
+  upload.value = openUrl;
+  Toast.clear();
 }
 
 let plotUploadList = ref([]);
@@ -792,7 +836,10 @@ let submit = proxy.$debounce(() => {
       seriesType: series.value - 1,
       stock: number.value,
       storageType: 0,
-      imgDescr: plotUploadList.value.map((item) => item.url).join(','),
+      imgDescr: plotUploadList.value
+        .map((item) => item.url)
+        .join(','),
+      ossUrl: uploadOss.value,
     })
     .then((res) => {
       successPopup.value = true;

@@ -113,7 +113,12 @@
           @click="
             () => $router.push('/content/userAgreement')
           "
-        >《用户协议》</span>和<span class="text-blueDefault">《隐私协议》</span>
+        >《用户协议》</span>和<span
+          class="text-blueDefault"
+          @click="
+            () => $router.push('/content/agreement')
+          "
+        >《隐私政策》</span>
       </div>
     </div>
     <Space height="59" />
@@ -209,7 +214,7 @@ function getImageCode() {
 let loading = ref(false);
 let submit = proxy.$debounce(() => {
   if (!checked.value) {
-    Toast('请勾选用户协议和隐私协议');
+    Toast('请勾选用户协议和隐私政策');
     return;
   }
   if (!proxy.$isMobilePhone(phone.value, ['zh-CN'])) {

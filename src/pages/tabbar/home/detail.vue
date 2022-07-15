@@ -8,7 +8,7 @@
       @click="() => $router.back()"
     />
   </div>
-  <ThreeBanner />
+  <ThreeBanner :url="detail.fileUrl" />
   <div
     class="lookNumberSid"
     @click="() => (numberSid = true)"
