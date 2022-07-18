@@ -160,7 +160,7 @@
               theme="dark"
               placement="right"
             >
-              永久存储商鼎云的唯一哈希
+              永久存储Filecoin的唯一哈希
               <template #reference>
                 <Icon
                   class="ml-1"
@@ -487,7 +487,7 @@
           </div>
           <Space height="10" />
           <div class="text-grayDefault leading-relaxed">
-            本作品通过创世数藏区块链进行存证，商鼎云分布式永文存储本证书作为该作品通行的原创声明，具备法律效力，侵权必究。
+            本作品通过创世数藏区块链进行存证，Filecoin永久存储本证书作为该作品通行的原创声明，具备法律效力，侵权必究。
           </div>
           <Space height="91" />
           <div class="flex justify-center">

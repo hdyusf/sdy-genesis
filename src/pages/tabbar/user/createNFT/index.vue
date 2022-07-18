@@ -270,7 +270,7 @@
               class="flex items-center"
             >
               <van-radio :name="1">
-                商鼎云分布式存储
+                Filecoin存储
                 <template #icon="props">
                   <img
                     class="img-icon w-3.5 h-3.5"
