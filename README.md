@@ -12,6 +12,11 @@
 > 创世数藏对于铸造 NFT 的个人创作者或希望支持创作者特别有用！
 
 
+## [项目视频展示](https://youtu.be/YN-wAMexs3U)
+
+https://youtu.be/YN-wAMexs3U
+
+
 ### 测试账号
 账号：
 17337185706
